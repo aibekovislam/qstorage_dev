@@ -1,0 +1,46 @@
+/* Общие стили */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Удаление спиннеров для input[type=number] */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Объединённые стили для отступов */
+.spacing-wrapper,
+.page-spacing-wrapper,
+.form-spacing-wrapper,
+.form-spacing {
+  padding: 23px 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .spacing-wrapper,
+  .page-spacing-wrapper {
+    padding: 20px;
+  }
+
+  .form-spacing-wrapper,
+  .form-spacing {
+    padding: 20px 0;
+  }
+}
