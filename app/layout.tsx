@@ -1,3 +1,7 @@
+import { roboto } from '@/shared/assets/fonts/fonts'
+import AntdProvider from '@/shared/providers/Antd'
+import '@/shared/assets/styles/globals.css'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,8 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body className={roboto.className}>
+        <AntdProvider>
+          {children}
+        </AntdProvider>
       </body>
     </html>
   )
