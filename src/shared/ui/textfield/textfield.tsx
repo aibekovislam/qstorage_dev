@@ -7,11 +7,11 @@ import FormItem from 'antd/es/form/FormItem'
 import cls from './textfield.module.css'
 
 interface Props extends InputProps {
-    label?: string
-    initialValue?: string
-    text?: string
-    rules?: Rule[]
-    maxLength?: number
+  label?: string
+  initialValue?: string
+  text?: string
+  rules?: Rule[]
+  maxLength?: number
 }
 
 export const TextField: React.FC<Props> = (props) => {
