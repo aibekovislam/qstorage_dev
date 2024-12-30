@@ -1,4 +1,4 @@
-import { ProductsArrivals } from "@/pages/products/arrivals";
+import { ProductsArrivals } from '@/pages/products/arrivals'
 
 const Page = () => <ProductsArrivals.Pages.View />
 

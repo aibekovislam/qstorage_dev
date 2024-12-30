@@ -1,3 +1,3 @@
-import { ManagerLayout } from "./ui/manager-layout";
+import { ManagerLayout } from './ui/manager-layout'
 
-export { ManagerLayout };
+export { ManagerLayout }
