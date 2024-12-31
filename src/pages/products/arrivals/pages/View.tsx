@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import { ManagerLayout } from '@/shared/layouts/manager'
