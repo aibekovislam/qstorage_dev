@@ -6,7 +6,9 @@ import { Flex, Layout } from 'antd'
 import { AppProgressBar } from 'next-nprogress-bar'
 
 import { Navbar } from '@/widgets/navbar'
+import { ManagerNavbarMenuRoutes } from '@/widgets/navbar/model/manager-menu-routes'
 import { SideBar } from '@/widgets/sidebar'
+import { ManagerSidebarMenuRoutes } from '@/widgets/sidebar/model/manager-menu-routes'
 
 import cls from './manager-layout.module.css'
 
@@ -19,11 +21,11 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
     <Flex gap="middle" wrap>
       <Layout>
         <Layout.Header className={cls.header}>
-          <Navbar/>
+          <Navbar routes={ManagerNavbarMenuRoutes} />
         </Layout.Header>
         <Layout>
-          <Layout.Sider width="25%" className={cls.sidebar}>
-            <SideBar/>
+          <Layout.Sider width="214px" className={cls.sidebar}>
+            <SideBar routes={ManagerSidebarMenuRoutes}/>
           </Layout.Sider>
           <Layout.Content>{children}</Layout.Content>
         </Layout>
