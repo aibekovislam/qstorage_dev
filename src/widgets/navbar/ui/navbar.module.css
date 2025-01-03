@@ -1,0 +1,40 @@
+.navbar {
+    background-color: #F0F0F0 !important;
+    padding: 0 16px !important;
+    height: auto !important;
+    border-bottom: 1px solid #F0F0F0; 
+    box-shadow: 0px 1px 0px #F0F0F0;
+}
+  
+.Menu {
+    width: 100% !important;
+    background-color: #F0F0F0 !important;
+    border-bottom: none !important;
+}
+
+.navbar__logo{
+    margin-right: 2vw !important;
+}
+
+.navbar__navigation{
+    align-items: center !important;
+}
+
+.navbar__logo{
+    cursor: pointer;
+}
+
+.navbar__notification{
+    cursor: pointer;
+}
+
+.navbar__info{
+    cursor: pointer;
+}
+
+.navbar__user{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}

@@ -11,6 +11,9 @@ const theme: ThemeConfig = {
       paddingInline: 15,
       fontFamily: 'var(--font-roboto)',
     },
+    DatePicker: {
+      borderRadius: 3,
+    },
   },
   token: {
     fontFamily: 'var(--font-roboto)',
