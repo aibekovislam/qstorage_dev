@@ -9,11 +9,11 @@ const theme: ThemeConfig = {
       borderRadius: 3,
       paddingBlock: 10,
       paddingInline: 15,
-      fontFamily: 'var(--font-roboto)',
+      fontFamily: 'var(--font-sfpro)',
     },
   },
   token: {
-    fontFamily: 'var(--font-roboto)',
+    fontFamily: 'var(--font-sfpro)',
     colorPrimary: '#FA541C',
     colorLink: '#FA541C',
   },

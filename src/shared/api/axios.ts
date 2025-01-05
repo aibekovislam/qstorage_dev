@@ -21,7 +21,7 @@ axiosRequest.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-axiosRequest.interceptors.request.use(
+axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const refresh = await TokenManager.getRefreshToken()
@@ -31,23 +31,19 @@ axiosRequest.interceptors.request.use(
       originalRequest._retry = true
 
       try {
-        const response = await axios.post<{ access: string, refresh: string }>(`${baseURL}/auth/token/refresh/`, {
+        const { data } = await axios.post<{ access: string, refresh: string }>(`${baseURL}/auth/token/refresh/`, {
           refresh: refresh,
         })
 
-        if (response) {
-          const setToken = async () => {
-            'use server'
-            await TokenManager.setAccessToken(response.data.access)
-            await TokenManager.setRefreshToken(response.data.refresh)
-          }
+        await axios.post('http://localhost:3000/api/auth/refresh-token/', {
+          accessToken: data.access,
+          refreshToken: data.refresh,
+        })
 
-          await setToken()
+        originalRequest.headers['Authorization'] = `Bearer ${data.access}`
 
-          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
+        return axiosRequest(originalRequest)
 
-          return axiosRequest(originalRequest)
-        }
       } catch (e) {
         const error = e as AxiosError
 
