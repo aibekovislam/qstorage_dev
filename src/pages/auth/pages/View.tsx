@@ -3,7 +3,6 @@
 import React from 'react'
 
 import { Button, Flex, Form } from 'antd'
-import Link from 'next/link'
 
 import { AuthIcon } from '@/shared/assets/icons'
 import { TextField } from '@/shared/ui/textfield/textfield'
@@ -48,12 +47,6 @@ export const View = () => {
                 type="password"
                 placeholder="Пароль"
               />
-
-              {/* <Flex justify="flex-end">
-                <Link href={'/forgot-password/'}>
-                  <span className={cls.forgot_password}>Забыли пароль</span>
-                </Link>
-              </Flex> */}
 
               <Button type="primary" loading={isLoading} htmlType="submit">Вход</Button>
             </Flex>
