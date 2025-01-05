@@ -14,6 +14,9 @@ const theme: ThemeConfig = {
     DatePicker: {
       borderRadius: 3,
     },
+    Select: {
+      borderRadius: 3,
+    },
   },
   token: {
     fontFamily: 'var(--font-roboto)',
