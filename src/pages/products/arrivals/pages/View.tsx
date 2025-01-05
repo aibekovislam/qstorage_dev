@@ -7,13 +7,13 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import cls from '@/pages/products/styles/view.module.css'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { CustomDatePicker } from '@/shared/ui/date-picker-field/date-picker-field'
+import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 
 import { ProductsArrivals } from '..'
+import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
 
 const columns: ColumnsType<ProductRecord> = [
@@ -123,7 +123,7 @@ export const View: React.FC = () => {
 
   return (
     <ManagerLayout>
-      <main className={cls.main}>
+      <div className={cls.main}>
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
           <h1>Приход товаров “Склад №1”</h1>
@@ -142,21 +142,21 @@ export const View: React.FC = () => {
               style={{ width: 210 }}
               options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}
             />
-            <CustomDatePicker
+            <DatePickerField
               pickerMode="year"
               placeholder="Выберите год"
               value={yearValue}
               onChange={handleChangeYearDatePicker}
             />
 
-            <CustomDatePicker
+            <DatePickerField
               pickerMode="month"
               placeholder="Выберите месяц"
               value={monthValue}
               onChange={handleChangeMonthDatePicker}
             />
 
-            <CustomDatePicker
+            <DatePickerField
               placeholder="Выберите день"
               value={dayValue}
               onChange={handleChangeDayDatePicker}
@@ -169,7 +169,7 @@ export const View: React.FC = () => {
           dataSource={dataSource}
           pagination={{ position: ['bottomRight'] }}
         />
-      </main>
+      </div>
     </ManagerLayout>
   )
 }

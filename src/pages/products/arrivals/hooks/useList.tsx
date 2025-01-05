@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import type { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 
 function useList() {
   const [yearValue, setYearValue] = React.useState<Dayjs | null>(null)
