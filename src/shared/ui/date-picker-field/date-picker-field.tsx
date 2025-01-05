@@ -1,72 +1,37 @@
 'use client'
 
-import React, { useState } from 'react'
-
-import { DatePicker, Space } from 'antd'
-import { Dayjs } from 'dayjs'
-
-import cls from './date-picker-field.module.css'
-
+import React from 'react'
+import { DatePicker } from 'antd'
 import type { DatePickerProps } from 'antd'
+import type { Dayjs } from 'dayjs'
+import cls from  "./date-picker-field.module.css"
+import FormItem from 'antd/es/form/FormItem'
 
-export const DatePrickerField = () => {
-  const [date, setDate] = useState<Dayjs | null>(null)
+interface CustomDatePickerProps extends Omit<DatePickerProps, 'picker'|'value'|'onChange'> {
+  pickerMode?: 'year' | 'month' | 'date'
+  value?: Dayjs | null
+  onChange?: (value: Dayjs | null) => void
+}
 
-  const handleYearChange: DatePickerProps['onChange'] = (value) => {
-    if (!value) {
-      setDate(null)
-
-      return
-    }
-    if (date) {
-      const newDate = date.year(value.year())
-
-      setDate(newDate)
-    } else {
-      setDate(value)
-    }
-  }
-
-  const handleMonthChange: DatePickerProps['onChange'] = (value) => {
-    if (!value) {
-      setDate(null)
-
-      return
-    }
-    if (date) {
-      const newDate = date.year(value.year()).month(value.month())
-
-      setDate(newDate)
-    } else {
-      setDate(value)
-    }
-  }
-
-  const handleDayChange: DatePickerProps['onChange'] = (value) => {
-    setDate(value)
+export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
+  pickerMode = 'date', 
+  value,
+  onChange,
+  ...restProps
+}) => {
+  const handleChange: DatePickerProps['onChange'] = (dateValue) => {
+    onChange?.(dateValue)
   }
 
   return (
-    <Space size={4} className={cls.datePickerContainer}>
+    <FormItem noStyle name={restProps.name}>
       <DatePicker
-        picker="year"
-        value={date}
-        onChange={handleYearChange}
-        placeholder="Год"
+        picker={pickerMode}
+        value={value}
+        onChange={handleChange}
+        className={cls.datepicker}
+        {...restProps}
       />
-
-      <DatePicker
-        picker="month"
-        value={date}
-        onChange={handleMonthChange}
-        placeholder="Месяц"
-      />
-
-      <DatePicker
-        value={date}
-        onChange={handleDayChange}
-        placeholder="День"
-      />
-    </Space>
+    </FormItem>
   )
 }

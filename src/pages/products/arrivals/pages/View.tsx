@@ -1,34 +1,16 @@
 'use client'
 
 import React from 'react'
-
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { Table, Tag, Avatar, Space, Flex, Button, Popover } from 'antd'
-import Image from 'next/image'
-
 import cls from '@/pages/products/styles/view.module.css'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { DatePrickerField } from '@/shared/ui/date-picker-field/date-picker-field'
+import { CustomDatePicker } from '@/shared/ui/date-picker-field/date-picker-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
-
 import { ProductsArrivals } from '..'
-
 import type { ColumnsType } from 'antd/es/table'
-
-interface ProductRecord {
-  key: React.Key
-  product: string
-  project: string
-  quantity: string
-  status: string
-  date: string
-  actNumber: string
-  supplier: string
-  responsible: string
-  comment: string
-  imageUrl?: string
-}
+import { ProductRecord } from '../types'
 
 const columns: ColumnsType<ProductRecord> = [
   {
@@ -38,10 +20,12 @@ const columns: ColumnsType<ProductRecord> = [
     render: (text, record) => (
       <Space>
         {record.imageUrl && (
-          <Image
+          <img
             src={record.imageUrl}
             alt={text}
-            style={{ width: 40, height: 40, objectFit: 'cover' }}
+            style={{ objectFit: 'cover' }}
+            width={40}
+            height={40}
           />
         )}
         <span>{text}</span>
@@ -123,7 +107,15 @@ const dataSource: ProductRecord[] = [
 ]
 
 export const View: React.FC = () => {
-  const { breadcrumbData } = ProductsArrivals.Hooks.List.use()
+  const {
+    breadcrumbData,
+    yearValue,
+    monthValue,
+    dayValue,
+    handleChangeYearDatePicker,
+    handleChangeMonthDatePicker,
+    handleChangeDayDatePicker
+  } = ProductsArrivals.Hooks.List.use()
 
   return (
     <ManagerLayout>
@@ -142,8 +134,29 @@ export const View: React.FC = () => {
             </Button>
           </Flex>
           <Flex gap={10}>
-            <SelectField style={{ width: 210 }} options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}/>
-            <DatePrickerField/>
+            <SelectField 
+              style={{ width: 210 }} 
+              options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}
+            />
+            <CustomDatePicker
+              pickerMode="year"
+              placeholder="Выберите год"
+              value={yearValue}
+              onChange={handleChangeYearDatePicker}
+            />
+
+            <CustomDatePicker
+              pickerMode="month"
+              placeholder="Выберите месяц"
+              value={monthValue}
+              onChange={handleChangeMonthDatePicker}
+            />
+
+            <CustomDatePicker
+              placeholder="Выберите день"
+              value={dayValue}
+              onChange={handleChangeDayDatePicker}
+            />
             <Button type="primary" className={cls.btn}>Добавить уход</Button>
           </Flex>
         </div>
