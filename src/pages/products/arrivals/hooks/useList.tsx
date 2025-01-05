@@ -1,6 +1,7 @@
-"use client"
+'use client'
 
 import React from 'react'
+
 import type { Dayjs } from 'dayjs'
 
 function useList() {
@@ -14,6 +15,7 @@ function useList() {
     if (!newYear) {
       setMonthValue(null)
       setDayValue(null)
+
       return
     }
     if (monthValue) {
@@ -29,6 +31,7 @@ function useList() {
 
     if (!newMonth) {
       setDayValue(null)
+
       return
     }
     if (!yearValue) {
@@ -40,7 +43,7 @@ function useList() {
       setDayValue(
         dayValue
           .year(newMonth.year())
-          .month(newMonth.month())
+          .month(newMonth.month()),
       )
     }
   }, [])
@@ -61,7 +64,7 @@ function useList() {
       setMonthValue(
         monthValue
           .year(newDay.year())
-          .month(newDay.month())
+          .month(newDay.month()),
       )
     }
   }, [])
@@ -95,7 +98,7 @@ function useList() {
     handleChangeMonthDatePicker,
     handleChangeDayDatePicker,
     // остальное
-    breadcrumbData
+    breadcrumbData,
   }
 }
 

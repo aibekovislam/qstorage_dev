@@ -1,7 +1,7 @@
 import { Input } from 'antd'
+import { InputProps } from 'antd/lib'
 
 import cls from './search-field.module.css'
-import { InputProps } from 'antd/lib'
 
 interface Props extends InputProps {
    name?: string

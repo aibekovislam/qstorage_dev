@@ -2,7 +2,6 @@ import { Select } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
 import { SelectProps } from 'antd/lib'
 
-
 interface Props extends SelectProps {
   label?: string
   name?: string

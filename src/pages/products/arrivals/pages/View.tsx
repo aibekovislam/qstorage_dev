@@ -1,15 +1,19 @@
 'use client'
 
 import React from 'react'
+
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { Table, Tag, Avatar, Space, Flex, Button, Popover } from 'antd'
+import { ColumnsType } from 'antd/es/table'
+import Image from 'next/image'
+
 import cls from '@/pages/products/styles/view.module.css'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { CustomDatePicker } from '@/shared/ui/date-picker-field/date-picker-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
+
 import { ProductsArrivals } from '..'
-import type { ColumnsType } from 'antd/es/table'
 import { ProductRecord } from '../types'
 
 const columns: ColumnsType<ProductRecord> = [
@@ -20,7 +24,7 @@ const columns: ColumnsType<ProductRecord> = [
     render: (text, record) => (
       <Space>
         {record.imageUrl && (
-          <img
+          <Image
             src={record.imageUrl}
             alt={text}
             style={{ objectFit: 'cover' }}
@@ -114,7 +118,7 @@ export const View: React.FC = () => {
     dayValue,
     handleChangeYearDatePicker,
     handleChangeMonthDatePicker,
-    handleChangeDayDatePicker
+    handleChangeDayDatePicker,
   } = ProductsArrivals.Hooks.List.use()
 
   return (
@@ -134,8 +138,8 @@ export const View: React.FC = () => {
             </Button>
           </Flex>
           <Flex gap={10}>
-            <SelectField 
-              style={{ width: 210 }} 
+            <SelectField
+              style={{ width: 210 }}
               options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}
             />
             <CustomDatePicker
