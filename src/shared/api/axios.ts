@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios'
+import Cookie from 'js-cookie'
 
 import { TokenManager } from '../utils/token-manager'
+import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } from '../utils/token-manager/consts'
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -21,10 +23,11 @@ axiosRequest.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-axiosRequest.interceptors.request.use(
+axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const refresh = await TokenManager.getRefreshToken()
+
     const originalRequest = error.config
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -36,13 +39,12 @@ axiosRequest.interceptors.request.use(
         })
 
         if (response) {
-          const setToken = async () => {
-            'use server'
-            await TokenManager.setAccessToken(response.data.access)
-            await TokenManager.setRefreshToken(response.data.refresh)
+          const setToken = () => {
+            Cookie.set(ACCESS_TOKEN_COOKIE_KEY, response.data.access)
+            Cookie.set(REFRESH_TOKEN_COOKIE_KEY, response.data.refresh)
           }
 
-          await setToken()
+          setToken()
 
           originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
 

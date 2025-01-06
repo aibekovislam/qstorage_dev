@@ -85,10 +85,12 @@ function useList() {
     yearValue,
     monthValue,
     dayValue,
-    handleChangeYearDatePicker,
-    handleChangeMonthDatePicker,
-    handleChangeDayDatePicker,
     breadcrumbData,
+    actions: {
+      handleChangeYearDatePicker,
+      handleChangeMonthDatePicker,
+      handleChangeDayDatePicker,
+    },
   }
 }
 

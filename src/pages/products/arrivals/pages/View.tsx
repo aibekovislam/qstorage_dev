@@ -116,9 +116,11 @@ export const View: React.FC = () => {
     yearValue,
     monthValue,
     dayValue,
-    handleChangeYearDatePicker,
-    handleChangeMonthDatePicker,
-    handleChangeDayDatePicker,
+    actions: {
+      handleChangeYearDatePicker,
+      handleChangeMonthDatePicker,
+      handleChangeDayDatePicker,
+    },
   } = ProductsArrivals.Hooks.List.use()
 
   return (
