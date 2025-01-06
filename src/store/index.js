@@ -33,7 +33,6 @@ export const initializeStore = (preloadedState) => {
     store = undefined
   }
 
-  if (typeof window === 'undefined') return _store
   if (!store) store = _store
 
   return _store

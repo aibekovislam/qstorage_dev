@@ -11,6 +11,12 @@ const theme: ThemeConfig = {
       paddingInline: 15,
       fontFamily: 'var(--font-sfpro)',
     },
+    DatePicker: {
+      borderRadius: 3,
+    },
+    Select: {
+      borderRadius: 3,
+    },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',

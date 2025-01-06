@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios'
+import Cookie from 'js-cookie'
 
 import { TokenManager } from '../utils/token-manager'
+import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } from '../utils/token-manager/consts'
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -25,6 +27,7 @@ axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const refresh = await TokenManager.getRefreshToken()
+
     const originalRequest = error.config
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -35,10 +38,13 @@ axiosRequest.interceptors.response.use(
           refresh: refresh,
         })
 
-        await axios.post('http://localhost:3000/api/auth/refresh-token/', {
-          accessToken: data.access,
-          refreshToken: data.refresh,
-        })
+        if (response) {
+          const setToken = () => {
+            Cookie.set(ACCESS_TOKEN_COOKIE_KEY, response.data.access)
+            Cookie.set(REFRESH_TOKEN_COOKIE_KEY, response.data.refresh)
+          }
+
+          setToken()
 
         originalRequest.headers['Authorization'] = `Bearer ${data.access}`
 
