@@ -3,7 +3,7 @@ import React, { Suspense } from 'react'
 import { cookies } from 'next/headers'
 
 import { axiosRequest } from '@/shared/api/axios'
-import { roboto } from '@/shared/assets/fonts/fonts'
+import { SFPro } from '@/shared/assets/fonts/fonts'
 import AntdProvider from '@/shared/providers/Antd'
 import '@/shared/assets/styles/globals.css'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
@@ -37,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={SFPro.className}>
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
             <Suspense fallback={<Loader/>}>
