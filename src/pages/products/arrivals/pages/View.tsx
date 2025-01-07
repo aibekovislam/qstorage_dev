@@ -16,7 +16,7 @@ import { SelectField } from '@/shared/ui/select-field/select-field'
 import { ProductsArrivals } from '..'
 import { ProductRecord } from '../types'
 
-const {Paragraph} = Typography
+const { Paragraph } = Typography
 
 const columns: ColumnsType<ProductRecord> = [
   {
