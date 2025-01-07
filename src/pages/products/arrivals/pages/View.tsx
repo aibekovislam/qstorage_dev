@@ -7,13 +7,13 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import cls from '@/pages/products/styles/view.module.css'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { CustomDatePicker } from '@/shared/ui/date-picker-field/date-picker-field'
+import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 
 import { ProductsArrivals } from '..'
+import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
 
 const { Paragraph } = Typography
@@ -118,14 +118,16 @@ export const View: React.FC = () => {
     yearValue,
     monthValue,
     dayValue,
-    handleChangeYearDatePicker,
-    handleChangeMonthDatePicker,
-    handleChangeDayDatePicker,
+    actions: {
+      handleChangeYearDatePicker,
+      handleChangeMonthDatePicker,
+      handleChangeDayDatePicker,
+    },
   } = ProductsArrivals.Hooks.List.use()
 
   return (
     <ManagerLayout>
-      <main className={cls.main}>
+      <div className={cls.main}>
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
           <h2>Приход товаров “Склад №1”</h2>
@@ -144,21 +146,21 @@ export const View: React.FC = () => {
               style={{ width: 210 }}
               options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}
             />
-            <CustomDatePicker
+            <DatePickerField
               pickerMode="year"
               placeholder="Выберите год"
               value={yearValue}
               onChange={handleChangeYearDatePicker}
             />
 
-            <CustomDatePicker
+            <DatePickerField
               pickerMode="month"
               placeholder="Выберите месяц"
               value={monthValue}
               onChange={handleChangeMonthDatePicker}
             />
 
-            <CustomDatePicker
+            <DatePickerField
               placeholder="Выберите день"
               value={dayValue}
               onChange={handleChangeDayDatePicker}
@@ -171,7 +173,7 @@ export const View: React.FC = () => {
           dataSource={dataSource}
           pagination={{ position: ['bottomRight'] }}
         />
-      </main>
+      </div>
     </ManagerLayout>
   )
 }

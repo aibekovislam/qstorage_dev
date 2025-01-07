@@ -2,9 +2,6 @@ import { cookies } from 'next/headers'
 
 import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } from './consts'
 
-const oneDay = 60 * 60 * 24
-const sevenDays = 60 * 60 * 24 * 7
-
 export namespace TokenManager {
     export const getAccessToken = async (): Promise<string | undefined> => {
       return (await cookies()).get(ACCESS_TOKEN_COOKIE_KEY)?.value
@@ -14,7 +11,7 @@ export namespace TokenManager {
       (await cookies()).set(ACCESS_TOKEN_COOKIE_KEY, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: oneDay,
+        maxAge: 3600,
         path: '/',
       })
     }
@@ -31,7 +28,7 @@ export namespace TokenManager {
       (await cookies()).set(REFRESH_TOKEN_COOKIE_KEY, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: sevenDays,
+        maxAge: 2678400,
         path: '/',
       })
     }

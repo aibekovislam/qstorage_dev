@@ -21,33 +21,32 @@ axiosRequest.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-axiosRequest.interceptors.request.use(
+axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const refresh = await TokenManager.getRefreshToken()
+    const refreshToken = await TokenManager.getRefreshToken()
     const originalRequest = error.config
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
 
       try {
-        const response = await axios.post<{ access: string, refresh: string }>(`${baseURL}/auth/token/refresh/`, {
-          refresh: refresh,
+        const response = await fetch('http://localhost:3000/api/refresh/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ refresh_token: refreshToken }),
         })
 
-        if (response) {
-          const setToken = async () => {
-            'use server'
-            await TokenManager.setAccessToken(response.data.access)
-            await TokenManager.setRefreshToken(response.data.refresh)
-          }
-
-          await setToken()
-
-          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
-
-          return axiosRequest(originalRequest)
+        if (!response.ok) {
+          throw new Error(`Refresh token request failed with status: ${response.status}`)
         }
+
+        const refreshResponse = await response.json()
+
+        originalRequest.headers['Authorization'] = `Bearer ${refreshResponse.access}`
+
+        return axiosRequest(originalRequest)
       } catch (e) {
         const error = e as AxiosError
 

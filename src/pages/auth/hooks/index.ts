@@ -36,7 +36,7 @@ export const useLogin = () => {
               }
             })
         } else if (!res.success) {
-          showError(res.message)
+          showError('Такого аккаунта не существует!')
         }
       })
       .finally(() => setIsLoading(false))

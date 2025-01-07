@@ -10,13 +10,13 @@ import cls from  './date-picker-field.module.css'
 import type { DatePickerProps } from 'antd'
 import type { Dayjs } from 'dayjs'
 
-interface CustomDatePickerProps extends Omit<DatePickerProps, 'picker'|'value'|'onChange'> {
+interface Props extends Omit<DatePickerProps, 'picker'|'value'|'onChange'> {
   pickerMode?: 'year' | 'month' | 'date'
   value?: Dayjs | null
   onChange?: (value: Dayjs | null) => void
 }
 
-export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
+export const DatePickerField: React.FC<Props> = ({
   pickerMode = 'date',
   value,
   onChange,

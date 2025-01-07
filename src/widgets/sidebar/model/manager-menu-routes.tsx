@@ -1,4 +1,4 @@
-import { BarChartOutlined, BarsOutlined, CalendarOutlined, RetweetOutlined, ShopOutlined, TableOutlined, TeamOutlined } from '@ant-design/icons'
+import { BarsOutlined, CalendarOutlined, RetweetOutlined, ShopOutlined, TableOutlined } from '@ant-design/icons'
 import { MenuProps } from 'antd'
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -24,19 +24,9 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         icon: <BarsOutlined />,
       },
       {
-        key: 'personnel',
-        label: 'Персонал',
-        icon: <TeamOutlined />,
-      },
-      {
         key: 'project',
         label: 'Проект',
         icon: <TableOutlined />,
-      },
-      {
-        key: 'analysis',
-        label: 'Анализ поступлений',
-        icon: <BarChartOutlined />,
       },
       {
         key: 'requests',

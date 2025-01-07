@@ -3,9 +3,12 @@
 import React from 'react'
 
 import { Button, Flex, Form } from 'antd'
+import Image from 'next/image'
 
-import { AuthIcon } from '@/shared/assets/icons'
+import { QStorageLogoLight } from '@/shared/assets/icons'
+import { AuthHeroImage } from '@/shared/assets/images'
 import { TextField } from '@/shared/ui/textfield/textfield'
+import { TextFieldPassword } from '@/shared/ui/textfield-password/textfield-password'
 
 import { use } from '../hooks'
 import cls from '../styles/view.module.css'
@@ -26,37 +29,54 @@ export const View = () => {
   }
 
   return (
-    <Flex align="center" justify="space-between">
+    <div>
       <Flex className={cls.auth} justify="center" align="center">
-        <h1 className={cls.auth_title}>Склад №1</h1>
 
-        <Form className={cls.form} onFinish={onFinish} name="loginForm" form={form}>
-          {contextHolder}
-          <Flex className={cls.form_flex} justify="center" align="center">
-            <h2 className={cls.auth_form_title}>Вход</h2>
-
-            <Flex className={cls.form__items} gap={24}>
-              <TextField
-                name="email"
-                type="email"
-                placeholder="Имя пользователя/почта"
-              />
-
-              <TextField
-                name="password"
-                type="password"
-                placeholder="Пароль"
-              />
-
-              <Button type="primary" loading={isLoading} htmlType="submit">Вход</Button>
-            </Flex>
+        <Flex align="center" gap={90}>
+          <Flex justify="flex-start" align="flex-start" gap={10} className={cls.logo}>
+            <QStorageLogoLight/>
+            <p className={cls.text}>Включаем бизнес на максимум!</p>
           </Flex>
-        </Form>
+
+          <Form className={cls.form} onFinish={onFinish} name="loginForm" form={form}>
+            <h1>Вход</h1>
+            {contextHolder}
+            <Flex className={cls.form_flex} justify="center" align="center">
+              <Flex className={cls.form__items} gap={16}>
+                <TextField
+                  name="email"
+                  type="email"
+                  text="E-mail / Электронная почта"
+                />
+
+                <TextFieldPassword
+                  name="password"
+                  type="password"
+                  text="Пароль"
+                />
+
+                <Button
+                  type="primary"
+                  loading={isLoading}
+                  htmlType="submit"
+                  className={cls.form__btn}
+                >
+                  Войти
+                </Button>
+              </Flex>
+            </Flex>
+          </Form>
+        </Flex>
       </Flex>
 
-      <Flex className={cls.auth_image} justify="center" align="center">
-        <AuthIcon/>
-      </Flex>
-    </Flex>
+      <div className={cls.footer}>
+        <Button className={cls.lng_btn}>Русский</Button>
+
+        <a href="#" className={cls.politics}>Политика обработки персональных данных</a>
+      </div>
+
+      <Image src={AuthHeroImage} alt="hero_image" className={cls.hero_image} />
+      <div className={cls.black_block} />
+    </div>
   )
 }
