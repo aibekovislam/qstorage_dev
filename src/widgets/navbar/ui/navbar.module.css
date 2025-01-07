@@ -38,5 +38,28 @@
     align-items: center;
     gap: 15px;
     cursor: pointer;
-    /* width: 100%; */
+}
+
+.icon__up {
+    color: #fa541c !important;
+}
+
+.text_content{
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.text_content .title{
+    font-size: 13px !important;
+    font-weight: 500 !important; 
+    line-height: 22px !important;
+}
+
+.text_content .description {
+    font-size: 13 !important;
+    font-weight: 400 !important;
+}
+
+.date span {
+    font-size: 13px;
 }

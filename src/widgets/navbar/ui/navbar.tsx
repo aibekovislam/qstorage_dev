@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { BellOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons'
+import { ArrowUpOutlined, BellOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons'
 import {
   Avatar,
   Badge,
@@ -14,6 +14,7 @@ import {
   notification,
 } from 'antd'
 import { MenuProps } from 'antd/lib'
+import Image from 'next/image'
 
 import { QStorageLogo } from '@/shared/assets/icons'
 import { SearchField } from '@/shared/ui/search-field/search-field'
@@ -21,7 +22,7 @@ import { SearchField } from '@/shared/ui/search-field/search-field'
 import cls from './navbar.module.css'
 
 const { Header } = Layout
-const { Text } = Typography
+const { Text, Paragraph  } = Typography
 
 interface Props {
   routes: MenuProps['items']
@@ -31,11 +32,46 @@ export const Navbar: React.FC<Props> = (props) => {
   const [api, contextHolder] = notification.useNotification()
 
   const handleNotificationClick = () => {
+    const key = `open${Date.now()}`
+    const btn = (
+      <Button onClick={() => api.destroy(key)} type="primary">
+        Ок
+      </Button>
+    )
+
     api.open({
-      message: 'Title',
-      description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia pariatur odio quidem temporibus velit deleniti nisi fuga adipisci culpa a, architecto tempora et. Adipisci libero autem fugit laborum at consequuntur.',
-      pauseOnHover: true,
+      message: (
+        <Flex justify={'space-between'}>
+          <Flex gap={5}>
+            <ArrowUpOutlined className={cls.icon__up} />
+            <span>ПРИХОД</span>
+          </Flex>
+          <div className={cls.date}>
+            <span>12.10.2024</span>
+          </div>
+        </Flex>
+      ),
+      description: (
+        <Flex justify={'space-between'}>
+          <Flex className={cls.text_content}>
+            <Typography className={cls.title}>Менеджер Чынгыз А.</Typography>
+            <Paragraph className={cls.description}>Менеджер Чынгыз А. Принял заявку на новый товар от Ислам Б. </Paragraph>
+          </Flex>
+          <div>
+            <Image
+              src={'https://outdoorvitals.com/cdn/shop/products/greensatushopify.png?v=1701706579&width=1000'}
+              alt={'image'}
+              style={{ objectFit: 'cover' }}
+              width={70}
+              height={70}
+            />
+          </div>
+        </Flex>
+      ),
+      btn,
+      key,
+      duration: null,
+      closable: false,
     })
   }
 
