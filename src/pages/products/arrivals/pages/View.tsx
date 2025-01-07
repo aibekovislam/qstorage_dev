@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Table, Tag, Avatar, Space, Flex, Button, Popover } from 'antd'
+import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
@@ -15,6 +15,8 @@ import { SelectField } from '@/shared/ui/select-field/select-field'
 
 import { ProductsArrivals } from '..'
 import { ProductRecord } from '../types'
+
+const {Paragraph} = Typography
 
 const columns: ColumnsType<ProductRecord> = [
   {
@@ -87,7 +89,7 @@ const columns: ColumnsType<ProductRecord> = [
     render: (comment: string) => {
       return (
         <Popover overlayClassName={cls.card} className={cls.custom__popover} content={comment}>
-          <p>{comment.slice(0, 10)}...</p>
+          <Paragraph>{comment.slice(0, 10)}...</Paragraph>
         </Popover>
       )
     },
@@ -126,7 +128,7 @@ export const View: React.FC = () => {
       <main className={cls.main}>
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
-          <h1>Приход товаров “Склад №1”</h1>
+          <h2>Приход товаров “Склад №1”</h2>
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>

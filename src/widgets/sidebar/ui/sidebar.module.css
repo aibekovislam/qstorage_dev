@@ -6,3 +6,9 @@
 .Menu :global(.ant-menu-item-group .ant-menu-item-group-title) {
     padding: 0px !important;
 }
+
+.Menu :global(.ant-menu-item-group .ant-menu-item-group-list .ant-menu-item-selected) {
+    background-color: #fa541c !important;
+    color: #fff !important;
+    border-radius: 3px !important;
+}
