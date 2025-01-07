@@ -4,6 +4,10 @@
 }
   
 .sidebar {
-    height: 91vh;
+    height: 100%;
     background-color: #F0F0F0 !important;
 } 
+
+.main_layout {
+    height: 100vh;
+}

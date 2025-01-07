@@ -19,7 +19,7 @@ interface Props {
 export const ManagerLayout: React.FC<Props> = ({ children }) => {
   return (
     <Flex gap="middle" wrap>
-      <Layout>
+      <Layout className={cls.main_layout}>
         <Layout.Header className={cls.header}>
           <Navbar routes={ManagerNavbarMenuRoutes} />
         </Layout.Header>
