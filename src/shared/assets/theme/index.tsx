@@ -19,8 +19,8 @@ const theme: ThemeConfig = {
     },
     Modal: {
       titleFontSize:  24,
-      fontWeightStrong: 400
-    }
+      fontWeightStrong: 400,
+    },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',

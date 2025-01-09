@@ -123,7 +123,7 @@ export const View: React.FC = () => {
       handleChangeYearDatePicker,
       handleChangeMonthDatePicker,
       handleChangeDayDatePicker,
-      createModal
+      createModal,
     },
   } = ProductsArrivals.Hooks.List.use()
 
@@ -177,8 +177,8 @@ export const View: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
-      <ModalCreateArrival 
-        onCloseModal={createModal.onClose} 
+      <ModalCreateArrival
+        onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />
     </ManagerLayout>

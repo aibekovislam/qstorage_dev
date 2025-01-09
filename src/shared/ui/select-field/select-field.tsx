@@ -1,8 +1,9 @@
 import { Select } from 'antd'
+import { Rule } from 'antd/es/form'
 import FormItem from 'antd/es/form/FormItem'
 import { SelectProps } from 'antd/lib'
-import cls from "./select-field.module.css"
-import { Rule } from 'antd/es/form'
+
+import cls from './select-field.module.css'
 
 interface Props extends SelectProps {
   label?: string
@@ -17,26 +18,26 @@ export const SelectField: React.FC<Props> = (props) => {
   }
 
   return (
-    <FormItem 
+    <FormItem
       className={cls.selectField}
       label={props.label}
       style={props.style}
     >
-      <FormItem 
+      <FormItem
         name={props.name}
         rules={props.rules}
         initialValue={props.initialValue}
         noStyle
       >
-      <Select
-        defaultValue={props.defaultValue}
-        style={props.style}
-        onChange={handleChange}
-        options={props.options}
-        placeholder={props.placeholder}
-        className={props.className}
-      />
-    </FormItem>
+        <Select
+          defaultValue={props.defaultValue}
+          style={props.style}
+          onChange={handleChange}
+          options={props.options}
+          placeholder={props.placeholder}
+          className={props.className}
+        />
+      </FormItem>
     </FormItem>
   )
 }

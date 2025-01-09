@@ -3,9 +3,11 @@
 import React from 'react'
 
 import { DatePicker } from 'antd'
-import FormItem from 'antd/es/form/FormItem'
 import { Rule } from 'antd/es/form'
+import FormItem from 'antd/es/form/FormItem'
+
 import cls from  './date-picker-field.module.css'
+
 import type { DatePickerProps } from 'antd'
 import type { Dayjs } from 'dayjs'
 
@@ -25,10 +27,10 @@ export const DatePickerField: React.FC<Props> = (props) => {
   return (
     <FormItem
       className={cls.dateField}
-      label={props.label} 
+      label={props.label}
       style={props.style}
     >
-      <FormItem 
+      <FormItem
         name={props.name}
         rules={props.rules}
         initialValue={props.initialValue}

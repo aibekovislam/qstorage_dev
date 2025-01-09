@@ -3,6 +3,7 @@
 import React from 'react'
 
 import { Dayjs } from 'dayjs'
+
 import { useDisclosure } from '@/shared/hooks/useDisclosure'
 
 function useList() {
@@ -92,7 +93,7 @@ function useList() {
       handleChangeYearDatePicker,
       handleChangeMonthDatePicker,
       handleChangeDayDatePicker,
-      createModal
+      createModal,
     },
   }
 }
