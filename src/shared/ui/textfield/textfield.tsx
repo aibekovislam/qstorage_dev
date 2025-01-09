@@ -36,7 +36,7 @@ export const TextField: React.FC<Props> = (props) => {
         noStyle
       >
         <Input
-          className={cls.textField__input}
+          className={`${cls.textField__input} ${props.className}`}
           placeholder={props.placeholder}
           disabled={props.disabled}
           onChange={props.onChange}

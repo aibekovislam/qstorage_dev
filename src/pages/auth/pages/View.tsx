@@ -46,13 +46,13 @@ export const View = () => {
                 <TextField
                   name="email"
                   type="email"
-                  text="E-mail / Электронная почта"
+                  label="E-mail / Электронная почта"
                 />
 
                 <TextFieldPassword
                   name="password"
                   type="password"
-                  text="Пароль"
+                  label="Пароль"
                 />
 
                 <Button

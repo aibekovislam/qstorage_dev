@@ -8,7 +8,7 @@
 }
   
 .Menu {
-    width: 100% !important;
+    width: max-content !important;
     background-color: #F0F0F0 !important;
     border: none !important;
 }

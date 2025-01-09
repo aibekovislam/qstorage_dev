@@ -1,0 +1,11 @@
+.selectField :global(.ant-form-item-row){
+    display: initial !important;
+}
+
+.selectField :global(.ant-form-item-row .ant-form-item-label){
+    text-align: left !important;
+}
+
+.selectField{
+    margin: 0px !important;
+}

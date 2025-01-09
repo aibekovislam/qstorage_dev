@@ -3,11 +3,13 @@
 import React from 'react'
 
 import { Dayjs } from 'dayjs'
+import { useDisclosure } from '@/shared/hooks/useDisclosure'
 
 function useList() {
   const [yearValue, setYearValue] = React.useState<Dayjs | null>(null)
   const [monthValue, setMonthValue] = React.useState<Dayjs | null>(null)
   const [dayValue, setDayValue] = React.useState<Dayjs | null>(null)
+  const createModal = useDisclosure()
 
   const handleChangeYearDatePicker = React.useCallback(
     (newYear: Dayjs | null) => {
@@ -90,6 +92,7 @@ function useList() {
       handleChangeYearDatePicker,
       handleChangeMonthDatePicker,
       handleChangeDayDatePicker,
+      createModal
     },
   }
 }

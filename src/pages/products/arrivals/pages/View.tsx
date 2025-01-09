@@ -15,6 +15,7 @@ import { SelectField } from '@/shared/ui/select-field/select-field'
 import { ProductsArrivals } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
+import ModalCreateArrival from '../ui/modals/ModalCreate/modal-create-arrival'
 
 const { Paragraph } = Typography
 
@@ -122,6 +123,7 @@ export const View: React.FC = () => {
       handleChangeYearDatePicker,
       handleChangeMonthDatePicker,
       handleChangeDayDatePicker,
+      createModal
     },
   } = ProductsArrivals.Hooks.List.use()
 
@@ -134,17 +136,18 @@ export const View: React.FC = () => {
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button type="default">
+            <Button onClick={createModal.onOpen} type="primary">
               Приход <ArrowUpOutlined />
             </Button>
-            <Button type="primary">
+            <Button type="default">
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>
           <Flex gap={10}>
             <SelectField
               style={{ width: 210 }}
-              options={[{ value: 'all-products', label: 'Все товары' },{ value: 'not-all-products' , label: 'Не все товары' }]}
+              options={[{ value: 'all_products', label: 'Все товары' },{ value: 'not_all_products' , label: 'Не все товары' }]}
+              defaultValue={'all_products'}
             />
             <DatePickerField
               pickerMode="year"
@@ -174,6 +177,10 @@ export const View: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
+      <ModalCreateArrival 
+        onCloseModal={createModal.onClose} 
+        isModalOpen={createModal.isOpen}
+      />
     </ManagerLayout>
   )
 }
