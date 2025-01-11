@@ -26,19 +26,19 @@ export const DatePickerField: React.FC<Props> = (props) => {
 
   return (
     <FormItem
-        label={props.label}
-        className={cls.dateField}
-        name={props.name}
-        rules={props.rules}
-        initialValue={props.initialValue}
-      >
-        <DatePicker
-          picker={props.pickerMode}
-          value={props.value}
-          placeholder={props.placeholder}
-          onChange={handleChange}
-          className={`${cls.datepicker} ${props.className}`}
-        />
+      label={props.label}
+      className={cls.dateField}
+      name={props.name}
+      rules={props.rules}
+      initialValue={props.initialValue}
+    >
+      <DatePicker
+        picker={props.pickerMode}
+        value={props.value}
+        placeholder={props.placeholder}
+        onChange={handleChange}
+        className={`${cls.datepicker} ${props.className}`}
+      />
     </FormItem>
   )
 }

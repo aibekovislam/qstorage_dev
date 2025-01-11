@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react'
+
 import { Dayjs } from 'dayjs'
+
 import { useDisclosure } from '@/shared/hooks/useDisclosure'
 
 function useList() {
@@ -15,6 +17,7 @@ function useList() {
       setYearValue(null)
       setMonthValue(null)
       setDayValue(null)
+
       return
     }
 
@@ -27,6 +30,7 @@ function useList() {
     if (!newMonth) {
       setMonthValue(null)
       setDayValue(null)
+
       return
     }
 
@@ -36,6 +40,7 @@ function useList() {
       if (!prev) {
         return newMonth.date(1)
       }
+
       return prev.year(newMonth.year()).month(newMonth.month())
     })
   }, [])
