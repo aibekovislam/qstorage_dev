@@ -8,11 +8,13 @@ const theme: ThemeConfig = {
     Input: {
       borderRadius: 3,
       paddingBlock: 10,
-      paddingInline: 15,
+      paddingInline: 8,
       fontFamily: 'var(--font-sfpro)',
     },
     DatePicker: {
       borderRadius: 3,
+      paddingBlock: 10,
+      paddingInline: 8,
     },
     Select: {
       borderRadius: 3,
