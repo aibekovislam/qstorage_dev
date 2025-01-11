@@ -136,7 +136,7 @@ export const View: React.FC = () => {
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button onClick={createModal.onOpen} type="primary">
+            <Button type="primary">
               Приход <ArrowUpOutlined />
             </Button>
             <Button type="default">
@@ -168,7 +168,7 @@ export const View: React.FC = () => {
               value={dayValue}
               onChange={handleChangeDayDatePicker}
             />
-            <Button type="primary" className={cls.btn}>Добавить уход</Button>
+            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
           </Flex>
         </div>
         <Table<ProductRecord>
