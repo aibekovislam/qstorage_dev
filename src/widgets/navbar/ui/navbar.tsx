@@ -90,6 +90,7 @@ export const Navbar: React.FC<Props> = (props) => {
                 mode="horizontal"
                 items={props.routes}
                 className={cls.Menu}
+                disabledOverflow
               />
               <Button type="primary">Создать</Button>
             </Flex>

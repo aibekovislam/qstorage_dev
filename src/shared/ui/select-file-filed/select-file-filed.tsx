@@ -41,25 +41,20 @@ export const SelectFileField: React.FC<Props> = (props) => {
     <FormItem
       className={cls.selectFileField}
       style={props.style}
+      initialValue={props.initialValue}
+      rules={props.rules}
+      name={props.name}
     >
-
-      <FormItem
-        name={props.name}
-        rules={props.rules}
-        initialValue={props.initialValue}
-        noStyle
-      >
-        <Dragger {...DraggerProps}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">Выберите файл</p>
-          <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-            banned files.
-          </p>
-        </Dragger>
-      </FormItem>
+      <Dragger {...DraggerProps}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">Выберите файл</p>
+        <p className="ant-upload-hint">
+          Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+          banned files.
+        </p>
+      </Dragger>
     </FormItem>
   )
 }

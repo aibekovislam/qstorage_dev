@@ -1,9 +1,7 @@
 'use client'
 
 import React from 'react'
-
 import { Dayjs } from 'dayjs'
-
 import { useDisclosure } from '@/shared/hooks/useDisclosure'
 
 function useList() {
@@ -12,70 +10,46 @@ function useList() {
   const [dayValue, setDayValue] = React.useState<Dayjs | null>(null)
   const createModal = useDisclosure()
 
-  const handleChangeYearDatePicker = React.useCallback(
-    (newYear: Dayjs | null) => {
-      setYearValue(newYear)
-      if (!newYear) {
-        setMonthValue(null)
-        setDayValue(null)
+  const handleChangeYearDatePicker = React.useCallback((newYear: Dayjs | null) => {
+    if (!newYear) {
+      setYearValue(null)
+      setMonthValue(null)
+      setDayValue(null)
+      return
+    }
 
-        return
-      }
-      if (monthValue) {
-        setMonthValue(monthValue.year(newYear.year()))
-      }
-      if (dayValue) {
-        setDayValue(dayValue.year(newYear.year()))
-      }
-    },
-    [monthValue, dayValue],
-  )
+    setYearValue(newYear)
+    setMonthValue(prev => (prev ? prev.year(newYear.year()) : newYear))
+    setDayValue(prev => (prev ? prev.year(newYear.year()) : newYear))
+  }, [])
 
-  const handleChangeMonthDatePicker = React.useCallback(
-    (newMonth: Dayjs | null) => {
-      setMonthValue(newMonth)
-      if (!newMonth) {
-        setDayValue(null)
+  const handleChangeMonthDatePicker = React.useCallback((newMonth: Dayjs | null) => {
+    if (!newMonth) {
+      setMonthValue(null)
+      setDayValue(null)
+      return
+    }
 
-        return
+    setMonthValue(newMonth)
+    setYearValue(prev => (prev ? prev.year(newMonth.year()) : newMonth))
+    setDayValue(prev => {
+      if (!prev) {
+        return newMonth.date(1)
       }
-      if (!yearValue) {
-        setYearValue(newMonth)
-      } else {
-        setYearValue(yearValue.year(newMonth.year()))
-      }
-      if (dayValue) {
-        setDayValue(
-          dayValue.year(newMonth.year()).month(newMonth.month()),
-        )
-      }
-    },
-    [yearValue, dayValue],
-  )
+      return prev.year(newMonth.year()).month(newMonth.month())
+    })
+  }, [])
 
-  const handleChangeDayDatePicker = React.useCallback(
-    (newDay: Dayjs | null) => {
-      setDayValue(newDay)
-      if (!newDay) {
-        return
-      }
-      if (!yearValue) {
-        setYearValue(newDay)
-      } else {
-        setYearValue(yearValue.year(newDay.year()))
-      }
-      if (!monthValue) {
-        setMonthValue(newDay)
-      } else {
-        setMonthValue(
-          monthValue
-            .year(newDay.year())
-            .month(newDay.month()),
-        )
-      }
-    },
-    [yearValue, monthValue],
-  )
+  const handleChangeDayDatePicker = React.useCallback((newDay: Dayjs | null) => {
+    setDayValue(newDay)
+
+    if (!newDay) {
+      return
+    }
+
+    setYearValue(prev => (prev ? prev.year(newDay.year()) : newDay))
+    setMonthValue(prev => (prev ? prev.year(newDay.year()).month(newDay.month()) : newDay))
+  }, [])
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },

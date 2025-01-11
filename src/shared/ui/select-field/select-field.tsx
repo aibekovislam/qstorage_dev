@@ -21,23 +21,18 @@ export const SelectField: React.FC<Props> = (props) => {
     <FormItem
       className={cls.selectField}
       label={props.label}
-      style={props.style}
+      initialValue={props.initialValue}
+      rules={props.rules}
+      name={props.name}
     >
-      <FormItem
-        name={props.name}
-        rules={props.rules}
-        initialValue={props.initialValue}
-        noStyle
-      >
-        <Select
-          defaultValue={props.defaultValue}
-          style={props.style}
-          onChange={handleChange}
-          options={props.options}
-          placeholder={props.placeholder}
-          className={props.className}
-        />
-      </FormItem>
+      <Select
+        defaultValue={props.defaultValue}
+        style={props.style}
+        onChange={handleChange}
+        options={props.options}
+        placeholder={props.placeholder}
+        className={props.className}
+      />
     </FormItem>
   )
 }
