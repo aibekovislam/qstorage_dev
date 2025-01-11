@@ -8,7 +8,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true, data: data })
   } catch (error) {
-    console.log('error', error)
+    console.log('error users me', error)
 
     return NextResponse.json({ success: false, message: error })
   }

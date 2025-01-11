@@ -13,6 +13,7 @@ export namespace TokenManager {
         secure: process.env.NODE_ENV === 'production',
         maxAge: 3600,
         path: '/',
+        sameSite: 'lax',
       })
     }
 
@@ -30,6 +31,7 @@ export namespace TokenManager {
         secure: process.env.NODE_ENV === 'production',
         maxAge: 2678400,
         path: '/',
+        sameSite: 'lax',
       })
     }
 

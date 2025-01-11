@@ -7,6 +7,7 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
+import { axiosRequest } from '@/shared/api/axios'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'

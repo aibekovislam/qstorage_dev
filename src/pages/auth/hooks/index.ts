@@ -2,44 +2,34 @@ import React from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { useAppDispatch } from '@/shared/hooks/redux'
 import useNotification from '@/shared/hooks/useNotifications'
-import { login as onLogin } from '@/store/actions/user'
+import { loginSession as onLogin } from '@/shared/lib/session'
 
-import { getMyProfile, signIn } from '../api'
 import { LoginTypes } from '../types'
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { contextHolder, showError } = useNotification()
   const router = useRouter()
-  const dispatch = useAppDispatch()
 
   const login = React.useCallback(async (data: LoginTypes.Form) => {
     setIsLoading(true)
 
-    signIn(data)
-      .then(res => res.json())
-      .then(res => {
-        if (res.success) {
-          getMyProfile()
-            .then(res => res.json())
-            .then(res => {
-              dispatch(onLogin(res.data))
+    try {
+      const response = await onLogin(data)
 
-              if (res.success) {
-                return router.push('/')
-              }
-
-              if (!res.success) {
-                showError('Что-то пошло не так')
-              }
-            })
-        } else if (!res.success) {
-          showError('Такого аккаунта не существует!')
-        }
-      })
-      .finally(() => setIsLoading(false))
+      if (response && response.success) {
+        router.push('/')
+      } else {
+        showError('Что то пошло не так!')
+        console.error('Login failed:', response || 'Unknown error')
+      }
+    } catch (err) {
+      showError('Что то пошло не так!')
+      console.error('Error during login session:', err)
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
   return {

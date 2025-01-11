@@ -1,20 +1,21 @@
+'use client'
+
 import axios, { AxiosError } from 'axios'
 
-import { TokenManager } from '../utils/token-manager'
+import { getTokens } from './get-tokens'
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 
 export const axiosRequest = axios.create({
-  withCredentials: true,
-  baseURL: baseURL,
+  baseURL,
 })
 
 axiosRequest.interceptors.request.use(
   async (config) => {
-    const token = await TokenManager.getAccessToken()
+    const tokens = await getTokens()
 
-    if (token)
-      config.headers['Authorization'] = `Bearer ${token}`
+    if (tokens.access)
+      config.headers['Authorization'] = `Bearer ${tokens.access}`
 
     return config
   },
@@ -24,30 +25,28 @@ axiosRequest.interceptors.request.use(
 axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const refreshToken = await TokenManager.getRefreshToken()
+    const { refresh } = await getTokens()
+
     const originalRequest = error.config
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
 
       try {
-        const response = await fetch('http://localhost:3000/api/refresh/', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh/`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refresh_token: refresh }),
           credentials: 'include',
-          body: JSON.stringify({ refresh_token: refreshToken }),
         })
 
-        if (!response.ok) {
-          throw new Error(`Refresh token request failed with status: ${response.status}`)
+        const { tokens } = await response.json()
+
+        if (tokens) {
+          originalRequest.headers['Authorization'] = `Bearer ${tokens.access}`
+
+          return axiosRequest(originalRequest)
         }
-
-        const refreshResponse = await response.json()
-
-        originalRequest.headers['Authorization'] = `Bearer ${refreshResponse.access}`
-
-        return axiosRequest(originalRequest)
-      } catch (e) {
+      } catch (e: any) {
         const error = e as AxiosError
 
         console.log(error)
