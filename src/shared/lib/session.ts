@@ -7,7 +7,7 @@ import { LoginTypes } from '@/pages/auth/types'
 
 import { TokenManager } from '../utils/token-manager'
 
-const secretKey = 'secret'
+const secretKey = process.env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
