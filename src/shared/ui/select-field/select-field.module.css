@@ -6,6 +6,10 @@
     text-align: left !important;
 }
 
+.selectField :global(.ant-form-item-row .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector){
+    padding: 10px 8px !important;
+}
+
 .selectField{
     margin: 0px !important;
 }
