@@ -19,6 +19,10 @@ const theme: ThemeConfig = {
     Select: {
       borderRadius: 3,
     },
+    Modal: {
+      titleFontSize:  24,
+      fontWeightStrong: 400,
+    },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',

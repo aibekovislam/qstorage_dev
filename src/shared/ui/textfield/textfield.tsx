@@ -20,6 +20,10 @@ export const TextField: React.FC<Props> = (props) => {
       className={`${cls.textField} ${props.disabled && cls.textField_disabled}`}
       label={props.label}
       style={props.style}
+      initialValue={props.initialValue}
+      rules={props.rules}
+      name={props.name}
+
     >
       {
         props.text ? (
@@ -29,21 +33,14 @@ export const TextField: React.FC<Props> = (props) => {
         ) : null
       }
 
-      <FormItem
-        name={props.name}
-        rules={props.rules}
-        initialValue={props.initialValue}
-        noStyle
-      >
-        <Input
-          className={cls.textField__input}
-          placeholder={props.placeholder}
-          disabled={props.disabled}
-          onChange={props.onChange}
-          type={props.type}
-          maxLength={props.maxLength}
-        />
-      </FormItem>
+      <Input
+        className={`${cls.textField__input} ${props.className}`}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        onChange={props.onChange}
+        type={props.type}
+        maxLength={props.maxLength}
+      />
     </FormItem>
   )
 }
