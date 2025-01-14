@@ -1,5 +1,6 @@
 'use client'
 import { Menu } from 'antd'
+import { usePathname } from 'next/navigation'
 
 import cls from './sidebar.module.css'
 
@@ -14,14 +15,19 @@ export const SideBar: React.FC<Props> = (props) => {
     console.log('click ', e)
   }
 
+  const pathname = usePathname()
+
   return (
-    <Menu
-      onClick={onClick}
-      defaultSelectedKeys={['in-out']}
-      defaultOpenKeys={['sub1']}
-      mode="inline"
-      items={props.routes}
-      className={cls.Menu}
-    />
+    pathname ? (
+      <Menu
+        onClick={onClick}
+        defaultSelectedKeys={['/products/arrivals']}
+        defaultOpenKeys={['sub1']}
+        selectedKeys={[pathname]}
+        mode="inline"
+        items={props.routes}
+        className={cls.Menu}
+      />
+    ) : null
   )
 }

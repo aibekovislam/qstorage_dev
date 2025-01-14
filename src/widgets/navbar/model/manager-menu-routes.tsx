@@ -3,7 +3,7 @@ import { MenuProps } from 'antd'
 
 export const ManagerNavbarMenuRoutes: MenuProps['items'] = [
   {
-    key: 'goods',
+    key: '/products/',
     label: 'Товары',
     icon: <TableOutlined />,
   },

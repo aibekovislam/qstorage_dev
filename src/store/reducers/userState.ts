@@ -1,5 +1,13 @@
 import { LOGIN, LOGOUT } from '../consts'
 
+interface CompaniesData {
+  id: number
+  title: string
+  image: string | null
+  url: string
+  desription: string | null
+}
+
 interface UserData {
     id: number
     email: string
@@ -11,6 +19,7 @@ interface UserData {
     citizenship: string | null,
     role: string | null,
     date_of_birth: string | null
+    companies: CompaniesData[] | null
 }
 
 export interface UserState {

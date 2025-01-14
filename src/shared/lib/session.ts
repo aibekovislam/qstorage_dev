@@ -58,6 +58,15 @@ export async function loginSession(loginData: LoginTypes.Form) {
 
     const data = await response.json()
 
+    console.log('data', data.user.companies)
+
+    if (data.detail === 'No active account found with the given credentials') {
+      return {
+        success: false,
+        ...data,
+      }
+    }
+
     await TokenManager.setAccessToken(data.access)
     await TokenManager.setRefreshToken(data.refresh)
 

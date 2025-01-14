@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useRouter } from 'next/navigation'
 
+import { useAppSelector } from '@/shared/hooks/redux'
 import useNotification from '@/shared/hooks/useNotifications'
 import { loginSession as onLogin } from '@/shared/lib/session'
 
@@ -10,6 +11,8 @@ import { LoginTypes } from '../types'
 export const useLogin = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { contextHolder, showError } = useNotification()
+  const user = useAppSelector((state) => state.user)
+
   const router = useRouter()
 
   const login = React.useCallback(async (data: LoginTypes.Form) => {
@@ -19,7 +22,7 @@ export const useLogin = () => {
       const response = await onLogin(data)
 
       if (response && response.success) {
-        router.push('/')
+        // router.push('/auth/select-company/')
       } else {
         showError('Что то пошло не так!')
         console.error('Login failed:', response || 'Unknown error')
@@ -35,6 +38,7 @@ export const useLogin = () => {
   return {
     isLoading,
     contextHolder,
+    user,
     actions: {
       login,
     },
