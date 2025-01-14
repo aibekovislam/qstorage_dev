@@ -14,7 +14,7 @@ interface Props {
   onCloseModal: () => void
 }
 
-const ModalCreateArrival = ({ isModalOpen, onCloseModal }: Props) => {
+const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
   return (
     <Modal
       className={cls.modal}
@@ -96,4 +96,4 @@ const ModalCreateArrival = ({ isModalOpen, onCloseModal }: Props) => {
   )
 }
 
-export default ModalCreateArrival
+export default ModalCreateIncoming

@@ -14,11 +14,11 @@ export async function middleware(request: NextRequest) {
   const refreshToken = allCookies.get(REFRESH_TOKEN_COOKIE_KEY)?.value
 
   if (!refreshToken && accessToken && publicRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/products/arrivals', request.url))
+    return NextResponse.redirect(new URL('/products/incoming', request.url))
   }
 
   if (refreshToken && publicRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/products/arrivals', request.url))
+    return NextResponse.redirect(new URL('/products/incoming', request.url))
   }
 
   if (!refreshToken && !accessToken && request.nextUrl.pathname !== '/auth' || request.nextUrl.pathname === '/') {
