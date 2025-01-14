@@ -7,16 +7,14 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import { axiosRequest } from '@/shared/api/axios'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
-import { SelectField } from '@/shared/ui/select-field/select-field'
+import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
-import { ProductsArrivals } from '..'
+import { ProductsIncoming } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
-import ModalCreateArrival from '../ui/modals/ModalCreate/modal-create-arrival'
+import ModalCreateIncoming from '../ui/modals/ModalCreate/modal-create-incoming'
 
 const { Paragraph } = Typography
 
@@ -117,16 +115,11 @@ const dataSource: ProductRecord[] = [
 export const View: React.FC = () => {
   const {
     breadcrumbData,
-    yearValue,
-    monthValue,
-    dayValue,
     actions: {
-      handleChangeYearDatePicker,
-      handleChangeMonthDatePicker,
-      handleChangeDayDatePicker,
       createModal,
+      router,
     },
-  } = ProductsArrivals.Hooks.List.use()
+  } = ProductsIncoming.Hooks.List.use()
 
   return (
     <ManagerLayout>
@@ -140,35 +133,12 @@ export const View: React.FC = () => {
             <Button type="primary">
               Приход <ArrowUpOutlined />
             </Button>
-            <Button type="default">
+            <Button onClick={() => router.push('/products/outgoing')} type="default">
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>
           <Flex gap={10}>
-            <SelectField
-              style={{ width: 210 }}
-              options={[{ value: 'all_products', label: 'Все товары' },{ value: 'not_all_products' , label: 'Не все товары' }]}
-              defaultValue={'all_products'}
-            />
-            <DatePickerField
-              pickerMode="year"
-              placeholder="Выберите год"
-              value={yearValue}
-              onChange={handleChangeYearDatePicker}
-            />
-
-            <DatePickerField
-              pickerMode="month"
-              placeholder="Выберите месяц"
-              value={monthValue}
-              onChange={handleChangeMonthDatePicker}
-            />
-
-            <DatePickerField
-              placeholder="Выберите день"
-              value={dayValue}
-              onChange={handleChangeDayDatePicker}
-            />
+            <FilterPanel/>
             <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
           </Flex>
         </div>
@@ -178,7 +148,7 @@ export const View: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
-      <ModalCreateArrival
+      <ModalCreateIncoming
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />
