@@ -123,7 +123,7 @@ export const View: React.FC = () => {
 
   return (
     <ManagerLayout>
-      <div className={cls.main}>
+      <div className="main">
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
           <h2>Уход товаров “Склад №1”</h2>
@@ -138,7 +138,7 @@ export const View: React.FC = () => {
             </Button>
           </Flex>
           <Flex gap={10}>
-            <FilterPanel/>
+            <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
             <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
           </Flex>
         </div>

@@ -2,8 +2,7 @@
 
 import React from 'react'
 
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'antd'
+import { Avatar, Button, Flex, Popover, Space, Tag, Typography, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
@@ -11,10 +10,10 @@ import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
-import { ProductsIncoming } from '..'
+import { Projects } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
-import ModalCreateIncoming from '../ui/modals/ModalCreate/modal-create-incoming'
+import ModalCreateProjects from '../ui/modals/ModalCreate/modal-create-projects'
 
 const { Paragraph } = Typography
 
@@ -112,35 +111,23 @@ const dataSource: ProductRecord[] = [
   },
 ]
 
-export const View: React.FC = () => {
-  const {
-    breadcrumbData,
-    actions: {
-      createModal,
-      router,
-    },
-  } = ProductsIncoming.Hooks.List.use()
+export const View = () => {
+  const { breadcrumbData, actions:{ createModal } } = Projects.Hooks.List.use()
 
   return (
     <ManagerLayout>
       <div className="main">
-        <div className={cls.navigation__info}>
+        <Flex className={cls.header}>
           <Breadcrumb items={breadcrumbData}/>
-          <h2>Приход товаров “Склад №1”</h2>
-        </div>
-        <div className={cls.header}>
-          <Flex gap={8} className={cls.header__btn}>
-            <Button type="primary">
-              Приход <ArrowUpOutlined />
-            </Button>
-            <Button onClick={() => router.push('/products/outgoing')} type="default">
-              Уход <ArrowDownOutlined />
+          <Flex className={cls.filter__panel}>
+            <FilterPanel defaultValue={'all_projects'} options={[{ value: 'all_projects', label: 'Все проекты' }, { value: 'lalafo', label: 'Lalafo' }]}/>
+            <Button onClick={createModal.onOpen} className={cls.btn} type="primary">
+              Добавить проект
             </Button>
           </Flex>
-          <Flex gap={10}>
-            <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
-          </Flex>
+        </Flex>
+        <div className={cls.main_title}>
+          <h2>Проект “Склад №1”</h2>
         </div>
         <Table<ProductRecord>
           columns={columns}
@@ -148,7 +135,7 @@ export const View: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
-      <ModalCreateIncoming
+      <ModalCreateProjects
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />

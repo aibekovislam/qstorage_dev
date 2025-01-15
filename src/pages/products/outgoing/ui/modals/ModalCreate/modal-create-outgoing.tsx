@@ -4,7 +4,7 @@ import { Divider, Form, Modal } from 'antd'
 
 import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
-import { SelectFileField } from '@/shared/ui/select-file-filed/select-file-filed'
+import { DraggerFileField } from '@/shared/ui/select-file-field/dragger-file-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
 import cls from './modal-create.module.css'
@@ -90,7 +90,7 @@ const ModalCreateOutgoing = ({ isModalOpen, onCloseModal }: Props) => {
           label="Проект:"
           options={[{ value: 'menu', label: 'Michelle' }, { value: 'market_place', label: 'Lalafo' }]}
         />
-        <SelectFileField />
+        <DraggerFileField />
       </Form>
     </Modal>
   )
