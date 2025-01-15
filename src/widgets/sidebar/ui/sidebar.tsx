@@ -1,6 +1,6 @@
 'use client'
 import { Menu } from 'antd'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import cls from './sidebar.module.css'
 
@@ -11,8 +11,9 @@ interface Props {
 }
 
 export const SideBar: React.FC<Props> = (props) => {
+  const router = useRouter()
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e)
+    router.push(e.key)
   }
 
   const pathname = usePathname()
