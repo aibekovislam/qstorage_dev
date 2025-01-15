@@ -1,0 +1,29 @@
+.header {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.filter__panel{
+    gap: 8px;
+}
+
+.btn{
+    margin-left: 0.5rem;
+}
+
+.main_title{
+    margin: 13px 0px 10px 0px;
+}
+
+.main_title h2{
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.custom__popover{
+    cursor: pointer;
+}
+
+.card{
+    width: 400px !important;
+}

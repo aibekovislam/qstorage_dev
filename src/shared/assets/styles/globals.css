@@ -33,6 +33,11 @@ input[type=number]::-webkit-outer-spin-button {
   padding: 23px 30px;
 }
 
+/* Отступы для контента внутри layouts */
+.main{
+  margin: 33px 29px 25px 13px ;
+}
+
 @media screen and (max-width: 768px) {
   .spacing-wrapper,
   .page-spacing-wrapper {

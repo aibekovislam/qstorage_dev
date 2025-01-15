@@ -1,11 +1,17 @@
 import React from 'react'
 
+import { BaseOptionType } from 'antd/es/select'
+import { SelectProps } from 'antd/lib'
 import { Dayjs } from 'dayjs'
 
 import { DatePickerField } from '../date-picker-field/date-picker-field'
 import { SelectField } from '../select-field/select-field'
 
-export const FilterPanel = () => {
+interface Props extends SelectProps {
+  options: BaseOptionType[]
+}
+
+export const FilterPanel: React.FC<Props> = (props) => {
   const [yearValue, setYearValue] = React.useState<Dayjs | null>(null)
   const [monthValue, setMonthValue] = React.useState<Dayjs | null>(null)
   const [dayValue, setDayValue] = React.useState<Dayjs | null>(null)
@@ -57,8 +63,8 @@ export const FilterPanel = () => {
     <React.Fragment>
       <SelectField
         style={{ width: 210 }}
-        options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}
-        defaultValue={'all_products'}
+        options={props.options}
+        defaultValue={props.defaultValue}
       />
       <DatePickerField
         pickerMode="year"

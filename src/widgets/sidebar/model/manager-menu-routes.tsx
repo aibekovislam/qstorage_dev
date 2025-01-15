@@ -14,7 +14,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         icon: <ShopOutlined />,
       },
       {
-        key: '/products/arrivals',
+        key: '/products/incoming',
         label: 'Приход/Уход',
         icon: <RetweetOutlined />,
       },
@@ -24,7 +24,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         icon: <BarsOutlined />,
       },
       {
-        key: 'project',
+        key: '/projects',
         label: 'Проект',
         icon: <TableOutlined />,
       },

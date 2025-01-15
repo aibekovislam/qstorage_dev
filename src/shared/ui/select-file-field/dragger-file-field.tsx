@@ -6,7 +6,7 @@ import { Rule } from 'antd/es/form'
 import FormItem from 'antd/es/form/FormItem'
 import { UploadProps } from 'antd/lib'
 
-import cls from './select-file-filed.module.css'
+import cls from './dragger-file-field.module.css'
 
 const { Dragger } = Upload
 
@@ -36,7 +36,7 @@ interface Props extends UploadProps {
     initialValue?: string
 }
 
-export const SelectFileField: React.FC<Props> = (props) => {
+export const DraggerFileField: React.FC<Props> = (props) => {
   return (
     <FormItem
       className={cls.selectFileField}
