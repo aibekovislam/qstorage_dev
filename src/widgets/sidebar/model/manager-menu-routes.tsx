@@ -29,7 +29,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         icon: <TableOutlined />,
       },
       {
-        key: 'requests',
+        key: '/storage-requests',
         label: 'Заявки на склад',
         icon: <CalendarOutlined />,
       },
