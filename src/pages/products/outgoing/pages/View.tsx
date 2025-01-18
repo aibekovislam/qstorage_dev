@@ -7,7 +7,6 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -122,7 +121,7 @@ export const View: React.FC = () => {
   } = ProductsOutgoing.Hooks.List.use()
 
   return (
-    <ManagerLayout>
+    <div>
       <div className="main">
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
@@ -152,6 +151,6 @@ export const View: React.FC = () => {
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />
-    </ManagerLayout>
+    </div>
   )
 }

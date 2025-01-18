@@ -3,7 +3,6 @@
 import React from 'react'
 
 import { Button, Flex, Form } from 'antd'
-import Paragraph from 'antd/es/typography/Paragraph'
 import Image from 'next/image'
 
 import { QStorageLogoLight } from '@/shared/assets/icons'
@@ -21,7 +20,6 @@ export const View = () => {
   const {
     contextHolder,
     isLoading,
-    user,
     actions: {
       login,
     },
@@ -40,55 +38,36 @@ export const View = () => {
             <QStorageLogoLight/>
             <p className={cls.text}>Включаем бизнес на максимум!</p>
           </Flex>
-          {
-            !user.isAuth ? (
-              <Form className={cls.form} onFinish={onFinish} name="loginForm" form={form}>
-                <h1>Вход</h1>
-                {contextHolder}
-                <Flex className={cls.form_flex} justify="center" align="center">
-                  <Flex className={cls.form__items} gap={16} >
-                    <TextField
-                      name="email"
-                      type="email"
-                      label="E-mail / Электронная почта"
-                      rules={AuthRules.Email}
-                    />
+          <Form className={cls.form} onFinish={onFinish} name="loginForm" form={form}>
+            <h1>Вход</h1>
+            {contextHolder}
+            <Flex className={cls.form_flex} justify="center" align="center">
+              <Flex className={cls.form__items} gap={16}>
+                <TextField
+                  name="email"
+                  type="email"
+                  label="E-mail / Электронная почта"
+                  rules={AuthRules.Email}
+                />
 
-                    <TextFieldPassword
-                      name="password"
-                      type="password"
-                      label="Пароль"
-                      rules={AuthRules.Password}
-                    />
+                <TextFieldPassword
+                  name="password"
+                  type="password"
+                  label="Пароль"
+                  rules={AuthRules.Password}
+                />
 
-                    <Button
-                      type="primary"
-                      loading={isLoading}
-                      htmlType="submit"
-                      className={cls.form__btn}
-                    >
-                      Войти
-                    </Button>
-                  </Flex>
-                </Flex>
-              </Form>
-            ) : (
-              <div className={cls.form}>
-                <h1 className={cls.title}>Добро пожаловать {user.userData?.first_name}</h1>
-                <h3 className={cls.subject_title}>Выберите компанию</h3>
-
-                <Flex className={cls.form_flex} justify="center" align="center">
-                  <Flex className={cls.companies} gap={16}>
-                    {user.userData?.companies?.map((companies) => (
-                      <Flex key={companies.id} className={cls.companies_item}>
-                        <Paragraph className={cls.companies_name}>{companies.title}</Paragraph>
-                      </Flex>
-                    ))}
-                  </Flex>
-                </Flex>
-              </div>
-            )
-          }
+                <Button
+                  type="primary"
+                  loading={isLoading}
+                  htmlType="submit"
+                  className={cls.form__btn}
+                >
+                  Войти
+                </Button>
+              </Flex>
+            </Flex>
+          </Form>
         </Flex>
       </Flex>
 

@@ -6,7 +6,6 @@ import { Avatar, Popover, Space, Tag, Typography, Table, Flex, Button } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 
 import { StorageRequests } from '..'
@@ -113,28 +112,26 @@ export const View = () => {
   const { breadcrumbData } = StorageRequests.Hooks.List.use()
 
   return (
-    <ManagerLayout>
-      <div className="main">
+    <div className="main">
 
-        <div className={cls.navigation__info}>
-          <Breadcrumb items={breadcrumbData}/>
-        </div>
-
-        <Flex className={cls.header}>
-          <h2 className={cls.main_title}>Заявки “Склад №1”</h2>
-          <Flex className={cls.btn_container}>
-            <Button className={cls.btn_red}>Принять</Button>
-            <Button className={cls.btn_success} >Отклонить</Button>
-          </Flex>
-        </Flex>
-
-        <Table<ProductRecord>
-          columns={columns}
-          dataSource={dataSource}
-          pagination={{ position: ['bottomRight'] }}
-          rowSelection={{ type: 'checkbox' }}
-        />
+      <div className={cls.navigation__info}>
+        <Breadcrumb items={breadcrumbData}/>
       </div>
-    </ManagerLayout>
+
+      <Flex className={cls.header}>
+        <h2 className={cls.main_title}>Заявки “Склад №1”</h2>
+        <Flex className={cls.btn_container}>
+          <Button className={cls.btn_red}>Принять</Button>
+          <Button className={cls.btn_success} >Отклонить</Button>
+        </Flex>
+      </Flex>
+
+      <Table<ProductRecord>
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{ position: ['bottomRight'] }}
+        rowSelection={{ type: 'checkbox' }}
+      />
+    </div>
   )
 }

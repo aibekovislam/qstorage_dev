@@ -6,7 +6,6 @@ import { Avatar, Popover, Space, Tag, Typography, Table, Flex } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -114,27 +113,25 @@ export const View = () => {
   const { breadcrumbData } = History.Hooks.List.use()
 
   return (
-    <ManagerLayout>
-      <div className="main">
+    <div className="main">
 
-        <div className={cls.navigation__info}>
-          <Breadcrumb items={breadcrumbData}/>
-        </div>
-
-        <div className={cls.main_title}>
-          <h2>Заявки “Склад №1”</h2>
-        </div>
-
-        <Flex className={cls.filter_panel}>
-          <FilterPanel defaultValue={'history_leave'} options={[{ value: 'history_leave', label: 'История ухода' }, { value: 'access_requests', label: 'Принятые заявки' }]}/>
-        </Flex>
-
-        <Table<ProductRecord>
-          columns={columns}
-          dataSource={dataSource}
-          pagination={{ position: ['bottomRight'] }}
-        />
+      <div className={cls.navigation__info}>
+        <Breadcrumb items={breadcrumbData}/>
       </div>
-    </ManagerLayout>
+
+      <div className={cls.main_title}>
+        <h2>Заявки “Склад №1”</h2>
+      </div>
+
+      <Flex className={cls.filter_panel}>
+        <FilterPanel defaultValue={'history_leave'} options={[{ value: 'history_leave', label: 'История ухода' }, { value: 'access_requests', label: 'Принятые заявки' }]}/>
+      </Flex>
+
+      <Table<ProductRecord>
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{ position: ['bottomRight'] }}
+      />
+    </div>
   )
 }

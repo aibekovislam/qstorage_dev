@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 
 import { SFPro } from '@/shared/assets/fonts/fonts'
+import { ManagerLayout } from '@/shared/layouts/manager'
 import { getSession } from '@/shared/lib/session'
 import AntdProvider from '@/shared/providers/Antd'
 import '@/shared/assets/styles/globals.css'
@@ -21,13 +22,21 @@ export default async function RootLayout({
   const store = initializeStore(preloadedState)
   const initialState = JSON.stringify(store.getState())
 
+  const isAuth = Boolean(userData?.user)
+
   return (
-    <html lang="en">
-      <body className={SFPro.className}>
+    <html lang="en" className={SFPro.className}>
+      <body>
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
             <Suspense fallback={<Loader/>}>
-              {children}
+              {isAuth ? (
+                <ManagerLayout>
+                  {children}
+                </ManagerLayout>
+              ) : (
+                children
+              )}
             </Suspense>
           </AntdProvider>
         </ReduxProvider>

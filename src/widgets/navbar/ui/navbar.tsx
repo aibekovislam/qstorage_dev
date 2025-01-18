@@ -78,6 +78,18 @@ export const Navbar: React.FC<Props> = (props) => {
     })
   }
 
+  function findActiveKey(path: string): string {
+    const matchedItem = props.routes?.find((item) => {
+      const itemKey = item?.key as string
+
+      return path.startsWith(itemKey)
+    })
+
+    return String(matchedItem?.key) || ''
+  }
+
+  const activeKey = findActiveKey(pathname ? pathname : '')
+
   return (
     pathname ? (
       <>
@@ -94,7 +106,7 @@ export const Navbar: React.FC<Props> = (props) => {
                   mode="horizontal"
                   items={props.routes}
                   className={cls.Menu}
-                  selectedKeys={[pathname]}
+                  selectedKeys={[activeKey]}
                   disabledOverflow
                 />
                 <Button type="primary">Создать</Button>

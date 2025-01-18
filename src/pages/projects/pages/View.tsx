@@ -6,7 +6,6 @@ import { Avatar, Button, Flex, Popover, Space, Tag, Typography, Table } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
-import { ManagerLayout } from '@/shared/layouts/manager'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -115,7 +114,7 @@ export const View = () => {
   const { breadcrumbData, actions:{ createModal } } = Projects.Hooks.List.use()
 
   return (
-    <ManagerLayout>
+    <div>
       <div className="main">
         <Flex className={cls.header}>
           <Breadcrumb items={breadcrumbData}/>
@@ -139,6 +138,6 @@ export const View = () => {
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />
-    </ManagerLayout>
+    </div>
   )
 }

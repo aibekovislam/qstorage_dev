@@ -1,4 +1,4 @@
-import { BarsOutlined, CalendarOutlined, RetweetOutlined, ShopOutlined, TableOutlined } from '@ant-design/icons'
+import { BarsOutlined, CalendarOutlined, ShopOutlined, TableOutlined } from '@ant-design/icons'
 import { MenuProps } from 'antd'
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -14,9 +14,19 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         icon: <ShopOutlined />,
       },
       {
-        key: '/products/incoming',
-        label: 'Приход/Уход',
-        icon: <RetweetOutlined />,
+        key: '/products',
+        label: 'Товары',
+        icon: <TableOutlined />,
+        children: [
+          {
+            key: '/products/incoming',
+            label: 'Приход',
+          },
+          {
+            key: '/products/outgoing',
+            label: 'Уход',
+          },
+        ],
       },
       {
         key: 'stock',
