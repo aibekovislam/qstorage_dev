@@ -3,7 +3,6 @@
 import React from 'react'
 
 import { Flex, Layout } from 'antd'
-import { AppProgressBar } from 'next-nprogress-bar'
 
 import { Navbar } from '@/widgets/navbar'
 import { ManagerNavbarMenuRoutes } from '@/widgets/navbar/model/manager-menu-routes'
@@ -30,12 +29,12 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
           <Layout.Content>{children}</Layout.Content>
         </Layout>
       </Layout>
-      <AppProgressBar
+      {/* <AppProgressBar
         height="4px"
-        color="#fffd00"
+        color="#fa541c"
         options={{ showSpinner: false }}
         shallowRouting
-      />
+      /> */}
     </Flex>
   )
 }

@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
-import { Products } from '..'
+import { Items } from '..'
 import cls from '../styles/view.module.css'
 
 const products = [
@@ -80,7 +80,7 @@ const products = [
 export const View: React.FC = () => {
   const {
     breadcrumbData,
-  } = Products.Hooks.List.use()
+  } = Items.Hooks.List.use()
 
   return (
     <div className="main">

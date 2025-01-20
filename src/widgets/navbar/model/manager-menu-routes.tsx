@@ -1,12 +1,7 @@
-import { BarChartOutlined, ProfileOutlined, TableOutlined, TeamOutlined } from '@ant-design/icons'
+import { BarChartOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons'
 import { MenuProps } from 'antd'
 
 export const ManagerNavbarMenuRoutes: MenuProps['items'] = [
-  {
-    key: '/products',
-    label: 'Товары',
-    icon: <TableOutlined />,
-  },
   {
     key: 'staff',
     label: 'Персонал',

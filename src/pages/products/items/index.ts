@@ -1,7 +1,7 @@
 import * as Hooks from './hooks'
 import * as Pages from './pages'
 
-export const Products = {
+export const Items = {
   Pages,
   Hooks,
 }

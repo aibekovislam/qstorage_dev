@@ -7,6 +7,7 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
+import { axiosRequest } from '@/shared/api/axios'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -119,6 +120,20 @@ export const View: React.FC = () => {
       router,
     },
   } = ProductsIncoming.Hooks.List.use()
+
+  React.useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await axiosRequest.get('/users/me/')
+
+        return response
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    loadUser()
+  }, [])
 
   return (
     <div>
