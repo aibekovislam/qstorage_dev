@@ -121,8 +121,8 @@ export const View = () => {
       <Flex className={cls.header}>
         <h2 className={cls.main_title}>Заявки “Склад №1”</h2>
         <Flex className={cls.btn_container}>
-          <Button className={cls.btn_red}>Принять</Button>
-          <Button className={cls.btn_success} >Отклонить</Button>
+          <Button className={cls.btn_success}>Принять</Button>
+          <Button className={cls.btn_red} >Отклонить</Button>
         </Flex>
       </Flex>
 
