@@ -39,7 +39,7 @@ export async function decrypt(input: string): Promise<any> {
 
       const { data } = await response.json()
 
-      return await decrypt(data)
+      return await decrypt(data.session.value)
     } else {
       throw error
     }
@@ -101,7 +101,9 @@ export async function getSession() {
 
   const decryptedSession = await decrypt(session)
 
-  return decryptedSession
+  const user = await decrypt(decryptedSession.session.value)
+
+  return user
 }
 
 export async function refreshTokens(refresh_token: string) {

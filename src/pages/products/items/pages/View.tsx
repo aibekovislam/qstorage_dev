@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import {  Flex, List } from 'antd'
+import { Flex, List } from 'antd'
 import Image from 'next/image'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
