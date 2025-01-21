@@ -15,7 +15,7 @@ import {
 } from 'antd'
 import { MenuProps } from 'antd/lib'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { QStorageLogo } from '@/shared/assets/icons'
 import { SearchField } from '@/shared/ui/search-field/search-field'
@@ -30,6 +30,11 @@ interface Props {
 }
 
 export const Navbar: React.FC<Props> = (props) => {
+  const router = useRouter()
+  const onClick: MenuProps['onClick'] = (e) => {
+    router.push(e.key)
+  }
+
   const [api, contextHolder] = notification.useNotification()
 
   const pathname = usePathname()
@@ -108,6 +113,7 @@ export const Navbar: React.FC<Props> = (props) => {
                   className={cls.Menu}
                   selectedKeys={[activeKey]}
                   disabledOverflow
+                  onClick={onClick}
                 />
                 <Button type="primary">Создать</Button>
               </Flex>

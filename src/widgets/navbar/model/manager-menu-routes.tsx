@@ -8,7 +8,7 @@ export const ManagerNavbarMenuRoutes: MenuProps['items'] = [
     icon: <TeamOutlined />,
   },
   {
-    key: 'history',
+    key: '/history',
     label: 'История',
     icon: <ProfileOutlined />,
   },

@@ -26,6 +26,10 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
             key: '/products/outgoing',
             label: 'Уход',
           },
+          {
+            key: '/products/items',
+            label: 'Все товары',
+          },
         ],
       },
       {
