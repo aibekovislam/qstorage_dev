@@ -26,7 +26,7 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
           <Layout.Sider width="214px" className={cls.sidebar}>
             <SideBar routes={ManagerSidebarMenuRoutes}/>
           </Layout.Sider>
-          <Layout.Content>{children}</Layout.Content>
+          <Layout.Content className={cls.content}>{children}</Layout.Content>
         </Layout>
       </Layout>
       {/* <AppProgressBar

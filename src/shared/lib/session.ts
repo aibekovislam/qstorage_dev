@@ -101,9 +101,7 @@ export async function getSession() {
 
   const decryptedSession = await decrypt(session)
 
-  const user = await decrypt(decryptedSession.session.value)
-
-  return user
+  return decryptedSession.user
 }
 
 export async function refreshTokens(refresh_token: string) {

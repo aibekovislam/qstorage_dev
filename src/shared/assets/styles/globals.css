@@ -43,6 +43,15 @@ input[type=number]::-webkit-outer-spin-button {
   height: 100%;
 }
 
+.g2-axis-label,
+.g2-axis-title,
+.g2-axis-line,
+.g2-grid,
+.g2-axis-subtick,
+.g2-axis-tickline {
+  display: none !important;
+}
+
 @media screen and (max-width: 768px) {
   .spacing-wrapper,
   .page-spacing-wrapper {

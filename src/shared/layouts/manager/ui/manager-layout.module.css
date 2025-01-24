@@ -11,3 +11,7 @@
 .main_layout {
     height: 100vh;
 }
+
+.content {
+    overflow: auto;
+}
