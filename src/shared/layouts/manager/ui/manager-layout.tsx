@@ -4,8 +4,6 @@ import React from 'react'
 
 import { Flex, Layout } from 'antd'
 
-import { Navbar } from '@/widgets/navbar'
-import { ManagerNavbarMenuRoutes } from '@/widgets/navbar/model/manager-menu-routes'
 import { SideBar } from '@/widgets/sidebar'
 import { ManagerSidebarMenuRoutes } from '@/widgets/sidebar/model/manager-menu-routes'
 
@@ -19,22 +17,15 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
   return (
     <Flex gap="middle" wrap>
       <Layout className={cls.main_layout}>
-        <Layout.Header className={cls.header}>
-          <Navbar routes={ManagerNavbarMenuRoutes} />
-        </Layout.Header>
-        <Layout>
+        <Layout className={cls.layout_side_content}>
           <Layout.Sider width="214px" className={cls.sidebar}>
             <SideBar routes={ManagerSidebarMenuRoutes}/>
           </Layout.Sider>
-          <Layout.Content className={cls.content}>{children}</Layout.Content>
+          <Layout.Content className={cls.content}>
+            {children}
+          </Layout.Content>
         </Layout>
       </Layout>
-      {/* <AppProgressBar
-        height="4px"
-        color="#fa541c"
-        options={{ showSpinner: false }}
-        shallowRouting
-      /> */}
     </Flex>
   )
 }

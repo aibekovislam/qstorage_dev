@@ -198,7 +198,6 @@ export const View = () => {
           </Flex>
         </Flex>
       </div>
-
     </div>
   )
 }
