@@ -14,6 +14,8 @@ export const SearchField: React.FC<Props> = (props) => {
       className={cls.search__input}
       placeholder="Поиск"
       onChange={props.onChange}
+      size={props.size}
+      prefix={props.prefix}
     />
   )
 }

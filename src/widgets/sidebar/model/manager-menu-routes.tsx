@@ -1,4 +1,4 @@
-import { BarChartOutlined, BarsOutlined, CalendarOutlined, ProfileOutlined, ShopOutlined, TableOutlined, TeamOutlined } from '@ant-design/icons'
+import { BarChartOutlined, BarsOutlined, CalendarOutlined, ProfileOutlined, SearchOutlined, ShopOutlined, TableOutlined, TeamOutlined } from '@ant-design/icons'
 import { MenuProps } from 'antd'
 
 import { QStorageLogo } from '@/shared/assets/icons'
@@ -15,14 +15,13 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         key: 'logo',
         icon: <QStorageLogo/>,
       },
-      // {
-      //   key: 'search',
-      //   label: (
-      //     <div className="search_div">
-      //       <SearchField />
-      //     </div>
-      //   ),
-      // },
+      {
+        key: '#',
+        label: (
+          <SearchField size="large" prefix={<SearchOutlined/>} />
+        ),
+        className: 'search_sidebar',
+      },
       {
         key: 'warehouse',
         label: 'Склад',

@@ -32,3 +32,72 @@
 .Menu :global(.ant-menu-submenu:hover) {
     border-radius: 3px !important;
 }
+
+.Menu :global(.ant-menu-item.search_sidebar) {
+    padding: 0px !important;
+    border: none !important;
+  }
+.Menu :global(.ant-menu-item-group .ant-menu-item-group-list .ant-menu-item-active.search_sidebar) {
+    border-color: transparent !important;
+    cursor: initial  !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.sidebar_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+  
+.sidebar_wrapper :global(.ant-menu) {
+    flex: 1;
+    overflow: auto;
+}
+  
+.sidebar_footer {
+    padding: 0px 16px; 
+}
+
+.navbar__user{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-bottom: 16px;
+}
+
+.navbar__user:hover .arrow_icon {
+    color: #000 !important;
+}
+
+.navbar__user span {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.account{
+    align-items: center;
+    gap: 8px;
+}
+
+.arrow_icon{
+    color: rgba(0, 0, 0, 0.25) !important;
+    transition: 0.5s ease;
+}
+.sidebar_divider{
+    margin: 15px 0px !important;
+}
+.sidebar_navigation__item{
+    display: flex;
+    align-items: center;
+    height: 40px;
+    gap: 10px;
+    cursor: pointer;
+    margin-block: 4px;
+
+}
+.sidebar_navigation{
+    display: flex;
+    flex-direction: column;
+}
