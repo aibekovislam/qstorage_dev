@@ -33,7 +33,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         ],
       },
       {
-        key: 'stock',
+        key: '/inventory',
         label: 'Остатки товара',
         icon: <BarsOutlined />,
       },
