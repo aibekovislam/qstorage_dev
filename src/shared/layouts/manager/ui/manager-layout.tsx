@@ -18,7 +18,7 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
     <Flex gap="middle" wrap>
       <Layout className={cls.main_layout}>
         <Layout className={cls.layout_side_content}>
-          <Layout.Sider width="214px" className={cls.sidebar}>
+          <Layout.Sider width="270px" className={cls.sidebar}>
             <SideBar routes={ManagerSidebarMenuRoutes}/>
           </Layout.Sider>
           <Layout.Content className={cls.content}>
