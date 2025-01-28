@@ -29,20 +29,7 @@ export async function decrypt(input: string): Promise<any> {
 
     return payload
   } catch (error: any) {
-    if (error.code === 'ERR_JWT_EXPIRED') {
-      const access = await TokenManager.getAccessToken()
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/session-set/`, {
-        method: 'POST',
-        body: JSON.stringify({ access }),
-      })
-
-      const { data } = await response.json()
-
-      return await decrypt(data.session.value)
-    } else {
-      throw error
-    }
+    return error.code
   }
 }
 
@@ -101,9 +88,9 @@ export async function getSession() {
 
   const decryptedSession = await decrypt(session)
 
-  const user = await decrypt(decryptedSession.session.value)
+  console.log('session', decryptedSession)
 
-  return user
+  return decryptedSession
 }
 
 export async function refreshTokens(refresh_token: string) {

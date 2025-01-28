@@ -29,12 +29,6 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
           <Layout.Content>{children}</Layout.Content>
         </Layout>
       </Layout>
-      {/* <AppProgressBar
-        height="4px"
-        color="#fa541c"
-        options={{ showSpinner: false }}
-        shallowRouting
-      /> */}
     </Flex>
   )
 }

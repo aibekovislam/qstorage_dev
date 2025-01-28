@@ -1,8 +1,8 @@
-'use client'
+'use server'
 
 import axios, { AxiosError } from 'axios'
 
-import { getTokens } from './get-tokens'
+import { TokenManager } from '@/shared/utils/token-manager'
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -12,10 +12,10 @@ export const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   async (config) => {
-    const tokens = await getTokens()
+    const token = await TokenManager.getAccessToken()
 
-    if (tokens.access)
-      config.headers['Authorization'] = `Bearer ${tokens.access}`
+    if (token)
+      config.headers['Authorization'] = `Bearer ${token}`
 
     return config
   },
@@ -25,7 +25,7 @@ axiosRequest.interceptors.request.use(
 axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { refresh } = await getTokens()
+    const refresh = await TokenManager.getRefreshToken()
 
     const originalRequest = error.config
 
@@ -33,26 +33,30 @@ axiosRequest.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh/`, {
-          method: 'POST',
-          body: JSON.stringify({ refresh_token: refresh }),
-          credentials: 'include',
+        const response = await axios.post<{ access: string, refresh: string }>(`${baseURL}/auth/token/refresh/`, {
+          refresh: refresh,
         })
 
-        const { tokens } = await response.json()
+        if (response) {
+          const setToken = async () => {
+            'use server'
+            await TokenManager.setAccessToken(response.data.access)
+            await TokenManager.setRefreshToken(response.data.refresh)
+          }
 
-        if (tokens) {
-          originalRequest.headers['Authorization'] = `Bearer ${tokens.access}`
+          setToken()
+
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
 
           return axiosRequest(originalRequest)
         }
       } catch (e: any) {
         const error = e as AxiosError
 
-        console.log(error)
+        console.log('refresh token error', error)
       }
     }
 
-    return Promise.reject(error)
+    return error
   },
 )
