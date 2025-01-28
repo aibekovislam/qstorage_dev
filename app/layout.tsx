@@ -44,13 +44,15 @@ export default async function RootLayout({
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
             <Suspense fallback={<Loader/>}>
-              {/* {isAuth ? ( */}
-              <ManagerLayout>
-                {children}
-              </ManagerLayout>
-              {/* ) : ( */}
-              {/* children */}
-              {/* )} */}
+              {
+                isAuth ? (
+                  <ManagerLayout>
+                    {children}
+                  </ManagerLayout>
+                ) : (
+                  children
+                )
+              }
             </Suspense>
           </AntdProvider>
         </ReduxProvider>
