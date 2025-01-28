@@ -1,5 +1,5 @@
-import { Items } from '@/pages/products/items'
+import { ProductItems } from '@/pages/products/items'
 
-const Page = () => <Items.Pages.View />
+const Page = () => <ProductItems.Pages.List />
 
 export default Page

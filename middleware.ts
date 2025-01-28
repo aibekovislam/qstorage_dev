@@ -3,18 +3,20 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { REFRESH_TOKEN_COOKIE_KEY } from './src/shared/utils/token-manager/consts'
 
+const publicRoutes = [
+  '/',
+  '/auth',
+]
+
 export async function middleware(request: NextRequest) {
   const allCookies = await cookies()
   const refreshToken = allCookies.get(REFRESH_TOKEN_COOKIE_KEY)?.value
 
-  const isAuthenticated = Boolean(refreshToken)
-  const path = request.nextUrl.pathname
-
-  if (isAuthenticated && path === '/auth') {
+  if (refreshToken && publicRoutes.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/products/incoming', request.url))
   }
 
-  if (!isAuthenticated && path !== '/auth') {
+  if (!refreshToken && request.nextUrl.pathname !== '/auth' || request.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 

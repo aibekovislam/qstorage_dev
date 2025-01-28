@@ -1,24 +1,28 @@
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { encrypt, refreshTokens } from '@/shared/lib/session'
+import { TokenManager } from '@/shared/utils/token-manager'
 
 export async function POST(req: NextRequest) {
   try {
     const { refresh_token } = await req.json()
-    const cookieStore = await cookies()
 
-    const session = cookieStore.get('session')
+    const tokens = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/refresh/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ refresh: refresh_token }),
+    })
 
-    const tokens = await refreshTokens(refresh_token)
+    const data = await tokens.json()
 
-    const expires = new Date(Date.now() + 10 * 1000)
-    const encryptedSession = await encrypt({ session, expires })
+    await TokenManager.setAccessToken(data.access)
+    await TokenManager.setRefreshToken(data.refresh)
 
-    cookieStore.set('session', encryptedSession, { httpOnly: true })
-
-    return NextResponse.json({ tokens: tokens, session: encryptedSession })
+    return NextResponse.json({ success: true, tokens: data })
   } catch (error) {
+    console.log('refresh route failed', error)
+
     return NextResponse.json({ detail: 'Refresh failed', error }, { status: 401 })
   }
 }

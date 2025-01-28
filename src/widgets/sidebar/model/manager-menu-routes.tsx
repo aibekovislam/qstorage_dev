@@ -1,5 +1,8 @@
-import { BarsOutlined, CalendarOutlined, ShopOutlined, TableOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, BarChartOutlined, BarsOutlined, CalendarOutlined, DownloadOutlined, LogoutOutlined, ProfileOutlined, SearchOutlined, ShopOutlined, TableOutlined, TeamOutlined } from '@ant-design/icons'
 import { MenuProps } from 'antd'
+
+import { QStorageLogo } from '@/shared/assets/icons'
+import { SearchField } from '@/shared/ui/search-field/search-field'
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -9,6 +12,18 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
     type: 'group',
     children: [
       {
+        key: 'logo',
+        icon: <QStorageLogo/>,
+        className: 'logo',
+      },
+      {
+        key: '#',
+        label: (
+          <SearchField size="large" prefix={<SearchOutlined/>} />
+        ),
+        className: 'search_sidebar',
+      },
+      {
         key: 'warehouse',
         label: 'Склад',
         icon: <ShopOutlined />,
@@ -16,36 +31,61 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
       {
         key: '/products',
         label: 'Товары',
-        icon: <TableOutlined />,
+        type: 'group',
         children: [
           {
             key: '/products/incoming',
             label: 'Приход',
+            icon: <DownloadOutlined/>,
           },
           {
             key: '/products/outgoing',
             label: 'Уход',
+            icon: <LogoutOutlined/>,
           },
           {
             key: '/products/items',
             label: 'Все товары',
+            icon: <AppstoreOutlined/>,
+          },
+          {
+            key: 'stock',
+            label: 'Остатки товара',
+            icon: <BarsOutlined />,
           },
         ],
       },
       {
-        key: '/inventory',
-        label: 'Остатки товара',
-        icon: <BarsOutlined />,
-      },
-      {
-        key: '/projects',
-        label: 'Проект',
-        icon: <TableOutlined />,
-      },
-      {
-        key: '/storage-requests',
-        label: 'Заявки на склад',
-        icon: <CalendarOutlined />,
+        key: '/others',
+        label: 'Остальное',
+        type: 'group',
+        children: [
+          {
+            key: '/projects',
+            label: 'Проект',
+            icon: <TableOutlined />,
+          },
+          {
+            key: '/storage-requests',
+            label: 'Заявки на склад',
+            icon: <CalendarOutlined />,
+          },
+          {
+            key: 'staff',
+            label: 'Персонал',
+            icon: <TeamOutlined />,
+          },
+          {
+            key: '/history',
+            label: 'История',
+            icon: <ProfileOutlined />,
+          },
+          {
+            key: '/analysis',
+            label: 'Анализ поступлений',
+            icon: <BarChartOutlined />,
+          },
+        ],
       },
     ],
   },
