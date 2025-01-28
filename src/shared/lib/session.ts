@@ -88,8 +88,6 @@ export async function getSession() {
 
   const decryptedSession = await decrypt(session)
 
-  console.log('session', decryptedSession)
-
   return decryptedSession
 }
 

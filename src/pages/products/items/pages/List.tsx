@@ -9,7 +9,7 @@ import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
-import { Items } from '..'
+import { ProductItems } from '..'
 import cls from '../styles/view.module.css'
 
 export const ListProducts: React.FC = () => {
@@ -19,7 +19,7 @@ export const ListProducts: React.FC = () => {
     actions: {
       ProductsGET,
     },
-  } = Items.Hooks.List.use()
+  } = ProductItems.Hooks.List.use()
 
   React.useEffect(() => {
     ProductsGET()

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { ProductsIncoming } from '../../incoming'
+import { ProductItems } from '..'
 import { ProductsTypes } from '../types'
 
 function useList() {
@@ -15,7 +15,7 @@ function useList() {
 
   const ProductsGET = React.useCallback(async () => {
     try {
-      const response = await ProductsIncoming.API.List.getProductsList()
+      const response = await ProductItems.API.List.getProductsList()
 
       const data = await response.json()
 

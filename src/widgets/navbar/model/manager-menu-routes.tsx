@@ -13,7 +13,7 @@ export const ManagerNavbarMenuRoutes: MenuProps['items'] = [
     icon: <ProfileOutlined />,
   },
   {
-    key: 'analysis',
+    key: '/analysis',
     label: 'Анализ поступлений',
     icon: <BarChartOutlined />,
   },

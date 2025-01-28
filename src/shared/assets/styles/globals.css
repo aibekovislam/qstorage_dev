@@ -35,12 +35,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Отступы для контента внутри layouts */
 .main{
-  margin: 33px 29px 25px 13px ;
+  margin: 33px 29px 25px 13px;
 }
 /* Стили для Loader */
 .loader {
   width: 100%;
   height: 100%;
+}
+
+.g2-axis-label,
+.g2-axis-title,
+.g2-axis-line,
+.g2-grid,
+.g2-axis-subtick,
+.g2-axis-tickline {
+  display: none !important;
 }
 
 @media screen and (max-width: 768px) {
