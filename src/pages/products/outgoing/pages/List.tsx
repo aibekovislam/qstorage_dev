@@ -11,8 +11,10 @@ import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductsOutgoing } from '..'
+import { ProductsOutgoing } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
+import ModalCreateOutgoing from '../ui/modals/ModalCreate/modal-create-outgoing'
 import ModalCreateOutgoing from '../ui/modals/ModalCreate/modal-create-outgoing'
 
 const { Paragraph } = Typography
@@ -132,17 +134,22 @@ export const ListProductsOutgoing: React.FC = () => {
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
           <h2>Уход товаров “Склад №1”</h2>
+          <h2>Уход товаров “Склад №1”</h2>
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
             <Button onClick={() => router.push('/products/incoming')} type="default">
+            <Button onClick={() => router.push('/products/incoming')} type="default">
               Приход <ArrowUpOutlined />
             </Button>
+            <Button  type="primary">
             <Button  type="primary">
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>
           <Flex gap={10}>
+            <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
+            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
             <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
             <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
           </Flex>
@@ -153,6 +160,7 @@ export const ListProductsOutgoing: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
+      <ModalCreateOutgoing
       <ModalCreateOutgoing
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}

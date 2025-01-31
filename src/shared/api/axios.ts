@@ -1,10 +1,9 @@
-'use server'
+'use сlient'
 
 import axios, { AxiosError } from 'axios'
 
-import { TokenManager } from '@/shared/utils/token-manager'
-
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
+const apiURL = process.env.NEXT_PUBLIC_API_URL
 
 export const axiosRequest = axios.create({
   baseURL,
@@ -12,10 +11,12 @@ export const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   async (config) => {
-    const token = await TokenManager.getAccessToken()
+    const response = await fetch(`${apiURL}/api/auth/get-tokens/`)
 
-    if (token)
-      config.headers['Authorization'] = `Bearer ${token}`
+    const { tokens } = await response.json()
+
+    if (tokens)
+      config.headers['Authorization'] = `Bearer ${tokens.access}`
 
     return config
   },
@@ -25,7 +26,9 @@ axiosRequest.interceptors.request.use(
 axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const refresh = await TokenManager.getRefreshToken()
+    const response = await fetch(`${apiURL}/api/auth/get-tokens/`)
+
+    const { tokens } = await response.json()
 
     const originalRequest = error.config
 
@@ -33,20 +36,12 @@ axiosRequest.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const response = await axios.post<{ access: string, refresh: string }>(`${baseURL}/auth/token/refresh/`, {
-          refresh: refresh,
+        const response = await axios.post(`${apiURL}/api/auth/refresh/`, {
+          refresh_token: tokens.refresh,
         })
 
         if (response) {
-          const setToken = async () => {
-            'use server'
-            await TokenManager.setAccessToken(response.data.access)
-            await TokenManager.setRefreshToken(response.data.refresh)
-          }
-
-          setToken()
-
-          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.tokens.access}`
 
           return axiosRequest(originalRequest)
         }
