@@ -17,9 +17,7 @@ function useList() {
     try {
       const response = await ProductItems.API.List.getProductsList()
 
-      const data = await response.json()
-
-      setProductsList(data.data)
+      setProductsList(response.data.results)
     } catch (error) {
       console.log('products error', error)
     }
