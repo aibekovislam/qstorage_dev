@@ -7,6 +7,7 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
+import { axiosRequest } from '@/shared/api/axios'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -123,11 +124,9 @@ export const View: React.FC = () => {
   React.useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch('/api/users/me/')
+        const response = await axiosRequest.get('/users/me')
 
-        const data = await response.json()
-
-        console.log('success', data)
+        console.log('success', response.data)
       } catch (error) {
         console.log(error)
       }

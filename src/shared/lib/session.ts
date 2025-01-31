@@ -12,12 +12,9 @@ const key = new TextEncoder().encode(secretKey)
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export async function encrypt(payload: any) {
-  const expires = Math.floor(Date.now() / 1000) + 60 * 60 * 24
-
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime(expires)
     .sign(key)
 }
 
@@ -56,8 +53,7 @@ export async function loginSession(loginData: LoginTypes.Form) {
     await TokenManager.setRefreshToken(data.refresh)
 
     const user = data.user
-    const expires = Math.floor(Date.now() / 1000) + 60 * 60 * 24
-    const session = await encrypt({ user, expires })
+    const session = await encrypt({ user })
     const cookieStore = await cookies()
 
     cookieStore.set('session', session, {
@@ -77,7 +73,7 @@ export async function loginSession(loginData: LoginTypes.Form) {
 export async function logout() {
   const cookieStore = await cookies()
 
-  cookieStore.set('session', '', { expires: new Date(0) })
+  cookieStore.set('session', '')
 }
 
 export async function getSession() {
