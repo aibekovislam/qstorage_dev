@@ -11,3 +11,14 @@ export interface ProductRecord {
     comment: string
     imageUrl?: string
   }
+
+export namespace ProductsOutgoingTypes {
+    export interface Item {
+      id: number
+      quantity: number
+      date: number
+      product: string
+      project: number
+      responsible: string
+    }
+  }

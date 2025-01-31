@@ -57,6 +57,6 @@ axiosRequest.interceptors.response.use(
       }
     }
 
-    return error
+    return
   },
 )

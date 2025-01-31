@@ -35,7 +35,7 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
       <Divider className={cls.divider}/>
       <Form className={cls.form}>
         <TextField
-          name="product_title"
+          name="product"
           type="text"
           label="Наименование товара:"
           placeholder="Введите наименование товара"
@@ -77,7 +77,7 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
           className={cls.form__item}
         />
         <SelectField
-          name="responsibility"
+          name="responsible"
           className={cls.form__item}
           placeholder="Выберите ответственного"
           label="Ответственный:"
@@ -90,7 +90,10 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
           label="Проект:"
           options={[{ value: 'menu', label: 'Michelle' }, { value: 'market_place', label: 'Lalafo' }]}
         />
-        <DraggerFileField />
+        <DraggerFileField
+          className={cls.dragger_filed}
+          name="incoming_image"
+        />
       </Form>
     </Modal>
   )

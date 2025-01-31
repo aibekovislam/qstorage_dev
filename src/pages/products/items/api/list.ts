@@ -1,3 +1,3 @@
 export const getProductsList = async () => {
-  return fetch('/api/products/')
+  return fetch('/api/products/items/')
 }

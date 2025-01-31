@@ -98,7 +98,7 @@ export const View = () => {
         </Flex>
       </Flex>
 
-      <Row className={cls.analysis_main} justify="space-between" gutter={[8, 16]}>
+      <Row className={cls.analysis_main} justify="space-between" gutter={[4, 8]}>
         <Col>
           <Card className={cls.card} classNames={{ body: cls.card_body }}>
             <Flex className={cls.card_header}>

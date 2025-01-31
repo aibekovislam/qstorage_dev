@@ -33,7 +33,7 @@ const DraggerProps: UploadProps = {
 
 interface Props extends UploadProps {
     rules?: Rule[],
-    initialValue?: string
+    initialValue?: string,
 }
 
 export const DraggerFileField: React.FC<Props> = (props) => {
@@ -44,6 +44,7 @@ export const DraggerFileField: React.FC<Props> = (props) => {
       initialValue={props.initialValue}
       rules={props.rules}
       name={props.name}
+      valuePropName="fileList"
     >
       <Dragger {...DraggerProps}>
         <p className="ant-upload-drag-icon">

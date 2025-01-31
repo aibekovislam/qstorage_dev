@@ -10,10 +10,10 @@ import Image from 'next/image'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
-import { ProductsIncoming } from '..'
+import { ProductsOutgoing } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
-import ModalCreateIncoming from '../ui/modals/ModalCreate/modal-create-incoming'
+import ModalCreateOutgoing from '../ui/modals/ModalCreate/modal-create-outgoing'
 
 const { Paragraph } = Typography
 
@@ -111,29 +111,19 @@ const dataSource: ProductRecord[] = [
   },
 ]
 
-export const View: React.FC = () => {
+export const ListProductsOutgoing: React.FC = () => {
   const {
     breadcrumbData,
+    productsOutgoingList,
     actions: {
       createModal,
       router,
+      ProductsOutgoingGET,
     },
-  } = ProductsIncoming.Hooks.List.use()
+  } = ProductsOutgoing.Hooks.List.use()
 
   React.useEffect(() => {
-    const loadData = async () => {
-      try {
-        const response = await fetch('/api/users/me/')
-
-        const data = await response.json()
-
-        console.log('success', data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    loadData()
+    ProductsOutgoingGET()
   }, [])
 
   return (
@@ -141,20 +131,20 @@ export const View: React.FC = () => {
       <div className="main">
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
-          <h2>Приход товаров “Склад №1”</h2>
+          <h2>Уход товаров “Склад №1”</h2>
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button type="primary">
+            <Button onClick={() => router.push('/products/incoming')} type="default">
               Приход <ArrowUpOutlined />
             </Button>
-            <Button onClick={() => router.push('/products/outgoing')} type="default">
+            <Button  type="primary">
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>
           <Flex gap={10}>
-            <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
+            <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
+            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
           </Flex>
         </div>
         <Table<ProductRecord>
@@ -163,7 +153,7 @@ export const View: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
         />
       </div>
-      <ModalCreateIncoming
+      <ModalCreateOutgoing
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
       />
