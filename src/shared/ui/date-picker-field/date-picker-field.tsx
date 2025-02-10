@@ -16,6 +16,7 @@ interface Props extends DatePickerProps{
   rules?: Rule[],
   initialValue?: string
   pickerMode?: 'year' | 'month' | 'date'
+  // eslint-disable-next-line no-unused-vars
   onChange?: (value: Dayjs | null) => void
 }
 

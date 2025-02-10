@@ -71,7 +71,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
             icon: <CalendarOutlined />,
           },
           {
-            key: 'staff',
+            key: '/employees',
             label: 'Персонал',
             icon: <TeamOutlined />,
           },
