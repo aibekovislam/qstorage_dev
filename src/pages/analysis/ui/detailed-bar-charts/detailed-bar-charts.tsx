@@ -80,7 +80,7 @@ const data = [
 export const DetailedBarCharts = () => {
   return (
     <BarChart
-      width={800}
+      width={1200}
       height={300}
       data={data}
       margin={{

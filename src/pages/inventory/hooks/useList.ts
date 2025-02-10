@@ -2,22 +2,17 @@
 
 import { useRouter } from 'next/navigation'
 
-import { useDisclosure } from '@/shared/hooks/useDisclosure'
-
 function useList() {
-  const createModal = useDisclosure()
   const router = useRouter()
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '#', title: 'Склад №1' },
-    { href: '/products/incoming', title: 'Приход товаров' },
+    { href: '/inventory', title: 'Остатки товара' },
   ]
 
   return {
     breadcrumbData,
     actions: {
-      createModal,
       router,
     },
   }
