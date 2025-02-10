@@ -64,6 +64,7 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
   return (
     <Modal
       className={cls.modal}
+      classNames={{ header: cls.modal__header, body: cls.modal__body, footer: cls.modal__footer }}
       title="Создать приход"
       width="800px"
       open={isModalOpen}
