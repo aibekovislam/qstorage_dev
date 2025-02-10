@@ -31,7 +31,7 @@ export const SideBar: React.FC<Props> = (props) => {
           items={props.routes}
           className={cls.Menu}
         />
-        <ul className={`${cls.sidebar_footer} ${cls.sidebar_navigation}`}>
+        {/* <ul className={`${cls.sidebar_footer} ${cls.sidebar_navigation}`}>
           <div className={cls.sidebar_navigation__item}>
             <Badge size="small" count={1}>
               <BellOutlined size={14} />
@@ -42,9 +42,9 @@ export const SideBar: React.FC<Props> = (props) => {
             <InfoCircleOutlined size={14} />
             <span>Помощь и поддержка</span>
           </div>
-        </ul>
+        </ul> */}
 
-        <div className={cls.sidebar_footer}>
+        {/* <div className={cls.sidebar_footer}>
           <Divider className={cls.sidebar_divider}/>
         </div>
         <div className={`${cls.sidebar_footer} ${cls.navbar__user}`}>
@@ -53,7 +53,7 @@ export const SideBar: React.FC<Props> = (props) => {
             <span>Директор</span>
           </Flex>
           <RightOutlined className={cls.arrow_icon}/>
-        </div>
+        </div> */}
       </div>
     ) : null
   )

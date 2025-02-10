@@ -12,6 +12,7 @@ interface Props extends InputProps {
   text?: string
   rules?: Rule[]
   maxLength?: number
+  readOnly?: boolean
 }
 
 export const TextField: React.FC<Props> = (props) => {
@@ -40,6 +41,7 @@ export const TextField: React.FC<Props> = (props) => {
         onChange={props.onChange}
         type={props.type}
         maxLength={props.maxLength}
+        readOnly={props.readOnly}
       />
     </FormItem>
   )

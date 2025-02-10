@@ -16,7 +16,41 @@
 
 .content {
     overflow: auto;
-    border-radius: 15px !important;
+    border-radius: 7px !important;
     border: 1px solid #dbdbdb !important;
     background-color: #ffffff;
+}
+
+.burger_button {
+    display: none !important;
+}
+
+.drawer :global(.ant-drawer-body) {
+    padding: 0px !important;
+}
+
+.avatar_mobile {
+    display: none !important;
+}
+
+@media screen and (max-width: 1000px) {
+    .sidebar {
+        display: none;
+    }
+    .main_layout {
+        padding: 0px;
+    }
+    .burger_button {
+        display: flex !important;
+    }
+    .content {
+        border: none !important;
+        border-radius: 0px !important;
+    }
+    .header {
+        margin: 10px;
+    }
+    .avatar_mobile {
+        display: flex !important;
+    }
 }
