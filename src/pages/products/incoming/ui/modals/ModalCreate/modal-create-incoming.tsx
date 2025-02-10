@@ -50,41 +50,19 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
     },
   } = ProductsIncoming.Hooks.List.use()
 
-  React.useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // можно проверить event.origin что сообщение пришло с доверенного домена
-      if (event.data?.createdProduct) {
-        const newProduct = event.data.createdProduct
-
-        console.log(newProduct)
-
-        form.setFieldsValue({
-          product: newProduct.title,
-          purchase_price: newProduct.price,
-        })
-        setSearchQuery('')
-        setSelectedProduct(newProduct)
-        setIsProductSelected(true)
-        setIsNewProductMode(false)
-      }
-    }
-
-    window.addEventListener('message', handleMessage)
-
-    return () => {
-      window.removeEventListener('message', handleMessage)
-    }
-  }, [form])
+  // React.useEffect(() => {
+  //   if (isCreated) {
+  //     onCloseModal()
+  //   }
+  // }, [isCreated, onCloseModal])
 
   React.useEffect(() => {
-    ProductsIncomingProjectGET()
-  }, [ProductsIncomingProjectGET])
-
-  React.useEffect(() => {
-    if (isCreated) {
-      onCloseModal()
+    if (products?.length === 0) {
+      setIsNewProductMode(true)
+      setIsProductSelected(true)
+      ProductsIncomingProjectGET()
     }
-  }, [isCreated, onCloseModal])
+  }, [products])
 
   return (
     <Modal
@@ -144,25 +122,6 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
           filterOption={false}
           isLoadingProducts={isLoadingProducts}
         />
-        {!isProductSelected &&
-        !isNewProductMode &&
-        searchQuery &&
-        !isLoadingProducts &&
-        (!products || products.length === 0) && (
-          <Button
-            onClick={() => {
-              window.open(
-                '/products/items/create',
-                'createProduct',
-                'width=600,height=600 , noopener=no',
-              )
-            }}
-            type="link"
-            loading={submitted}
-          >
-            Создать продукт
-          </Button>
-        )}
         <TextField
           name="act"
           type="text"
@@ -187,14 +146,14 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
           label="Цена за закупку:"
           placeholder="Введите цену за одну закупку"
           className={cls.form__item}
-          disabled
+          disabled={!isNewProductMode}
         />
         <TextField
           type="text"
           label="Общая стоимость:"
           placeholder="Общая стоимость"
           className={cls.form__item}
-          disabled
+          disabled={!isNewProductMode}
           value={totalCost}
         />
         <TextField

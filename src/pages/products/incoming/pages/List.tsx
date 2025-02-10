@@ -124,24 +124,6 @@ export const ListProductsIncoming: React.FC = () => {
     },
   } = ProductsIncoming.Hooks.List.use()
 
-  console.log(productsIncomingList)
-
-  React.useEffect(() => {
-    const loadData = async () => {
-      try {
-        const response = await fetch('/api/users/me/')
-
-        const data = await response.json()
-
-        console.log('success', data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    loadData()
-  }, [])
-
   React.useEffect(() => {
     ProductsIncomingGET()
   }, [])

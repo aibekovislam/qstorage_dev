@@ -58,10 +58,18 @@ function useList() {
   const createIncoming = async (formValue: ProductsIncomingTypes.Form) => {
     setSubmitted(true)
     try {
+      let newSelectedProduct = selectedProduct
+
+      if (isNewProductMode) {
+        const responseProduct = await ProductsIncoming.API.List.createProduct({ title: form.getFieldValue('product'), price: form.getFieldValue('purchase_price') })
+
+        newSelectedProduct = responseProduct.data
+      }
+
       const responsibleObj = userResponsible?.find((item) => item.first_name === formValue.responsible)
       const dataToSend = {
         ...formValue,
-        product: selectedProduct?.slug,
+        product: newSelectedProduct?.slug,
         responsible: responsibleObj?.uuid,
       }
 
@@ -142,6 +150,7 @@ function useList() {
       form.setFieldsValue({ purchase_price: selectedProduct.price })
       setIsProductSelected(true)
       setSelectedProduct(selectedProduct)
+      ProductsIncomingProjectGET()
     },
     [form],
   )
@@ -159,7 +168,6 @@ function useList() {
 
   const handleChangeProduct = React.useCallback(
     (newValue: string) => {
-      console.log('changed')
       if (!newValue) {
         form.setFieldsValue({
           purchase_price: undefined,

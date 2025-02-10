@@ -13,7 +13,7 @@ export namespace ProductsIncomingTypes {
     purchase_price: string
     supplier: string
     message: string
-    product: string | undefined
+    product: string
     project: number
     responsible: string | undefined
     act: string
