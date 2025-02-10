@@ -1,1 +1,1 @@
-export { View } from './View'
+export { ListProductsIncoming as List } from './List'

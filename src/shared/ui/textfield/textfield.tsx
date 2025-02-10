@@ -42,6 +42,7 @@ export const TextField: React.FC<Props> = (props) => {
         type={props.type}
         maxLength={props.maxLength}
         readOnly={props.readOnly}
+        value={props.value}
       />
     </FormItem>
   )

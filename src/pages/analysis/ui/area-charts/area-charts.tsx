@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Area, AreaChart, Tooltip } from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import cls from './area-charts.module.css'
 
@@ -21,20 +21,20 @@ const data = [
 
 export const AreaCharts = () => {
   return (
-    <AreaChart
-      width={200}
-      height={60}
-      data={data}
-      margin={{
-        top: 5,
-        right: 0,
-        left: 0,
-        bottom: 5,
-      }}
-      className={cls.area_chart}
-    >
-      <Tooltip />
-      <Area type="monotone" dataKey="uv" stroke="#825dd3" fill="#825dd3" />
-    </AreaChart>
+    <ResponsiveContainer width={'100%'} height={60}>
+      <AreaChart
+        data={data}
+        margin={{
+          top: 5,
+          right: 0,
+          left: 0,
+          bottom: 5,
+        }}
+        className={cls.area_chart}
+      >
+        <Tooltip />
+        <Area type="monotone" dataKey="uv" stroke="#825dd3" fill="#825dd3" />
+      </AreaChart>
+    </ResponsiveContainer>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Bar, BarChart as BarChartRecharts, Tooltip } from 'recharts'
+import { Bar, BarChart as BarChartRecharts, ResponsiveContainer, Tooltip } from 'recharts'
 const data = [
   {
     name: 'Page A',
@@ -134,9 +134,11 @@ import cls from './bar-charts.module.css'
 
 export const BarCharts = () => {
   return (
-    <BarChartRecharts className={cls.bar_charts} width={200} height={60} data={data}>
-      <Tooltip/>
-      <Bar dataKey="uv" fill="#1677ff" />
-    </BarChartRecharts>
+    <ResponsiveContainer width={'100%'} height={60}>
+      <BarChartRecharts className={cls.bar_charts} data={data}>
+        <Tooltip/>
+        <Bar dataKey="uv" fill="#1677ff" />
+      </BarChartRecharts>
+    </ResponsiveContainer>
   )
 }
