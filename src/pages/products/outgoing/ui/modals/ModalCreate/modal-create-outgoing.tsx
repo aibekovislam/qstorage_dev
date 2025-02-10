@@ -1,11 +1,17 @@
+'use client'
+
 import React from 'react'
 
-import { Divider, Form, Modal } from 'antd'
+import { Button, Divider, Flex, Form, Modal } from 'antd'
+import Image from 'next/image'
 
-import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
+import { AutoCompleteField } from '@/shared/ui/autocomplete-field/autocomplete-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 import { DraggerFileField } from '@/shared/ui/select-file-field/dragger-file-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
+
+import { ProductsOutgoing } from '../../..'
+import { InputRules } from '../../../validate'
 
 import cls from './modal-create.module.css'
 
@@ -15,82 +21,189 @@ interface Props {
 }
 
 const ModalCreateOutgoing = ({ isModalOpen, onCloseModal }: Props) => {
+  const {
+    products,
+    project,
+    userResponsible,
+    totalCost,
+    submitted,
+    form,
+    isLoadingProducts,
+    isCreated,
+    isNewProductMode,
+    isResponsibleDisabled,
+    isProductSelected,
+    actions: {
+      fetchProducts,
+      setIsNewProductMode,
+      setIsProductSelected,
+      handleSelectProduct,
+      handleChangeProduct,
+      handleProjectChange,
+      handleFormValuesChange,
+      handleDraggerChange,
+      ProductsOutgoingProjectGET,
+      createOutgoing,
+    },
+  } = ProductsOutgoing.Hooks.List.use()
+
+  React.useEffect(() => {
+    if (isCreated) {
+      onCloseModal()
+    }
+  }, [isCreated, onCloseModal])
+
+  React.useEffect(() => {
+    if (products?.length === 0) {
+      setIsNewProductMode(true)
+      setIsProductSelected(true)
+      ProductsOutgoingProjectGET()
+    }
+  }, [products])
+
   return (
     <Modal
       className={cls.modal}
-      classNames={{ header: cls.modal__header, body: cls.modal__body, footer: cls.modal__footer }}
       title="Создать уход"
-      width={'800px'}
-      okButtonProps={{ style: { backgroundColor: 'primary' } }}
-      okText={'Создать'}
-      onOk={() => {
-        onCloseModal()
-      }}
+      width="800px"
       open={isModalOpen}
-      centered={true}
-      onCancel={() => {
-        onCloseModal()
-      }}
+      centered
+      onCancel={onCloseModal}
+      okButtonProps={{ style: { display: 'none' } }}
+      footer={[
+        <Button disabled={submitted} onClick={onCloseModal} key="back">Отмена</Button>,
+        <Button
+          form="createOutgoing"
+          htmlType="submit"
+          type="primary"
+          key="submit"
+          loading={submitted}
+        >
+          Создать
+        </Button>,
+      ]}
     >
-      <Divider className={cls.divider}/>
-      <Form className={cls.form}>
-        <TextField
-          name="product_title"
-          type="text"
-          label="Наименование товара:"
-          placeholder="Введите наименование товара"
+      <Divider className={cls.divider} />
+      <Form
+        id="createOutgoing"
+        form={form}
+        className={cls.form}
+        onFinish={(data) => createOutgoing(data)}
+        onValuesChange={handleFormValuesChange}
+      >
+        <AutoCompleteField
+          name="product"
+          label="Наименование продукта:"
+          placeholder="Введите наименование продукта"
           className={cls.form__item}
-        />
-        <DatePickerField
-          name="date"
-          pickerMode="date"
-          placeholder="год / месяц / день"
-          className={cls.form__item}
-          label="Дата ухода:"
+          options={products?.map(item => ({
+            value: item.title,
+            label: (
+              <Flex align="center" gap={8}>
+                <Image
+                  width={40}
+                  height={40}
+                  src={item.image}
+                  alt={item.title}
+                  style={{ objectFit: 'cover' }}
+                />
+                <span>{item.title}</span>
+              </Flex>
+            ),
+            productObj: item,
+          }))}
+          onSearch={fetchProducts}
+          rules={InputRules.Field}
+          onChange={handleChangeProduct}
+          onSelect={handleSelectProduct}
+          filterOption={false}
+          isLoadingProducts={isLoadingProducts}
         />
         <TextField
-          name="document_number"
+          name="act"
           type="text"
           label="Номер документа:"
           placeholder="Введите номер"
           className={cls.form__item}
+          rules={InputRules.DocumentNumber}
+          disabled={!isProductSelected}
         />
         <TextField
           name="quantity"
-          type="number"
+          type="text"
           label="Количество:"
           placeholder="Введите количество"
           className={cls.form__item}
+          rules={InputRules.Number}
+          disabled={!isProductSelected}
         />
         <TextField
-          name="price_per_unit"
-          type="number"
-          label="Цена за единицу:"
-          placeholder="Введите цену за единицу"
+          name="purchase_price"
+          type="text"
+          label="Цена за закупку:"
+          placeholder="Введите цену за одну закупку"
           className={cls.form__item}
+          disabled={!isNewProductMode}
         />
         <TextField
-          name="total_cost"
-          type="number"
+          type="text"
           label="Общая стоимость:"
-          placeholder="Введите общую стоимость товара"
+          placeholder="Общая стоимость"
           className={cls.form__item}
+          disabled={!isNewProductMode}
+          value={totalCost}
         />
-        <SelectField
-          name="responsibility"
+        <TextField
+          name="supplier"
+          type="text"
+          label="Поставщик:"
+          placeholder="Введите поставщика"
           className={cls.form__item}
-          placeholder="Выберите ответственного"
-          label="Ответственный:"
-          options={[{ value: 'islam', label: 'Islam' }, { value: 'baika', label: 'Baika' }]}
+          rules={InputRules.Field}
+          disabled={!isProductSelected}
+        />
+        <TextField
+          name="message"
+          type="text"
+          label="Комментарий"
+          placeholder="Введите комментарий для прихода"
+          className={cls.form__item}
+          rules={InputRules.Field}
+          disabled={!isProductSelected}
         />
         <SelectField
           name="project"
           className={cls.form__item}
           placeholder="Выберите проект"
           label="Проект:"
-          options={[{ value: 'menu', label: 'Michelle' }, { value: 'market_place', label: 'Lalafo' }]}
+          options={project?.map(project => ({
+            label: project.title,
+            value: project.id,
+          }))}
+          onChange={handleProjectChange}
+          rules={InputRules.Field}
+          disabled={!isProductSelected}
         />
-        <DraggerFileField />
+        <SelectField
+          name="responsible"
+          className={cls.form__item}
+          placeholder="Выберите ответственного"
+          label="Ответственный:"
+          options={userResponsible?.map(responsible => ({
+            title: responsible.first_name,
+            value: responsible.first_name,
+            userObj: responsible,
+          }))}
+          rules={InputRules.Field}
+          disabled={!isResponsibleDisabled}
+        />
+        <DraggerFileField
+          name="files"
+          valuePropName="fileList"
+          className={cls.dragger_filed}
+          disabled={!isProductSelected}
+          onChange={handleDraggerChange}
+        />
       </Form>
     </Modal>
   )

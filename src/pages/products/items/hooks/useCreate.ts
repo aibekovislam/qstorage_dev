@@ -15,14 +15,6 @@ export function useCreate() {
       const dataToSend = { ...data }
       const response = await ProductItems.API.Create.createProduct(dataToSend)
 
-      const createdProduct = response.data
-
-      // проверка на то что popup открыта или нет
-      if (window.opener) {
-        window.opener.postMessage({ createdProduct }, window.location.origin)
-        window.close()
-      }
-
       return response
     } catch (error) {
       console.error('error create product', error)

@@ -25,7 +25,6 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
     products,
     project,
     userResponsible,
-    searchQuery,
     totalCost,
     submitted,
     form,
@@ -38,8 +37,6 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
       fetchProducts,
       setIsNewProductMode,
       setIsProductSelected,
-      setSelectedProduct,
-      setSearchQuery,
       handleSelectProduct,
       handleChangeProduct,
       handleProjectChange,
@@ -50,11 +47,11 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
     },
   } = ProductsIncoming.Hooks.List.use()
 
-  // React.useEffect(() => {
-  //   if (isCreated) {
-  //     onCloseModal()
-  //   }
-  // }, [isCreated, onCloseModal])
+  React.useEffect(() => {
+    if (isCreated) {
+      onCloseModal()
+    }
+  }, [isCreated, onCloseModal])
 
   React.useEffect(() => {
     if (products?.length === 0) {
@@ -109,6 +106,7 @@ const ModalCreateIncoming = ({ isModalOpen, onCloseModal }: Props) => {
                   src={item.image}
                   alt={item.title}
                   style={{ objectFit: 'cover' }}
+                  unoptimized
                 />
                 <span>{item.title}</span>
               </Flex>

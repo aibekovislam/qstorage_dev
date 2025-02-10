@@ -25,8 +25,8 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: (product: ProductsIncomingTypes.TableProduct) => (
-        <Space >
+      render: (product: ProductsIncomingTypes.Product) => (
+        <Space>
           <Image
             src={product.image || NoPhoto.src}
             alt={product.title}
@@ -43,7 +43,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Проект',
       dataIndex: 'project',
       key: 'project',
-      render: (project: ProductsIncomingTypes.TableProject) => (
+      render: (project: ProductsIncomingTypes.Project) => (
         <span>{project.title}</span>
       ),
     },
@@ -86,7 +86,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Ответственный',
       dataIndex: 'responsible',
       key: 'responsible',
-      render: (responsible: ProductsIncomingTypes.TableResponsible) => (
+      render: (responsible: ProductsIncomingTypes.Responsible) => (
         <Space>
           <Avatar>{responsible.image}</Avatar>
           <span>{responsible.first_name}</span>
@@ -100,7 +100,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       render: (comment: string) => {
         return (
           <Popover overlayClassName={cls.card} className={cls.custom__popover} content={comment}>
-            <Paragraph>{comment.slice(0, 10)}...</Paragraph>
+            <Paragraph>{!comment ? '' : `${comment.slice(0, 10)}...`}...</Paragraph>
           </Popover>
         )
       },

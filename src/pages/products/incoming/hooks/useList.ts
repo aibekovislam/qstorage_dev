@@ -19,10 +19,10 @@ function useList() {
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
   const [isLoadingProducts, setLoadingProducts] = React.useState(false)
-  const [products, setProducts] = React.useState<ProductsIncomingTypes.TableProduct[] | null>(null)
-  const [project, setProject] = React.useState<ProductsIncomingTypes.TableProject[] | null>(null)
-  const [selectedProduct, setSelectedProduct] = React.useState<ProductsIncomingTypes.TableProduct | null>(null)
-  const [userResponsible, setUserResponsible] = React.useState<ProductsIncomingTypes.TableResponsible[] | null>(null)
+  const [products, setProducts] = React.useState<ProductsIncomingTypes.Product[] | null>(null)
+  const [project, setProject] = React.useState<ProductsIncomingTypes.Project[] | null>(null)
+  const [selectedProduct, setSelectedProduct] = React.useState<ProductsIncomingTypes.Product | null>(null)
+  const [userResponsible, setUserResponsible] = React.useState<ProductsIncomingTypes.Responsible[] | null>(null)
   const [searchQuery, setSearchQuery] = React.useState<string>('')
   const [isNewProductMode, setIsNewProductMode] = React.useState<boolean>(false)
   const [isResponsibleDisabled, setIsResponsibleDisabled] = React.useState<boolean>(false)
@@ -91,7 +91,7 @@ function useList() {
 
       const response = await ProductsIncoming.API.List.createProductIncoming(formData)
 
-      if (!(response.status === 201)) {
+      if (response.status !== 201 && response.status !== 200) {
         throw new Error(`Submission failed: ${response.statusText}`)
       }
 

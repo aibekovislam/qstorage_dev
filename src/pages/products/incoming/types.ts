@@ -3,7 +3,7 @@ export namespace ProductsIncomingTypes {
     id: number
     quantity: number
     date: number
-    product: TableProduct
+    product: Product
     project: number
     responsible: string
   }
@@ -19,7 +19,7 @@ export namespace ProductsIncomingTypes {
     act: string
     total_cost: number
   }
-  export interface TableProduct {
+  export interface Product {
     color: string
     image: string
     price: string
@@ -27,7 +27,7 @@ export namespace ProductsIncomingTypes {
     slug: string
     title: string
   }
-  export interface TableResponsible {
+  export interface Responsible {
     email: string
     first_name: string
     last_name: string
@@ -35,7 +35,7 @@ export namespace ProductsIncomingTypes {
     uuid: string
     image: string
   }
-  export interface TableProject {
+  export interface Project {
     id: number
     image: string
     title: string
