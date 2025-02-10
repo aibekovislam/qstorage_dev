@@ -6,4 +6,8 @@ export namespace ProductsTypes {
     color: string
     image: string | null
   }
+  export interface ItemCategories {
+    slug: string
+    title: string
+  }
 }

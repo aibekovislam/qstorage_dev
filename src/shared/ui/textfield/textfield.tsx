@@ -40,6 +40,7 @@ export const TextField: React.FC<Props> = (props) => {
         onChange={props.onChange}
         type={props.type}
         maxLength={props.maxLength}
+        value={props.value}
       />
     </FormItem>
   )

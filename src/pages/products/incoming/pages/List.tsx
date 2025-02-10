@@ -5,6 +5,7 @@ import React from 'react'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
 import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
@@ -42,6 +43,9 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Проект',
       dataIndex: 'project',
       key: 'project',
+      render: (project: ProductsIncomingTypes.TableProject) => (
+        <span>{project.title}</span>
+      ),
     },
     {
       title: 'Кол-во',
@@ -60,6 +64,13 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
+      render: (date: string) => {
+        const formatted = dayjs(date).format('DD.MM.YYYY')
+
+        return (
+          <span>{formatted}</span>
+        )
+      },
     },
     {
       title: '№ Акта',
@@ -75,10 +86,10 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Ответственный',
       dataIndex: 'responsible',
       key: 'responsible',
-      render: (personName: string) => (
+      render: (responsible: ProductsIncomingTypes.TableResponsible) => (
         <Space>
-          <Avatar>{personName.charAt(0)}</Avatar>
-          <span>{personName}</span>
+          <Avatar>{responsible.image}</Avatar>
+          <span>{responsible.first_name}</span>
         </Space>
       ),
     },
@@ -99,22 +110,6 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
   return columns
 }
 
-// const dataSource: ProductRecord[] = [
-//   {
-//     key: 1,
-//     product: 'Штаны',
-//     project: 'TradeCode 99',
-//     quantity: '3,638,066',
-//     status: 'ПРОВЕРЕНО',
-//     date: '2021-02-05',
-//     actNumber: '574836839',
-//     supplier: 'Vel crad sed rhoncus.',
-//     responsible: 'Чынгыз А.',
-//     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi cumque quibusdam officia, autem, laborum magnam consequatur, adipisci saepe incidunt sed sit magni repudiandae. Nesciunt fuga voluptate, quia quod voluptates cupiditate.',
-//     imageUrl: 'https://outdoorvitals.com/cdn/shop/products/greensatushopify.png?v=1701706579&width=1000',
-//   },
-// ]
-
 export const ListProductsIncoming: React.FC = () => {
   const {
     breadcrumbData,
@@ -125,8 +120,11 @@ export const ListProductsIncoming: React.FC = () => {
       ProductsIncomingGET,
       checkStatus,
       getTagColor,
+
     },
   } = ProductsIncoming.Hooks.List.use()
+
+  console.log(productsIncomingList)
 
   React.useEffect(() => {
     const loadData = async () => {
@@ -147,8 +145,6 @@ export const ListProductsIncoming: React.FC = () => {
   React.useEffect(() => {
     ProductsIncomingGET()
   }, [])
-
-  console.log(productsIncomingList)
 
   return (
     <div>
@@ -177,6 +173,7 @@ export const ListProductsIncoming: React.FC = () => {
           pagination={{ position: ['bottomRight'] }}
           rowKey={(record) => record.id}
           loading={!productsIncomingList}
+          scroll={{ x: 'max-content' }}
         />
       </div>
       <ModalCreateIncoming

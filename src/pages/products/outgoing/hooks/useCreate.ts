@@ -1,19 +1,19 @@
 import React from 'react'
 
-import { ProductsIncoming } from '..'
-import { ProductsIncomingTypes } from '../types'
+import { ProductsOutgoing } from '..'
+import { ProductsOutgoingTypes } from '../types'
 
 function useCreate() {
   const [submitted, setSubmitted] = React.useState(false)
 
-  const onFinish = React.useCallback(async (data:ProductsIncomingTypes.Table) => {
+  const onFinish = React.useCallback(async (data:ProductsOutgoingTypes.Table) => {
     setSubmitted(true)
     try {
       const dataToSend = {
         ...data,
       }
 
-      const response = await ProductsIncoming.API.Create.createProduct(dataToSend)
+      const response = await ProductsOutgoing.API.Create.createProduct(dataToSend)
 
       if (!(response.status === 200)) {
         throw new Error(`Submission failed: ${response.statusText}`)

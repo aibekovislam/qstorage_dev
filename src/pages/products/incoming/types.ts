@@ -1,16 +1,3 @@
-export interface ProductRecord {
-    key: React.Key
-    product: string
-    project: string
-    quantity: string
-    status: string
-    date: string
-    actNumber: string
-    supplier: string
-    responsible: string
-    comment: string
-    imageUrl?: string
-  }
 export namespace ProductsIncomingTypes {
   export interface Table {
     id: number
@@ -21,16 +8,16 @@ export namespace ProductsIncomingTypes {
     responsible: string
   }
   export interface Form {
-    id: number
-    quantity: number
-    status: string
-    act: string
-    date: string
+    files: File
+    quantity: string
+    purchase_price: string
     supplier: string
     message: string
-    product: string
+    product: string | undefined
     project: number
-    responsible: string
+    responsible: string | undefined
+    act: string
+    total_cost: number
   }
   export interface TableProduct {
     color: string
@@ -39,5 +26,20 @@ export namespace ProductsIncomingTypes {
     purchase_price: string
     slug: string
     title: string
+  }
+  export interface TableResponsible {
+    email: string
+    first_name: string
+    last_name: string
+    surname: string
+    uuid: string
+    image: string
+  }
+  export interface TableProject {
+    id: number
+    image: string
+    title: string
+    description: string
+    color: string
   }
 }
