@@ -1,5 +1,11 @@
 import { Employees } from '@/pages/employees'
 
-const Page = ({ params }: { params: { employee_id: string } }) => <Employees.Pages.Edit employee_id={params.employee_id} />
+type Props = {
+  params: Promise<{ employee_id: string }>
+}
 
-export default Page
+export default async function Page({ params }: Props) {
+  const employee_id = (await params).employee_id
+
+  return <Employees.Pages.Edit employee_id={employee_id} />
+}
