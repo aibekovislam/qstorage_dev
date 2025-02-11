@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Spin, Empty } from 'antd'
 
-import cls from './loader.module.css'
+import cls from './loaderData.module.css'
 
 interface Props<T> {
   data: T | null
