@@ -95,9 +95,6 @@ function useList() {
         throw new Error(`Submission failed: ${response.statusText}`)
       }
 
-      // TODO почему то после создание прихода, приходы не стягиваются
-      await ProductsIncomingGET()
-
       setIsCreated(true)
     } catch (error) {
       console.error('Ошибка создания прихода:', error)

@@ -120,13 +120,14 @@ export const ListProductsIncoming: React.FC = () => {
       ProductsIncomingGET,
       checkStatus,
       getTagColor,
-
     },
   } = ProductsIncoming.Hooks.List.use()
 
   React.useEffect(() => {
-    ProductsIncomingGET()
-  }, [])
+    if (!createModal.isOpen) {
+      ProductsIncomingGET()
+    }
+  }, [createModal.isOpen])
 
   return (
     <div>
