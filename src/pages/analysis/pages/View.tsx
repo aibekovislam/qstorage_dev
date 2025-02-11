@@ -39,19 +39,10 @@ const DetailedBarCharts = dynamic(() => import('../ui/detailed-bar-charts/detail
   ),
 })
 
-const navigation_data = [
-  { id: 1, project_name: 'СтартАп', number: 145320 },
-  { id: 2, project_name: 'Альфа', number: 278492 },
-  { id: 3, project_name: 'Бета', number: 319134 },
-  { id: 4, project_name: 'Гамма', number: 87456 },
-  { id: 5, project_name: 'Дельта', number: 194567 },
-  { id: 6, project_name: 'Эпсилон', number: 253789 },
-  { id: 7, project_name: 'Омега', number: 421890 },
-]
-
 export const View = () => {
   const {
     breadcrumbData,
+    navigation_data,
     dayValue,
     monthValue,
     yearValue,
@@ -98,7 +89,7 @@ export const View = () => {
         </Flex>
       </Flex>
 
-      <Row className={cls.analysis_main} justify="space-between" gutter={[8, 16]}>
+      <Row className={cls.analysis_main} justify="space-between" gutter={[4, 8]}>
         <Col>
           <Card className={cls.card} classNames={{ body: cls.card_body }}>
             <Flex className={cls.card_header}>

@@ -9,8 +9,8 @@ import { useRouter } from 'next/navigation'
 import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { debounce } from '@/shared/tools/debounce'
 
-import { ProductsOutgoing } from '..'
-import { ProductsOutgoingTypes } from '../types'
+import { ProductsIncoming } from '..'
+import { ProductsIncomingTypes } from '../types'
 
 function useList() {
   const createModal = useDisclosure()
@@ -19,16 +19,16 @@ function useList() {
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
   const [isLoadingProducts, setLoadingProducts] = React.useState(false)
-  const [products, setProducts] = React.useState<ProductsOutgoingTypes.Product[] | null>(null)
-  const [project, setProject] = React.useState<ProductsOutgoingTypes.Project[] | null>(null)
-  const [selectedProduct, setSelectedProduct] = React.useState<ProductsOutgoingTypes.Product | null>(null)
-  const [userResponsible, setUserResponsible] = React.useState<ProductsOutgoingTypes.Responsible[] | null>(null)
+  const [products, setProducts] = React.useState<ProductsIncomingTypes.Product[] | null>(null)
+  const [project, setProject] = React.useState<ProductsIncomingTypes.Project[] | null>(null)
+  const [selectedProduct, setSelectedProduct] = React.useState<ProductsIncomingTypes.Product | null>(null)
+  const [userResponsible, setUserResponsible] = React.useState<ProductsIncomingTypes.Responsible[] | null>(null)
   const [searchQuery, setSearchQuery] = React.useState<string>('')
   const [isNewProductMode, setIsNewProductMode] = React.useState<boolean>(false)
   const [isResponsibleDisabled, setIsResponsibleDisabled] = React.useState<boolean>(false)
   const [isProductSelected, setIsProductSelected] = React.useState<boolean>(false)
   const [totalCost, setTotalCost] = React.useState<number | undefined>(undefined)
-  const [productsOutgoingList, setProductsOutgoingList] = React.useState<ProductsOutgoingTypes.Table[] | undefined>(undefined)
+  const [productsIncomingList, setProductsIncomingList] = React.useState<ProductsIncomingTypes.Table[] | undefined>(undefined)
 
   const fetchProducts = React.useCallback(
     debounce(async (searchTerm: string) => {
@@ -42,7 +42,7 @@ function useList() {
       }
       setLoadingProducts(true)
       try {
-        const response = await ProductsOutgoing.API.List.getProductSearchedList(searchTerm)
+        const response = await ProductsIncoming.API.List.getProductSearchedList(searchTerm)
         const data = await response.data
 
         setProducts(data.results)
@@ -55,13 +55,13 @@ function useList() {
     [],
   )
 
-  const createOutgoing = async (formValue: ProductsOutgoingTypes.Form) => {
+  const createIncoming = async (formValue: ProductsIncomingTypes.Form) => {
     setSubmitted(true)
     try {
       let newSelectedProduct = selectedProduct
 
       if (isNewProductMode) {
-        const responseProduct = await ProductsOutgoing.API.List.createProduct({ title: form.getFieldValue('product'), price: form.getFieldValue('purchase_price') })
+        const responseProduct = await ProductsIncoming.API.List.createProduct({ title: form.getFieldValue('product'), price: form.getFieldValue('purchase_price') })
 
         newSelectedProduct = responseProduct.data
       }
@@ -89,14 +89,14 @@ function useList() {
         })
       }
 
-      const response = await ProductsOutgoing.API.List.createProductOutgoing(formData)
+      const response = await ProductsIncoming.API.List.createProductIncoming(formData)
 
       if (response.status !== 201 && response.status !== 200) {
         throw new Error(`Submission failed: ${response.statusText}`)
       }
 
       // TODO почему то после создание прихода, приходы не стягиваются
-      await ProductsOutgoingGET()
+      await ProductsIncomingGET()
 
       setIsCreated(true)
     } catch (error) {
@@ -106,43 +106,43 @@ function useList() {
     }
   }
 
-  const ProductsOutgoingGET = React.useCallback(async () => {
+  const ProductsIncomingGET = React.useCallback(async () => {
     try {
-      const response = await ProductsOutgoing.API.List.getProductsOutgoingList()
+      const response = await ProductsIncoming.API.List.getProductsIncomingList()
 
-      setProductsOutgoingList(response.data.results)
+      setProductsIncomingList(response.data.results)
     } catch (error) {
-      console.log('products outgoing error', error)
+      console.log('products incoming error', error)
     }
   }, [])
 
-  const ProductsOutgoingProjectGET = React.useCallback(async () => {
+  const ProductsIncomingProjectGET = React.useCallback(async () => {
     try {
-      const response = await ProductsOutgoing.API.List.getProductOutgoingProject()
+      const response = await ProductsIncoming.API.List.getProductIncomingProject()
 
       setProject(response.data.results)
     } catch (error) {
-      console.log('products outgoing project error', error)
+      console.log('products incoming project error', error)
     }
   }, [])
 
-  const ProductsOutgoingUsersByProject = React.useCallback(async (id: number) => {
+  const ProductsIncomingUsersByProject = React.useCallback(async (id: number) => {
     try {
-      const response = await ProductsOutgoing.API.List.getUsersByProject(id)
+      const response = await ProductsIncoming.API.List.getUsersByProject(id)
 
       setUserResponsible(response.data.results)
     } catch (error) {
-      console.log('products outgoing project error', error)
+      console.log('products incoming project error', error)
     }
   }, [])
 
   const handleProjectChange = React.useCallback( async (value: number) => {
     if (value) {
       form.setFieldsValue({ responsible: undefined })
-      ProductsOutgoingUsersByProject(value)
+      ProductsIncomingUsersByProject(value)
       setIsResponsibleDisabled(true)
     }
-  }, [ProductsOutgoingUsersByProject])
+  }, [ProductsIncomingUsersByProject])
 
   const handleSelectProduct = React.useCallback(
     (_: string, option: any) => {
@@ -151,7 +151,7 @@ function useList() {
       form.setFieldsValue({ purchase_price: selectedProduct.price })
       setIsProductSelected(true)
       setSelectedProduct(selectedProduct)
-      ProductsOutgoingProjectGET()
+      ProductsIncomingProjectGET()
     },
     [form],
   )
@@ -188,7 +188,7 @@ function useList() {
   )
 
   const handleFormValuesChange = React.useCallback(
-    (changedValues: Partial<ProductsOutgoingTypes.Form>, allValues: ProductsOutgoingTypes.Form) => {
+    (changedValues: Partial<ProductsIncomingTypes.Form>, allValues: ProductsIncomingTypes.Form) => {
       if (changedValues.act !== undefined || changedValues.quantity !== undefined) {
         const docNumber = changedValues.act
 
@@ -213,7 +213,7 @@ function useList() {
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
     { href: '#', title: 'Склад №1' },
-    { href: '/products/outgoing', title: 'Уход товаров' },
+    { href: '/products/incoming', title: 'Приход товаров' },
   ]
 
   const checkStatus = React.useCallback((status: string): string => {
@@ -242,7 +242,7 @@ function useList() {
 
   return {
     breadcrumbData,
-    productsOutgoingList,
+    productsIncomingList,
     submitted,
     isCreated,
     products,
@@ -265,10 +265,10 @@ function useList() {
       setIsNewProductMode,
       setProducts,
       setSearchQuery,
-      createOutgoing,
-      ProductsOutgoingProjectGET,
-      ProductsOutgoingGET,
-      ProductsOutgoingUsersByProject,
+      createIncoming,
+      ProductsIncomingProjectGET,
+      ProductsIncomingGET,
+      ProductsIncomingUsersByProject,
       handleSelectProduct,
       handleChangeProduct,
       handleDraggerChange,

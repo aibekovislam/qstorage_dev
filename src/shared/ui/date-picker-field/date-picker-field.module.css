@@ -14,3 +14,7 @@
 .dateField{
     margin: 0px !important;
 }
+
+.datepicker{
+    height: 32px !important;
+}

@@ -13,9 +13,6 @@ interface Props extends SelectProps {
 }
 
 export const SelectField: React.FC<Props> = (props) => {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`)
-  }
 
   return (
     <FormItem
@@ -27,8 +24,9 @@ export const SelectField: React.FC<Props> = (props) => {
     >
       <Select
         defaultValue={props.defaultValue}
+        disabled={props.disabled}
         style={props.style}
-        onChange={handleChange}
+        onChange={props.onChange}
         options={props.options}
         placeholder={props.placeholder}
         className={props.className}

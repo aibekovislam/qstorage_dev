@@ -3,8 +3,8 @@ import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { ProductsTypes } from '../../items/types'
 
-export const getProductsIncomingList = async () => {
-  return axiosRequest.get('/incomings/', {
+export const getProductsOutgoingList = async () => {
+  return axiosRequest.get('/outgoings/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }
@@ -15,8 +15,8 @@ export const getProductSearchedList = async (search: string | undefined) => {
   })
 }
 
-export const createProductIncoming = async (body: FormData) => {
-  return axiosRequest.post('/incomings/', body, {
+export const createProductOutgoing = async (body: FormData) => {
+  return axiosRequest.post('/outgoings/', body, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -24,7 +24,7 @@ export const createProductIncoming = async (body: FormData) => {
   })
 }
 
-export const getProductIncomingProject = async () => {
+export const getProductOutgoingProject = async () => {
   return axiosRequest.get('/project/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
