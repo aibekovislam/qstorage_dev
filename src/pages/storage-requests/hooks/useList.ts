@@ -25,23 +25,21 @@ function useList() {
   const { message } = App.useApp();
   const router = useRouter();
   
-  // States
   const [dataSource, setDataSource] = React.useState<ProductRecord[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [hasIncoming, setHasIncoming] = React.useState(false);
   const [hasOutgoing, setHasOutgoing] = React.useState(false);
+  const [hasData, setHasData] = React.useState(false);
 
-  // Status helpers
   const checkStatus = (status: string) => STATUS_MAP[status] || 'НЕИЗВЕСТНЫЙ СТАТУС';
   const getTagColor = (status: string) => COLOR_MAP[status] || 'default';
 
-  // Data fetching
   const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
       const response: StorageRequestsResponse = await getStorageRequests();
-      
+
       setHasIncoming(response.incomings?.length > 0);
       setHasOutgoing(response.outgoings?.length > 0);
 
@@ -58,6 +56,7 @@ function useList() {
         })) || [])
       ] as ProductRecord[];
       setDataSource(allRequests);
+      setHasData(allRequests.length > 0);
     } catch (error) {
       console.error('Error fetching storage requests:', error);
       message.error('Ошибка при загрузке данных');
@@ -66,7 +65,6 @@ function useList() {
     }
   }, [message]);
 
-  // Handlers
   const handleApprove = async () => {
     if (selectedRowKeys.length === 0) {
       message.warning('Выберите заявки для подтверждения');
@@ -76,7 +74,7 @@ function useList() {
     try {
       const selectedIds = selectedRowKeys.map(Number);
       const selectedItems = dataSource.filter(item => selectedIds.includes(item.id));
-      
+
       const payload = {
         incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
         outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id)
@@ -101,7 +99,7 @@ function useList() {
     try {
       const selectedIds = selectedRowKeys.map(Number);
       const selectedItems = dataSource.filter(item => selectedIds.includes(item.id));
-      
+
       const payload = {
         incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
         outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id)
@@ -117,7 +115,6 @@ function useList() {
     }
   };
 
-  // Fetch data only on the client
   React.useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -128,10 +125,13 @@ function useList() {
     dataSource,
     hasIncoming,
     hasOutgoing,
+    hasData,
     checkStatus,
     getTagColor,
+
     breadcrumbData: [
       { href: '/', title: 'Главная' },
+      { href: '/storage', title: `Склад ${"№1"}` },
       { href: '/storage-requests', title: 'Заявки на склад' },
     ],
     actions: {

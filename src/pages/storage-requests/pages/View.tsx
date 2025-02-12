@@ -13,7 +13,6 @@ import { ProductRecord } from '../types'
 
 const { Paragraph } = Typography
 
-// Создаем компонент с отключенным SSR
 const NoSSRWrapper = dynamic(
   () => Promise.resolve(({ children }: { children: React.ReactNode }) => <>{children}</>),
   { 
@@ -138,7 +137,7 @@ const ViewContent: React.FC = () => {
             className={cls.btn_success}
             onClick={actions.handleApprove}
             disabled={selectedRowKeys.length === 0 || loading || !hasIncoming}
-          >
+          > 
             Принять
           </Button>
           <Button
@@ -169,7 +168,6 @@ const ViewContent: React.FC = () => {
   )
 }
 
-// Оборачиваем основной компонент в NoSSR и App
 const ViewWithProviders: React.FC = () => {
   return (
     <NoSSRWrapper>
