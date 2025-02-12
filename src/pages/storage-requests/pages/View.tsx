@@ -13,31 +13,27 @@ import { ProductRecord } from '../types'
 
 const { Paragraph } = Typography
 
-// Оборачиваем в App компонент
-const ViewComponent: React.FC = () => {
-  return (
-    <App>
-      <ViewContent />
-    </App>
-  )
-}
+// Создаем компонент с отключенным SSR
+const NoSSRWrapper = dynamic(
+  () => Promise.resolve(({ children }: { children: React.ReactNode }) => <>{children}</>),
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+)
 
 const ViewContent: React.FC = () => {
-  const {
-    dataSource,
-    selectedRowKeys,
-    loading,
-    setSelectedRowKeys,
-    handleApprove,
-    handleReject,
+  const { 
+    dataSource, 
+    selectedRowKeys, 
+    loading, 
     hasIncoming,
-    hasOutgoing
+    hasOutgoing,
+    checkStatus,
+    getTagColor,
+    breadcrumbData,
+    actions 
   } = StorageRequests.Hooks.List.use()
-
-  const breadcrumbData = [
-    { href: '/', title: 'Главная' },
-    { href: '/storage-requests', title: 'Заявки на склад' },
-  ]
 
   const columns: ColumnsType<ProductRecord> = useMemo(() => [
     {
@@ -73,17 +69,11 @@ const ViewContent: React.FC = () => {
       title: 'Статус',
       dataIndex: 'status',
       key: 'status',
-      render: (status: string) => {
-        const color = status === 'verify' ? 'green' :
-          status === 'in_progress' ? 'gold' :
-            status === 'rejected' ? 'red' :
-              status === 'not_veriifed' ? 'blue' : 'default';
-        const text = status === 'verify' ? 'ПРОВЕРЕНО' :
-          status === 'in_progress' ? 'В ПРОЦЕССЕ' :
-            status === 'rejected' ? 'ОТКЛОНЕНО' :
-              status === 'not_veriifed' ? 'НОВОЕ' : status.toUpperCase();
-        return <Tag color={color}>{text}</Tag>;
-      },
+      render: (status: string) => (
+        <Tag color={getTagColor(status)}>
+          {checkStatus(status)}
+        </Tag>
+      ),
     },
     {
       title: 'Дата',
@@ -131,7 +121,7 @@ const ViewContent: React.FC = () => {
     selectedRowKeys,
     onChange: (newSelectedRowKeys: React.Key[]) => {
       console.log('Selected row keys:', newSelectedRowKeys);
-      setSelectedRowKeys(newSelectedRowKeys)
+      actions.setSelectedRowKeys(newSelectedRowKeys)
     },
   }
 
@@ -146,14 +136,14 @@ const ViewContent: React.FC = () => {
         <Flex className={cls.btn_container}>
           <Button
             className={cls.btn_success}
-            onClick={handleApprove}
+            onClick={actions.handleApprove}
             disabled={selectedRowKeys.length === 0 || loading || !hasIncoming}
           >
             Принять
           </Button>
           <Button
             className={cls.btn_red}
-            onClick={handleReject}
+            onClick={actions.handleReject}
             disabled={selectedRowKeys.length === 0 || loading || !hasOutgoing}
           >
             Отклонить
@@ -179,7 +169,15 @@ const ViewContent: React.FC = () => {
   )
 }
 
-// Используем dynamic import с отключенным SSR
-export default dynamic(() => Promise.resolve(ViewComponent), {
-  ssr: false
-})
+// Оборачиваем основной компонент в NoSSR и App
+const ViewWithProviders: React.FC = () => {
+  return (
+    <NoSSRWrapper>
+      <App>
+        <ViewContent />
+      </App>
+    </NoSSRWrapper>
+  )
+}
+
+export default ViewWithProviders
