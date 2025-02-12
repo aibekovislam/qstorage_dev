@@ -125,8 +125,10 @@ export const ListProductsOutgoing: React.FC = () => {
   } = ProductsOutgoing.Hooks.List.use()
 
   React.useEffect(() => {
-    ProductsOutgoingGET()
-  }, [])
+    if (!createModal.isOpen) {
+      ProductsOutgoingGET()
+    }
+  }, [createModal.isOpen])
 
   return (
     <div>
