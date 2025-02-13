@@ -23,20 +23,20 @@ const NoSSRWrapper = dynamic(
 
 const ViewContent: React.FC = () => {
   const { 
-      dataSource, 
-      selectedRowKeys, 
-      loading, 
-      hasIncoming,
-      hasOutgoing,
-      checkStatus,
-      getTagColor,
-      breadcrumbData,
-      actions 
-    } = StorageRequests.Hooks.List.use()
+    dataSource, 
+    selectedRowKeys, 
+    loading, 
+    hasIncoming,
+    hasOutgoing,
+    checkStatus,
+    getTagColor,
+    breadcrumbData,
+    actions 
+  } = StorageRequests.Hooks.List.use()
 
   useEffect(() => {
-    actions.fetchData();
-  }, [actions.fetchData]);
+    actions.fetchData()
+  }, [actions])
   const columns: ColumnsType<ProductRecord> = useMemo(() => [
 
     {

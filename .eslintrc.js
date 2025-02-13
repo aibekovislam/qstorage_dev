@@ -231,6 +231,9 @@ const config = {
     ...react,
     ...imports,
   },
+  'no-trailing-spaces': 'error',
+
+
   
 }
 

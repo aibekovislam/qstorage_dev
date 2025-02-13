@@ -1,17 +1,17 @@
-"use client";
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { App } from 'antd';
-import { ProductRecord, StorageRequestsResponse } from '../types';
-import { getStorageRequests, approveRequests, rejectRequests } from '../api/list';
+'use client'
 
+import React from 'react'
+import { useRouter } from 'next/navigation'
+import { App } from 'antd'
+import { ProductRecord, StorageRequestsResponse } from '../types'
+import { getStorageRequests, approveRequests, rejectRequests } from '../api/list'
 const STATUS_MAP: Record<string, string> = {
   in_progress: 'В ПРОЦЕССЕ',
   verified: 'ПРОВЕРЕНО',
   new: 'НОВОЕ',
   rejected: 'ОТКЛОНЕНО',
   not_verified: 'НЕ ПРОВЕРЕНО',
-} as const;
+} as const
 
 const COLOR_MAP: Record<string, string> = {
   in_progress: 'gold',
@@ -19,7 +19,7 @@ const COLOR_MAP: Record<string, string> = {
   new: 'geekblue',
   rejected: 'red',
   not_verified: 'gray',
-} as const;
+} as const
 
 function useList() {
   const { message } = App.useApp();
