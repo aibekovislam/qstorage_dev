@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
+import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { StorageRequests } from '..'
 import cls from '../styles/view.module.css'
@@ -31,6 +32,7 @@ const ViewContent: React.FC = () => {
     loading,
     hasIncoming,
     hasOutgoing,
+    hasFetchAttempted,
     checkStatus,
     getTagColor,
     breadcrumbData,
@@ -38,12 +40,24 @@ const ViewContent: React.FC = () => {
   } = StorageRequests.Hooks.List.use()
 
   useEffect(() => {
-    if (dataSource.length === 0 && !loading) {
+    if (!hasFetchAttempted && !loading) {
       actions.fetchData()
     }
-  }, [actions.fetchData, dataSource.length, loading])
-  const columns: ColumnsType<ProductRecord> = useMemo(() => [
+  }, [actions.fetchData, hasFetchAttempted, loading])
 
+  useEffect(() => {
+    const hasIncomingData = dataSource.some(item => item.type === 'incoming')
+    const hasOutgoingData = dataSource.some(item => item.type === 'outgoing')
+
+    if (hasIncoming !== hasIncomingData) {
+      actions.setHasIncoming(hasIncomingData)
+    }
+    if (hasOutgoing !== hasOutgoingData) {
+      actions.setHasOutgoing(hasOutgoingData)
+    }
+  }, [dataSource, hasIncoming, hasOutgoing, actions.setHasIncoming, actions.setHasOutgoing])
+
+  const columns: ColumnsType<ProductRecord> = useMemo(() => [
     {
       title: 'Товар',
       dataIndex: ['product', 'title'],
@@ -52,7 +66,7 @@ const ViewContent: React.FC = () => {
         <Space>
           {record.product.image && (
             <Image
-              src={record.product.image}
+              src={`${NEXT_PUBLIC_COMPANY_BASE_URL}${record.product.image}`}
               alt={text}
               style={{ objectFit: 'cover' }}
               width={40}
@@ -124,7 +138,7 @@ const ViewContent: React.FC = () => {
         )
       },
     },
-  ], [])
+  ], [checkStatus, getTagColor])
 
   const rowSelection = {
     selectedRowKeys,
@@ -146,14 +160,14 @@ const ViewContent: React.FC = () => {
           <Button
             className={cls.btn_success}
             onClick={actions.handleApprove}
-            disabled={selectedRowKeys.length === 0 || loading || !hasIncoming}
+            disabled={selectedRowKeys.length === 0 || loading || (!hasIncoming && !hasOutgoing)}
           >
             Принять
           </Button>
           <Button
             className={cls.btn_red}
             onClick={actions.handleReject}
-            disabled={selectedRowKeys.length === 0 || loading || !hasOutgoing}
+            disabled={selectedRowKeys.length === 0 || loading || (!hasOutgoing && !hasIncoming)}
           >
             Отклонить
           </Button>

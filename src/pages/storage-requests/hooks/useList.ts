@@ -34,6 +34,7 @@ function useList() {
   const [hasIncoming, setHasIncoming] = React.useState(false)
   const [hasOutgoing, setHasOutgoing] = React.useState(false)
   const [hasData, setHasData] = React.useState(false)
+  const [hasFetchAttempted, setHasFetchAttempted] = React.useState(false)
 
   const checkStatus = (status: string) => STATUS_MAP[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
   const getTagColor = (status: string) => COLOR_MAP[status] || 'default'
@@ -43,8 +44,14 @@ function useList() {
     try {
       const response: StorageRequestsResponse = await getStorageRequests()
 
-      setHasIncoming(response.incomings?.length > 0)
-      setHasOutgoing(response.outgoings?.length > 0)
+      if (!response.incomings.length && !response.outgoings.length) {
+        setHasData(false)
+        setHasFetchAttempted(true)
+
+        return
+      }
+      setHasIncoming(response.incomings.length > 0)
+      setHasOutgoing(response.outgoings.length > 0)
 
       const allRequests = [
         ...(response.incomings?.map(item => ({
@@ -60,10 +67,13 @@ function useList() {
       ] as ProductRecord[]
 
       setDataSource(allRequests)
-      setHasData(allRequests.length > 0)
+      setHasData(true)
+      setHasFetchAttempted(true)
     } catch (error) {
       console.error('Error fetching storage requests: ', error)
       message.error('Ошибка при загрузке данных')
+      setHasData(false)
+      setHasFetchAttempted(true)
     } finally {
       setLoading(false)
     }
@@ -86,7 +96,8 @@ function useList() {
       }
 
       await approveRequests(payload)
-      await fetchData()
+
+      setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
       message.success('Заявки успешно приняты')
       setSelectedRowKeys([])
     } catch (error) {
@@ -112,7 +123,8 @@ function useList() {
       }
 
       await rejectRequests(payload)
-      await fetchData()
+
+      setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
       message.success('Заявки успешно отклонены')
       setSelectedRowKeys([])
     } catch (error) {
@@ -133,7 +145,10 @@ function useList() {
     dataSource,
     hasIncoming,
     hasOutgoing,
+    setHasIncoming,
+    setHasOutgoing,
     hasData,
+    hasFetchAttempted,
     checkStatus,
     getTagColor,
     breadcrumbData,
@@ -143,8 +158,12 @@ function useList() {
       handleApprove,
       handleReject,
       router,
+      setHasIncoming,
+      setHasOutgoing,
     },
+
   }
+
 }
 
 export const use = useList
