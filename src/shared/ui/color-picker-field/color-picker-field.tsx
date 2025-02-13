@@ -1,57 +1,57 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Form, FormItemProps } from 'antd'
 import { Rule } from 'antd/es/form'
 
 import cls from './color-picker-field.module.css'
 
-interface Props extends FormItemProps {
+interface ColorPickerFieldProps extends FormItemProps {
   label?: string
   rules?: Rule[]
   initialValue?: string
   name?: string
+  onClick?: any
+  options: string[]
+  selectedColor?: string
 }
 
-const COLOR_OPTIONS = [
-  '#FA541C',
-  '#1890FF',
-  '#F5222D',
-  '#52C41A',
-  '#722ED1',
-  '#13C2C2',
-  '#EB2F96',
-  '#8B4513',
-]
-
-export const ColorPickerField: React.FC<Props> = (props) => {
-  const [selectedColor, setSelectedColor] = useState<string>(
-    props.initialValue || COLOR_OPTIONS[0],
-  )
-
-  const handleClickColor = (color: string) => {
-    setSelectedColor(color)
-    console.log('Выбранный цвет:', color)
+export const ColorPickerField: React.FC<ColorPickerFieldProps> = ({
+  label,
+  name,
+  rules,
+  initialValue,
+  onClick,
+  options,
+  selectedColor,
+}) => {
+  const handleColorClick = (color: string) => {
+    if (onClick) {
+      onClick(color)
+    }
   }
 
   return (
-    <Form.Item
-      label={props.label}
-      name={props.name}
-      rules={props.rules}
-      initialValue={props.initialValue}
-    >
+    <Form.Item label={label} name={name} rules={rules} initialValue={initialValue}>
       <div className={cls.wrapper}>
-        {COLOR_OPTIONS.map((color) => (
+        {options.map((color) => (
           <div
             key={color}
             className={cls.colorSquare}
             style={{
               backgroundColor: color,
-              border: selectedColor === color ? '1.5px solid black' : '1px solid #ddd',
+              border: selectedColor === color ? '2px solid black' : '1px solid #ddd',
+              cursor: 'pointer',
             }}
-            onClick={() => handleClickColor(color)}
+            onClick={() => handleColorClick(color)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                handleColorClick(color)
+              }
+            }}
           />
         ))}
       </div>

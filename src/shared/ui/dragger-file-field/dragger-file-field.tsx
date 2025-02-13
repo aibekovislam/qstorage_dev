@@ -8,22 +8,6 @@ import { UploadProps } from 'antd/lib'
 
 const { Dragger } = Upload
 
-const DraggerProps: UploadProps = {
-  name: 'files',
-  maxCount: 10,
-  multiple: true,
-  beforeUpload(file) {
-    if (file.size / 1024 / 1024 > 10) {
-      // TODO после того как код восседеним нужно поменять на message
-      console.log(`Файл "${file.name}" больше 10 МБ!`)
-
-      return Upload.LIST_IGNORE
-    }
-
-    return false
-  },
-}
-
 function normFile(e: any) {
   if (Array.isArray(e)) {
     return e
@@ -49,7 +33,7 @@ export const DraggerFileField: React.FC<Props> = (props) => {
         onChange={props.onChange}
         disabled={props.disabled}
         className={props.className}
-        {...DraggerProps}
+        {...props}
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />

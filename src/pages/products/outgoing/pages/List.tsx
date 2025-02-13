@@ -135,14 +135,14 @@ export const ListProductsOutgoing: React.FC = () => {
       <div className="main">
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
-          <h2>Приход товаров “Склад №1”</h2>
+          <h2>Уход товаров</h2>
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button type="primary">
+            <Button onClick={() => router.push('/products/incoming')} type="default">
               Приход <ArrowUpOutlined />
             </Button>
-            <Button onClick={() => router.push('/products/outgoing')} type="default">
+            <Button type="primary">
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>

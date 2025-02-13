@@ -134,7 +134,7 @@ export const ListProductsIncoming: React.FC = () => {
       <div className="main">
         <div className={cls.navigation__info}>
           <Breadcrumb items={breadcrumbData}/>
-          <h2>Приход товаров “Склад №1”</h2>
+          <h2>Приход товаров</h2>
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
