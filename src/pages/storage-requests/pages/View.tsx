@@ -139,7 +139,7 @@ const ViewContent: React.FC = () => {
       </div>
 
       <Flex className={cls.header}>
-        <h2 className={cls.main_title}>Заявки "Склад №1"</h2>
+        <h2 className={cls.main_title}>Заявки &quot;Склад №1&quot;</h2>
         <Flex className={cls.btn_container}>
           <Button
             className={cls.btn_success}
