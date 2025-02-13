@@ -1,12 +1,15 @@
 'use client'
 
 import React, { useMemo, useEffect } from 'react'
-import dynamic from 'next/dynamic'
+
 import { Avatar, Popover, Space, Tag, Typography, Table, Flex, Button, App } from 'antd'
 import { ColumnsType } from 'antd/es/table'
-import Image from 'next/image'
 import dayjs from 'dayjs'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
+
 import { StorageRequests } from '..'
 import cls from '../styles/view.module.css'
 import { ProductRecord } from '../types'
@@ -15,23 +18,23 @@ const { Paragraph } = Typography
 
 const NoSSRWrapper = dynamic(
   () => Promise.resolve(({ children }: { children: React.ReactNode }) => <>{children}</>),
-  { 
+  {
     ssr: false,
-    loading: () => <div>Loading...</div>
-  }
+    loading: () => <div>Loading...</div>,
+  },
 )
 
 const ViewContent: React.FC = () => {
-  const { 
-    dataSource, 
-    selectedRowKeys, 
-    loading, 
+  const {
+    dataSource,
+    selectedRowKeys,
+    loading,
     hasIncoming,
     hasOutgoing,
     checkStatus,
     getTagColor,
     breadcrumbData,
-    actions 
+    actions,
   } = StorageRequests.Hooks.List.use()
 
   useEffect(() => {
@@ -110,7 +113,8 @@ const ViewContent: React.FC = () => {
       dataIndex: 'message',
       key: 'message',
       render: (message: string) => {
-        if (!message) return '-';
+        if (!message) return '-'
+
         return (
           <Popover overlayClassName={cls.card} className={cls.custom__popover} content={message}>
             <Paragraph>{message.slice(0, 10)}...</Paragraph>
@@ -123,7 +127,7 @@ const ViewContent: React.FC = () => {
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedRowKeys: React.Key[]) => {
-      console.log('Selected row keys:', newSelectedRowKeys);
+      console.log('Selected row keys:', newSelectedRowKeys)
       actions.setSelectedRowKeys(newSelectedRowKeys)
     },
   }
@@ -141,7 +145,7 @@ const ViewContent: React.FC = () => {
             className={cls.btn_success}
             onClick={actions.handleApprove}
             disabled={selectedRowKeys.length === 0 || loading || !hasIncoming}
-          > 
+          >
             Принять
           </Button>
           <Button
@@ -162,7 +166,7 @@ const ViewContent: React.FC = () => {
           total: dataSource.length,
           pageSize: 13,
           hideOnSinglePage: true,
-          showSizeChanger: false
+          showSizeChanger: false,
         }}
         rowSelection={rowSelection}
         rowKey="id"
@@ -172,14 +176,12 @@ const ViewContent: React.FC = () => {
   )
 }
 
-const ViewWithProviders: React.FC = () => {
-  return (
-    <NoSSRWrapper>
-      <App>
-        <ViewContent />
-      </App>
-    </NoSSRWrapper>
-  )
-}
+const ViewWithProviders: React.FC = () => (
+  <NoSSRWrapper>
+    <App>
+      <ViewContent />
+    </App>
+  </NoSSRWrapper>
+)
 
 export default ViewWithProviders

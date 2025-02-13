@@ -2,6 +2,7 @@ interface DebounceOptions {
   loading?: boolean;
 }
 
+// eslint-disable-next-line no-unused-vars
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
   delay: number,

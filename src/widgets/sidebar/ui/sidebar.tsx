@@ -1,6 +1,9 @@
 'use client'
+/*
 import {  BellOutlined, InfoCircleOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Divider, Flex, Menu } from 'antd'
+import { Avatar, Badge, Divider, Flex  } from 'antd'
+*/
+import { Menu } from 'antd'
 import { usePathname, useRouter } from 'next/navigation'
 
 import cls from './sidebar.module.css'
