@@ -41,5 +41,6 @@ export namespace ProductsIncomingTypes {
     title: string
     description: string
     color: string
+    warehouse: number
   }
 }

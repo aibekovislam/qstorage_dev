@@ -6,8 +6,8 @@ import { Button, Divider, Flex, Form, Modal } from 'antd'
 import Image from 'next/image'
 
 import { AutoCompleteField } from '@/shared/ui/autocomplete-field/autocomplete-field'
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
-import { DraggerFileField } from '@/shared/ui/select-file-field/dragger-file-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
 import { ProductsOutgoing } from '../../..'
@@ -24,6 +24,7 @@ const ModalCreateOutgoing = ({ isModalOpen, onCloseModal }: Props) => {
   const {
     products,
     project,
+    defaultDraggerProps,
     userResponsible,
     totalCost,
     submitted,
@@ -201,6 +202,7 @@ const ModalCreateOutgoing = ({ isModalOpen, onCloseModal }: Props) => {
         <DraggerFileField
           name="files"
           valuePropName="fileList"
+          {...defaultDraggerProps}
           className={cls.dragger_filed}
           disabled={!isProductSelected}
           onChange={handleDraggerChange}

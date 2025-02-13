@@ -11,13 +11,11 @@ import cls from '../styles/create.module.css'
 import { ProductRules } from '../validate'
 
 export const Create = () => {
-  const { categories, submitted, actions: { createProduct, ProductItemsCategoreisGET } } = ProductItems.Hooks.Create.use()
+  const { submitted, actions: { createProduct, ProductItemsCategoreisGET } } = ProductItems.Hooks.Create.use()
 
   React.useCallback(() => {
     ProductItemsCategoreisGET()
   }, [ProductItemsCategoreisGET])
-
-  console.log(categories)
 
   return (
     <Form onFinish={createProduct}  className={cls.form}>

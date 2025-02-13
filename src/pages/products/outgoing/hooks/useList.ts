@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Form, UploadFile } from 'antd'
+import { Form, Upload, UploadFile, UploadProps } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { useRouter } from 'next/navigation'
 
@@ -207,6 +207,21 @@ function useList() {
     [form],
   )
 
+  const defaultDraggerProps: UploadProps = {
+    name: 'files',
+    maxCount: 10,
+    multiple: true,
+    beforeUpload(file) {
+      if (file.size / 1024 / 1024 > 10) {
+        console.log(`Файл "${file.name}" больше 10 МБ!`)
+
+        return Upload.LIST_IGNORE
+      }
+
+      return false
+    },
+  }
+
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
     { href: '#', title: 'Склад №1' },
@@ -239,6 +254,7 @@ function useList() {
 
   return {
     breadcrumbData,
+    defaultDraggerProps,
     productsOutgoingList,
     submitted,
     isCreated,
