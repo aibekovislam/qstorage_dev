@@ -9,6 +9,10 @@
 
 .btn{
     margin-left: 0.5rem;
+    background-color: red !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+    
 }
 
 .main_title{
@@ -26,4 +30,9 @@
 
 .card{
     width: 400px !important;
+}
+
+.table_title{
+    color: #0000FF !important;
+    cursor: pointer;
 }
