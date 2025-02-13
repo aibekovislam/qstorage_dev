@@ -38,8 +38,10 @@ const ViewContent: React.FC = () => {
   } = StorageRequests.Hooks.List.use()
 
   useEffect(() => {
-    actions.fetchData()
-  }, [actions])
+    if (dataSource.length === 0 && !loading) {
+      actions.fetchData()
+    }
+  }, [actions.fetchData, dataSource.length, loading])
   const columns: ColumnsType<ProductRecord> = useMemo(() => [
 
     {
