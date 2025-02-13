@@ -205,6 +205,7 @@ const config = {
   extends: [
     'next/typescript',
     'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -230,6 +231,7 @@ const config = {
     ...react,
     ...imports,
   },
+  
 }
 
 module.exports = config

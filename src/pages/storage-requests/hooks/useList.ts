@@ -58,7 +58,7 @@ function useList() {
       setDataSource(allRequests);
       setHasData(allRequests.length > 0);
     } catch (error) {
-      console.error('Error fetching storage requests:', error);
+      console.error('Error fetching storage requests: ', error);
       message.error('Ошибка при загрузке данных');
     } finally {
       setLoading(false);
@@ -115,10 +115,13 @@ function useList() {
     }
   };
 
-  React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  
 
+  const breadcrumbData = [
+    { href: '/', title: 'Главная' },
+    { href: '/storage', title: `Склад ${"№1"}` },
+    { href: '/storage-requests', title: 'Заявки на склад' },
+  ];
   return {
     selectedRowKeys,
     loading,
@@ -128,12 +131,7 @@ function useList() {
     hasData,
     checkStatus,
     getTagColor,
-
-    breadcrumbData: [
-      { href: '/', title: 'Главная' },
-      { href: '/storage', title: `Склад ${"№1"}` },
-      { href: '/storage-requests', title: 'Заявки на склад' },
-    ],
+    breadcrumbData,
     actions: {
       setSelectedRowKeys,
       fetchData,
@@ -142,6 +140,7 @@ function useList() {
       router
     }
   };
+
 }
 
 export const use = useList;

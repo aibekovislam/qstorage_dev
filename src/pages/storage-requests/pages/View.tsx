@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { Avatar, Popover, Space, Tag, Typography, Table, Flex, Button, App } from 'antd'
 import { ColumnsType } from 'antd/es/table'
@@ -23,18 +23,22 @@ const NoSSRWrapper = dynamic(
 
 const ViewContent: React.FC = () => {
   const { 
-    dataSource, 
-    selectedRowKeys, 
-    loading, 
-    hasIncoming,
-    hasOutgoing,
-    checkStatus,
-    getTagColor,
-    breadcrumbData,
-    actions 
-  } = StorageRequests.Hooks.List.use()
+      dataSource, 
+      selectedRowKeys, 
+      loading, 
+      hasIncoming,
+      hasOutgoing,
+      checkStatus,
+      getTagColor,
+      breadcrumbData,
+      actions 
+    } = StorageRequests.Hooks.List.use()
 
+  useEffect(() => {
+    actions.fetchData();
+  }, [actions.fetchData]);
   const columns: ColumnsType<ProductRecord> = useMemo(() => [
+
     {
       title: 'Товар',
       dataIndex: ['product', 'title'],
