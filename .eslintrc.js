@@ -205,7 +205,6 @@ const config = {
   extends: [
     'next/typescript',
     'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -223,6 +222,9 @@ const config = {
       pragma: 'React',
       version: 'detect',
     },
+    next: {
+      rootDir: './'
+    }
   },
 
   rules: {
@@ -230,11 +232,9 @@ const config = {
     ...typescript,
     ...react,
     ...imports,
+    'react/no-unescaped-entities': 'off',
+    '@next/next/no-html-link-for-pages': 'off'
   },
-  'no-trailing-spaces': 'error',
-
-
-  
 }
 
 module.exports = config

@@ -1,10 +1,13 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+
 import { App } from 'antd'
-import { ProductRecord, StorageRequestsResponse } from '../types'
+import { useRouter } from 'next/navigation'
+
 import { getStorageRequests, approveRequests, rejectRequests } from '../api/list'
+import { ProductRecord, StorageRequestsResponse } from '../types'
+
 const STATUS_MAP: Record<string, string> = {
   in_progress: 'В ПРОЦЕССЕ',
   verified: 'ПРОВЕРЕНО',
@@ -22,106 +25,108 @@ const COLOR_MAP: Record<string, string> = {
 } as const
 
 function useList() {
-  const { message } = App.useApp();
-  const router = useRouter();
-  
-  const [dataSource, setDataSource] = React.useState<ProductRecord[]>([]);
-  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
-  const [loading, setLoading] = React.useState(false);
-  const [hasIncoming, setHasIncoming] = React.useState(false);
-  const [hasOutgoing, setHasOutgoing] = React.useState(false);
-  const [hasData, setHasData] = React.useState(false);
+  const { message } = App.useApp()
+  const router = useRouter()
 
-  const checkStatus = (status: string) => STATUS_MAP[status] || 'НЕИЗВЕСТНЫЙ СТАТУС';
-  const getTagColor = (status: string) => COLOR_MAP[status] || 'default';
+  const [dataSource, setDataSource] = React.useState<ProductRecord[]>([])
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([])
+  const [loading, setLoading] = React.useState(false)
+  const [hasIncoming, setHasIncoming] = React.useState(false)
+  const [hasOutgoing, setHasOutgoing] = React.useState(false)
+  const [hasData, setHasData] = React.useState(false)
+
+  const checkStatus = (status: string) => STATUS_MAP[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
+  const getTagColor = (status: string) => COLOR_MAP[status] || 'default'
 
   const fetchData = React.useCallback(async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response: StorageRequestsResponse = await getStorageRequests();
+      const response: StorageRequestsResponse = await getStorageRequests()
 
-      setHasIncoming(response.incomings?.length > 0);
-      setHasOutgoing(response.outgoings?.length > 0);
+      setHasIncoming(response.incomings?.length > 0)
+      setHasOutgoing(response.outgoings?.length > 0)
 
       const allRequests = [
         ...(response.incomings?.map(item => ({
           ...item,
           type: 'incoming',
-          status: item.status || 'not_verified'
+          status: item.status || 'not_verified',
         })) || []),
         ...(response.outgoings?.map(item => ({
           ...item,
           type: 'outgoing',
-          status: item.status || 'not_verified'
-        })) || [])
-      ] as ProductRecord[];
-      setDataSource(allRequests);
-      setHasData(allRequests.length > 0);
+          status: item.status || 'not_verified',
+        })) || []),
+      ] as ProductRecord[]
+
+      setDataSource(allRequests)
+      setHasData(allRequests.length > 0)
     } catch (error) {
-      console.error('Error fetching storage requests: ', error);
-      message.error('Ошибка при загрузке данных');
+      console.error('Error fetching storage requests: ', error)
+      message.error('Ошибка при загрузке данных')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [message]);
+  }, [message])
 
   const handleApprove = async () => {
     if (selectedRowKeys.length === 0) {
-      message.warning('Выберите заявки для подтверждения');
-      return;
+      message.warning('Выберите заявки для подтверждения')
+
+      return
     }
 
     try {
-      const selectedIds = selectedRowKeys.map(Number);
-      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id));
+      const selectedIds = selectedRowKeys.map(Number)
+      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id))
 
       const payload = {
         incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
-        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id)
-      };
+        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
+      }
 
-      await approveRequests(payload);
-      await fetchData();
-      message.success('Заявки успешно приняты');
-      setSelectedRowKeys([]);
+      await approveRequests(payload)
+      await fetchData()
+      message.success('Заявки успешно приняты')
+      setSelectedRowKeys([])
     } catch (error) {
-      console.error('Error approving requests:', error);
-      message.error('Ошибка при принятии заявок');
+      console.error('Error approving requests:', error)
+      message.error('Ошибка при принятии заявок')
     }
-  };
+  }
 
   const handleReject = async () => {
     if (selectedRowKeys.length === 0) {
-      message.warning('Выберите заявки для отклонения');
-      return;
+      message.warning('Выберите заявки для отклонения')
+
+      return
     }
 
     try {
-      const selectedIds = selectedRowKeys.map(Number);
-      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id));
+      const selectedIds = selectedRowKeys.map(Number)
+      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id))
 
       const payload = {
         incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
-        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id)
-      };
+        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
+      }
 
-      await rejectRequests(payload);
-      await fetchData();
-      message.success('Заявки успешно отклонены');
-      setSelectedRowKeys([]);
+      await rejectRequests(payload)
+      await fetchData()
+      message.success('Заявки успешно отклонены')
+      setSelectedRowKeys([])
     } catch (error) {
-      console.error('Error rejecting requests:', error);
-      message.error('Ошибка при отклонении заявок');
+      console.error('Error rejecting requests:', error)
+      message.error('Ошибка при отклонении заявок')
     }
-  };
-
-  
+  }
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '/storage', title: `Склад ${"№1"}` },
+    { href: '/storage', title: `Склад ${'№1'}` },
     { href: '/storage-requests', title: 'Заявки на склад' },
-  ];
+  ]
+
   return {
     selectedRowKeys,
     loading,
@@ -137,10 +142,9 @@ function useList() {
       fetchData,
       handleApprove,
       handleReject,
-      router
-    }
-  };
-
+      router,
+    },
+  }
 }
 
-export const use = useList;
+export const use = useList

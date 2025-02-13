@@ -13,7 +13,7 @@ export interface ProductRecord {
   date: string;
   supplier: string;
   message: string | null;
-  type?: 'incoming' | 'outgoing'; 
+  type?: 'incoming' | 'outgoing';
 
   barcode: string | null;
   product: {
