@@ -132,8 +132,6 @@ export const View: React.FC<Props> = (props) => {
     ProjectsOperationsGET(Number(props.project_id))
   }, [])
 
-  console.log(items)
-
   return (
     <div className="main">
       <Flex className={cls.header}>
