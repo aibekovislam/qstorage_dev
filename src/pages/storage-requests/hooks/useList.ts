@@ -5,7 +5,7 @@ import React from 'react'
 import { App } from 'antd'
 import { useRouter } from 'next/navigation'
 
-import { getStorageRequests, approveRequests, rejectRequests } from '../api/list'
+import { StorageRequests } from '..'
 import { ProductRecord, StorageRequestsResponse } from '../types'
 
 const STATUS_MAP: Record<string, string> = {
@@ -42,7 +42,7 @@ function useList() {
   const fetchData = React.useCallback(async () => {
     setLoading(true)
     try {
-      const response: StorageRequestsResponse = await getStorageRequests()
+      const response: StorageRequestsResponse = await StorageRequests.API.List.getStorageRequests()
 
       if (!response.incomings.length && !response.outgoings.length) {
         setHasData(false)
@@ -95,7 +95,7 @@ function useList() {
         outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
       }
 
-      await approveRequests(payload)
+      await StorageRequests.API.List.approveRequests(payload)
 
       setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
       message.success('Заявки успешно приняты')
@@ -122,7 +122,7 @@ function useList() {
         outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
       }
 
-      await rejectRequests(payload)
+      await StorageRequests.API.List.rejectRequests(payload)
 
       setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
       message.success('Заявки успешно отклонены')
