@@ -1,12 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo, useEffect } from 'react'
 
-import { Avatar, Popover, Space, Tag, Typography, Table, Flex, Button } from 'antd'
+import { Avatar, Popover, Space, Tag, Typography, Table, Flex, Button, App } from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
+import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { StorageRequests } from '..'
 import cls from '../styles/view.module.css'
@@ -14,124 +17,187 @@ import { ProductRecord } from '../types'
 
 const { Paragraph } = Typography
 
-const columns: ColumnsType<ProductRecord> = [
+const NoSSRWrapper = dynamic(
+  () => Promise.resolve(({ children }: { children: React.ReactNode }) => <>{children}</>),
   {
-    title: 'Товар',
-    dataIndex: 'product',
-    key: 'product',
-    render: (text, record) => (
-      <Space>
-        {record.imageUrl && (
-          <Image
-            src={record.imageUrl}
-            alt={text}
-            style={{ objectFit: 'cover' }}
-            width={40}
-            height={40}
-          />
-        )}
-        <span>{text}</span>
-      </Space>
-    ),
+    ssr: false,
+    loading: () => <div>Loading...</div>,
   },
-  {
-    title: 'Проект',
-    dataIndex: 'project',
-    key: 'project',
-  },
-  {
-    title: 'Кол-во',
-    dataIndex: 'quantity',
-    key: 'quantity',
-  },
-  {
-    title: 'Статус',
-    dataIndex: 'status',
-    key: 'status',
-    render: (status: string) => (
-      <Tag color="green">{status}</Tag>
-    ),
-  },
-  {
-    title: 'Дата',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: '№ Акта',
-    dataIndex: 'actNumber',
-    key: 'actNumber',
-  },
-  {
-    title: 'Поставщик',
-    dataIndex: 'supplier',
-    key: 'supplier',
-  },
-  {
-    title: 'Ответственный',
-    dataIndex: 'responsible',
-    key: 'responsible',
-    render: (personName: string) => (
-      <Space>
-        <Avatar>{personName.charAt(0)}</Avatar>
-        <span>{personName}</span>
-      </Space>
-    ),
-  },
-  {
-    title: 'Комментарий',
-    dataIndex: 'comment',
-    key: 'comment',
-    render: (comment: string) => {
-      return (
-        <Popover overlayClassName={cls.card} className={cls.custom__popover} content={comment}>
-          <Paragraph>{comment.slice(0, 10)}...</Paragraph>
-        </Popover>
-      )
+)
+
+const ViewContent: React.FC = () => {
+  const {
+    dataSource,
+    selectedRowKeys,
+    loading,
+    hasIncoming,
+    hasOutgoing,
+    hasFetchAttempted,
+    checkStatus,
+    getTagColor,
+    breadcrumbData,
+    actions,
+  } = StorageRequests.Hooks.List.use()
+
+  useEffect(() => {
+    if (!hasFetchAttempted && !loading) {
+      actions.fetchData()
+    }
+  }, [actions.fetchData, hasFetchAttempted, loading])
+
+  useEffect(() => {
+    const hasIncomingData = dataSource.some(item => item.type === 'incoming')
+    const hasOutgoingData = dataSource.some(item => item.type === 'outgoing')
+
+    if (hasIncoming !== hasIncomingData) {
+      actions.setHasIncoming(hasIncomingData)
+    }
+    if (hasOutgoing !== hasOutgoingData) {
+      actions.setHasOutgoing(hasOutgoingData)
+    }
+  }, [dataSource, hasIncoming, hasOutgoing, actions.setHasIncoming, actions.setHasOutgoing])
+
+  const columns: ColumnsType<ProductRecord> = useMemo(() => [
+    {
+      title: 'Товар',
+      dataIndex: ['product', 'title'],
+      key: 'product',
+      render: (text, record) => (
+        <Space>
+          {record.product.image && (
+            <Image
+              src={`${NEXT_PUBLIC_COMPANY_BASE_URL}${record.product.image}`}
+              alt={text}
+              style={{ objectFit: 'cover' }}
+              width={40}
+              height={40}
+            />
+          )}
+          <span>{text}</span>
+        </Space>
+      ),
     },
-  },
-]
+    {
+      title: 'Проект',
+      dataIndex: ['project', 'title'],
+      key: 'project',
+    },
+    {
+      title: 'Кол-во',
+      dataIndex: 'quantity',
+      key: 'quantity',
+    },
+    {
+      title: 'Статус',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string) => (
+        <Tag color={getTagColor(status)}>
+          {checkStatus(status)}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Дата',
+      dataIndex: 'date',
+      key: 'date',
+      render: (date: string) => dayjs(date).format('DD.MM.YYYY'),
+    },
+    {
+      title: '№ Акта',
+      dataIndex: 'act',
+      key: 'act',
+    },
+    {
+      title: 'Поставщик',
+      dataIndex: 'supplier',
+      key: 'supplier',
+    },
+    {
+      title: 'Ответственный',
+      dataIndex: ['responsible', 'first_name'],
+      key: 'responsible',
+      render: (firstName: string, record) => (
+        <Space>
+          <Avatar src={record.responsible.avatar}>{firstName.charAt(0)}</Avatar>
+          <span>{`${firstName} ${record.responsible.last_name}`}</span>
+        </Space>
+      ),
+    },
+    {
+      title: 'Комментарий',
+      dataIndex: 'message',
+      key: 'message',
+      render: (message: string) => {
+        if (!message) return '-'
 
-const dataSource: ProductRecord[] = [
-  {
-    key: 1,
-    product: 'Штаны',
-    project: 'TradeCode 99',
-    quantity: '3,638,066',
-    status: 'ПРОВЕРЕНО',
-    date: '2021-02-05',
-    actNumber: '574836839',
-    supplier: 'Vel crad sed rhoncus.',
-    responsible: 'Чынгыз А.',
-    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi cumque quibusdam officia, autem, laborum magnam consequatur, adipisci saepe incidunt sed sit magni repudiandae. Nesciunt fuga voluptate, quia quod voluptates cupiditate.',
-    imageUrl: 'https://outdoorvitals.com/cdn/shop/products/greensatushopify.png?v=1701706579&width=1000',
-  },
-]
+        return (
+          <Popover overlayClassName={cls.card} className={cls.custom__popover} content={message}>
+            <Paragraph>{message.slice(0, 10)}...</Paragraph>
+          </Popover>
+        )
+      },
+    },
+  ], [checkStatus, getTagColor])
 
-export const View = () => {
-  const { breadcrumbData } = StorageRequests.Hooks.List.use()
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (newSelectedRowKeys: React.Key[]) => {
+      console.log('Selected row keys:', newSelectedRowKeys)
+      actions.setSelectedRowKeys(newSelectedRowKeys)
+    },
+  }
 
   return (
     <div className="main">
-
       <div className={cls.navigation__info}>
-        <Breadcrumb items={breadcrumbData}/>
+        <Breadcrumb items={breadcrumbData} />
       </div>
 
       <Flex className={cls.header}>
-        <h2 className={cls.main_title}>Заявки “Склад №1”</h2>
+        <h2 className={cls.main_title}>Заявки &quot;Склад №1&quot;</h2>
         <Flex className={cls.btn_container}>
-          <Button className={cls.btn_success}>Принять</Button>
-          <Button className={cls.btn_red} >Отклонить</Button>
+          <Button
+            className={cls.btn_success}
+            onClick={actions.handleApprove}
+            disabled={selectedRowKeys.length === 0 || loading || (!hasIncoming && !hasOutgoing)}
+          >
+            Принять
+          </Button>
+          <Button
+            className={cls.btn_red}
+            onClick={actions.handleReject}
+            disabled={selectedRowKeys.length === 0 || loading || (!hasOutgoing && !hasIncoming)}
+          >
+            Отклонить
+          </Button>
         </Flex>
       </Flex>
 
       <Table<ProductRecord>
         columns={columns}
         dataSource={dataSource}
-        pagination={{ position: ['bottomRight'] }}
-        rowSelection={{ type: 'checkbox' }}
+        pagination={{
+          position: ['bottomRight'],
+          total: dataSource.length,
+          pageSize: 13,
+          hideOnSinglePage: true,
+          showSizeChanger: false,
+        }}
+        rowSelection={rowSelection}
+        rowKey="id"
+        loading={loading}
       />
     </div>
   )
 }
+
+const ViewWithProviders: React.FC = () => (
+  <NoSSRWrapper>
+    <App>
+      <ViewContent />
+    </App>
+  </NoSSRWrapper>
+)
+
+export default ViewWithProviders
