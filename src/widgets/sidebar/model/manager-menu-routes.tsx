@@ -49,7 +49,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
             icon: <AppstoreOutlined/>,
           },
           {
-            key: '/inventory',
+            key: '/stock',
             label: 'Остатки товара',
             icon: <BarsOutlined />,
           },
