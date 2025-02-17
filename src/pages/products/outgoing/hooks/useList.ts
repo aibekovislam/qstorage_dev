@@ -108,8 +108,6 @@ function useList() {
     try {
       const response = await ProductsOutgoing.API.List.getProductsOutgoingList(page)
 
-      console.log(response)
-
       setProductsOutgoingList(response.data)
     } catch (error) {
       console.log('products outgoing error', error)

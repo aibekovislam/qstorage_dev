@@ -132,8 +132,6 @@ export const ListProductsOutgoing: React.FC = () => {
     }
   }, [createModal.isOpen])
 
-  console.log(productsOutgoingList)
-
   return (
     <div>
       <div className="main">
