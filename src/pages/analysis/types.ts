@@ -1,3 +1,4 @@
+
 export interface ProductRecord {
     key: React.Key
     product: string
@@ -10,4 +11,20 @@ export interface ProductRecord {
     responsible: string
     comment: string
     imageUrl?: string
+}
+
+export namespace AnalysisType {
+    export interface AnalysisParams {
+        type: string;
+        interval: string;
+        start_date: string;
+        end_date: string;
+    }
+
+    export interface Item {
+        type: string
+        interval: string
+        date_selected: string
+        data: Record<string, number>
+    }
 }

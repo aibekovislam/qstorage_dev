@@ -3,10 +3,25 @@ import React from 'react'
 
 import { Dayjs } from 'dayjs'
 
+import { Analysis } from '..'
+import { AnalysisType } from '../types'
+
 function useList() {
   const [yearValue, setYearValue] = React.useState<Dayjs | null>(null)
   const [monthValue, setMonthValue] = React.useState<Dayjs | null>(null)
   const [dayValue, setDayValue] = React.useState<Dayjs | null>(null)
+  const [analysis , setAnalysis] = React.useState<AnalysisType.Item | null>(null)
+
+  const AnalysisGET = React.useCallback(async ({ type, interval, start_date, end_date }: AnalysisType.AnalysisParams) => {
+    try {
+      const response = await Analysis.API.View.getAnalysis({ type, interval, start_date, end_date })
+
+      setAnalysis(response.data)
+    } catch (error) {
+      console.log('analysis get error', error)
+    }
+  }, [])
+
   const handleChangeYearDatePicker = React.useCallback((newYear: Dayjs | null) => {
     if (!newYear) {
       setYearValue(null)
@@ -69,6 +84,7 @@ function useList() {
   return {
     breadcrumbData,
     navigation_data,
+    analysis,
     yearValue,
     monthValue,
     dayValue,
@@ -76,6 +92,7 @@ function useList() {
       handleChangeYearDatePicker,
       handleChangeMonthDatePicker,
       handleChangeDayDatePicker,
+      AnalysisGET,
     },
   }
 }

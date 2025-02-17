@@ -41,6 +41,7 @@ const DetailedBarCharts = dynamic(() => import('../ui/detailed-bar-charts/detail
 
 export const View = () => {
   const {
+    analysis,
     breadcrumbData,
     navigation_data,
     dayValue,
@@ -50,8 +51,20 @@ export const View = () => {
       handleChangeDayDatePicker,
       handleChangeMonthDatePicker,
       handleChangeYearDatePicker,
+      AnalysisGET,
     },
-  } = Analysis.Hooks.List.use()
+  } = Analysis.Hooks.View.use()
+
+  React.useEffect(() => {
+    AnalysisGET({
+      type: 'incoming',
+      interval: 'day',
+      start_date: '2025-02-15',
+      end_date: '2025-02-15',
+    })
+  }, [])
+
+  console.log(analysis)
 
   return (
     <div className="main">
@@ -174,7 +187,7 @@ export const View = () => {
       </Row>
       <div className={cls.graph}>
         <Flex justify={'space-between'} align={'flex-start'} className={cls.graph_container}>
-          <DetailedBarCharts/>
+          <DetailedBarCharts analysis={analysis}/>
           <Flex className={cls.statistics}>
             <h2 className={cls.graph_main_title}>Статистика прихода</h2>
             <ul className={cls.graph_navigation}>
