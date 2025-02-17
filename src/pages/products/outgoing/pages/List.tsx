@@ -114,12 +114,14 @@ export const ListProductsOutgoing: React.FC = () => {
   const {
     breadcrumbData,
     productsOutgoingList,
+    currentPage,
     actions: {
       createModal,
       router,
       ProductsOutgoingGET,
       checkStatus,
       getTagColor,
+      setCurrentPage,
 
     },
   } = ProductsOutgoing.Hooks.List.use()
@@ -129,6 +131,8 @@ export const ListProductsOutgoing: React.FC = () => {
       ProductsOutgoingGET()
     }
   }, [createModal.isOpen])
+
+  console.log(productsOutgoingList)
 
   return (
     <div>
@@ -148,16 +152,25 @@ export const ListProductsOutgoing: React.FC = () => {
           </Flex>
           <Flex gap={10}>
             <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
+            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
           </Flex>
         </div>
         <Table<ProductsOutgoingTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsOutgoingList}
-          pagination={{ position: ['bottomRight'] }}
+          dataSource={productsOutgoingList?.results}
           rowKey={(record) => record.id}
-          loading={!productsOutgoingList}
+          loading={!productsOutgoingList?.results}
           scroll={{ x: 'max-content' }}
+          pagination={{
+            position: ['bottomRight'],
+            total: productsOutgoingList?.count,
+            current: currentPage,
+            pageSize: 10,
+            onChange: (page) => {
+              setCurrentPage(page)
+              ProductsOutgoingGET(page)
+            },
+          }}
         />
       </div>
       <ModalCreateOutgoing

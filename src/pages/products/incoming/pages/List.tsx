@@ -114,11 +114,13 @@ export const ListProductsIncoming: React.FC = () => {
   const {
     breadcrumbData,
     productsIncomingList,
+    currentPage,
     actions: {
       createModal,
       router,
       ProductsIncomingGET,
       checkStatus,
+      setCurrentPage,
       getTagColor,
     },
   } = ProductsIncoming.Hooks.List.use()
@@ -128,6 +130,8 @@ export const ListProductsIncoming: React.FC = () => {
       ProductsIncomingGET()
     }
   }, [createModal.isOpen])
+
+  console.log(productsIncomingList)
 
   return (
     <div>
@@ -152,11 +156,20 @@ export const ListProductsIncoming: React.FC = () => {
         </div>
         <Table<ProductsIncomingTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsIncomingList}
-          pagination={{ position: ['bottomRight'] }}
+          dataSource={productsIncomingList?.results}
           rowKey={(record) => record.id}
-          loading={!productsIncomingList}
+          loading={!productsIncomingList?.results}
           scroll={{ x: 'max-content' }}
+          pagination={{
+            position: ['bottomRight'],
+            total: productsIncomingList?.count,
+            current: currentPage,
+            pageSize: 10,
+            onChange: (page) => {
+              setCurrentPage(page)
+              ProductsIncomingGET(page)
+            },
+          }}
         />
       </div>
       <ModalCreateIncoming
