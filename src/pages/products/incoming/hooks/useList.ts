@@ -18,6 +18,7 @@ function useList() {
   const [form] = Form.useForm()
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
+  const [currentPage, setCurrentPage] = React.useState(1)
   const [isLoadingProducts, setLoadingProducts] = React.useState(false)
   const [products, setProducts] = React.useState<ProductsIncomingTypes.Product[] | null>(null)
   const [project, setProject] = React.useState<ProductsIncomingTypes.Project[] | null>(null)
@@ -28,7 +29,7 @@ function useList() {
   const [isResponsibleDisabled, setIsResponsibleDisabled] = React.useState<boolean>(false)
   const [isProductSelected, setIsProductSelected] = React.useState<boolean>(false)
   const [totalCost, setTotalCost] = React.useState<number | undefined>(undefined)
-  const [productsIncomingList, setProductsIncomingList] = React.useState<ProductsIncomingTypes.Table[] | undefined>(undefined)
+  const [productsIncomingList, setProductsIncomingList] = React.useState<ProductsIncomingTypes.ApiResponse | undefined>(undefined)
 
   const fetchProducts = React.useCallback(
     debounce(async (searchTerm: string) => {
@@ -103,11 +104,11 @@ function useList() {
     }
   }
 
-  const ProductsIncomingGET = React.useCallback(async () => {
+  const ProductsIncomingGET = React.useCallback(async (page: number = 1) => {
     try {
-      const response = await ProductsIncoming.API.List.getProductsIncomingList()
+      const response = await ProductsIncoming.API.List.getProductsIncomingList(page)
 
-      setProductsIncomingList(response.data.results)
+      setProductsIncomingList(response.data)
     } catch (error) {
       console.log('products incoming error', error)
     }
@@ -257,6 +258,7 @@ function useList() {
     productsIncomingList,
     defaultDraggerProps,
     submitted,
+    currentPage,
     isCreated,
     products,
     project,
@@ -278,6 +280,7 @@ function useList() {
       setIsNewProductMode,
       setProducts,
       setSearchQuery,
+      setCurrentPage,
       createIncoming,
       ProductsIncomingProjectGET,
       ProductsIncomingGET,

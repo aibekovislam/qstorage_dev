@@ -18,6 +18,7 @@ function useList() {
   const [form] = Form.useForm()
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
+  const [currentPage, setCurrentPage] = React.useState(1)
   const [isLoadingProducts, setLoadingProducts] = React.useState(false)
   const [products, setProducts] = React.useState<ProductsOutgoingTypes.Product[] | null>(null)
   const [project, setProject] = React.useState<ProductsOutgoingTypes.Project[] | null>(null)
@@ -28,7 +29,7 @@ function useList() {
   const [isResponsibleDisabled, setIsResponsibleDisabled] = React.useState<boolean>(false)
   const [isProductSelected, setIsProductSelected] = React.useState<boolean>(false)
   const [totalCost, setTotalCost] = React.useState<number | undefined>(undefined)
-  const [productsOutgoingList, setProductsOutgoingList] = React.useState<ProductsOutgoingTypes.Table[] | undefined>(undefined)
+  const [productsOutgoingList, setProductsOutgoingList] = React.useState<ProductsOutgoingTypes.ApiResponse | undefined>(undefined)
 
   const fetchProducts = React.useCallback(
     debounce(async (searchTerm: string) => {
@@ -103,11 +104,11 @@ function useList() {
     }
   }
 
-  const ProductsOutgoingGET = React.useCallback(async () => {
+  const ProductsOutgoingGET = React.useCallback(async (page: number = 1) => {
     try {
-      const response = await ProductsOutgoing.API.List.getProductsOutgoingList()
+      const response = await ProductsOutgoing.API.List.getProductsOutgoingList(page)
 
-      setProductsOutgoingList(response.data.results)
+      setProductsOutgoingList(response.data)
     } catch (error) {
       console.log('products outgoing error', error)
     }
@@ -258,6 +259,7 @@ function useList() {
     productsOutgoingList,
     submitted,
     isCreated,
+    currentPage,
     products,
     project,
     userResponsible,
@@ -278,6 +280,7 @@ function useList() {
       setIsNewProductMode,
       setProducts,
       setSearchQuery,
+      setCurrentPage,
       createOutgoing,
       ProductsOutgoingProjectGET,
       ProductsOutgoingGET,
