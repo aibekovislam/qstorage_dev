@@ -120,7 +120,7 @@ export const View = () => {
       </div>
 
       <div className={cls.main_title}>
-        <h2>Заявки “Склад №1”</h2>
+        <h2>Заявки</h2>
       </div>
 
       <Flex className={cls.filter_panel}>

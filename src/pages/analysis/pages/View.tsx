@@ -57,7 +57,7 @@ export const View = () => {
     <div className="main">
       <Flex className={cls.navigation__info}>
         <Breadcrumb items={breadcrumbData}/>
-        <h2 className={cls.main_title}>Анализы “Склад №1”</h2>
+        <h2 className={cls.main_title}>Анализыx</h2>
       </Flex>
       <Flex className={cls.header} justify={'space-between'}>
         <Flex gap={4} className={cls.btn_container}>

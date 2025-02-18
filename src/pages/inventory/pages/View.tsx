@@ -108,7 +108,7 @@ export const View = () => {
       </Flex>
 
       <Flex className={cls.inventory_info}>
-        <h2>Заявки “Склад №1”</h2>
+        <h2>Заявки</h2>
         <div className={cls.inventory_info_main}>
           <div className={cls.inventory_info_container}>
             <Flex className={cls.inventory_info_item}>

@@ -10,7 +10,7 @@ import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductItems } from '..'
-import cls from '../styles/view.module.css'
+import cls from '../styles/list.module.css'
 
 export const ListProducts: React.FC = () => {
   const {
@@ -18,6 +18,7 @@ export const ListProducts: React.FC = () => {
     productsList,
     actions: {
       ProductsGET,
+      router,
     },
   } = ProductItems.Hooks.List.use()
 
@@ -29,7 +30,7 @@ export const ListProducts: React.FC = () => {
     <div className="main">
       <div className={cls.navigation__info}>
         <Breadcrumb items={breadcrumbData}/>
-        <h2>Товары “Склад №1”</h2>
+        <h2>Товары</h2>
       </div>
       <Flex className={cls.filterPanel}>
         <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
@@ -61,7 +62,7 @@ export const ListProducts: React.FC = () => {
                 padding: 0,
               }}
             >
-              <div className={cls.card}>
+              <div onClick={() => router.push(`/products/items/${item.slug}?title=${encodeURIComponent(item.title)}`)} className={cls.card}>
                 <Flex justify={'center'}>
                   <Image
                     width={117}
