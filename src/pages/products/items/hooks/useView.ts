@@ -16,7 +16,8 @@ function useView() {
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '/products/products', title: 'Товары' },
+    { href: '/products/items', title: 'Товары' },
+    { href: '#', title: projectTitle },
   ]
 
   const ProductItemsBySlugGET = React.useCallback(async (item_slug: string) => {

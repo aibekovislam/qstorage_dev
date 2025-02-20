@@ -39,6 +39,10 @@
     font-size: 11px;
     font-weight: 500;
     color: #0E0E0E;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; 
 }
 
 .card__info p {
@@ -55,4 +59,14 @@
 
 .card_image{
     object-fit: cover !important;
+}
+
+.circle_color{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.no_colors{
+    font-size: 8px;
 }

@@ -26,6 +26,8 @@ export const ListProducts: React.FC = () => {
     ProductsGET()
   }, [])
 
+  console.log(productsList)
+
   return (
     <div className="main">
       <div className={cls.navigation__info}>
@@ -70,12 +72,21 @@ export const ListProducts: React.FC = () => {
                     className={cls.card_image}
                     src={item.image || NoPhoto.src}
                     alt={item.title}
+                    priority
                   />
                 </Flex>
                 <div className={cls.card__info}>
                   <h2>{item.title}</h2>
-                  <p>{item.color}</p>
-                  <span>{item.price} сом</span>
+                  <Flex gap={5}>
+                    {item.color?.length ? (
+                      item.color.map((color) => (
+                        <div key={color.id} style={{ backgroundColor: color.hash_code }} className={cls.circle_color} />
+                      ))
+                    ) : (
+                      <div className={cls.no_colors}>Нет цветов</div>
+                    )}
+                  </Flex>
+                  <span>{parseInt(item.price)} сом</span>
                 </div>
               </div>
             </List.Item>
