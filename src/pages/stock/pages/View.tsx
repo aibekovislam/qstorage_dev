@@ -50,11 +50,20 @@ const createColumns = (): ColumnsType<StockType.Table> => {
 }
 
 export const View = () => {
-  const { breadcrumbData, stock, actions: { StockGET } } = Stock.Hooks.View.use()
+  const {
+    breadcrumbData,
+    stock,
+    currentPage,
+    actions: {
+      StockGET,
+      setCurrentPage,
+    } } = Stock.Hooks.View.use()
 
   React.useEffect(() => {
     StockGET()
   }, [])
+
+  console.log(stock)
 
   return (
     <div className="main">
@@ -86,11 +95,20 @@ export const View = () => {
 
       <Table<StockType.Table>
         columns={createColumns()}
-        dataSource={stock}
-        pagination={{ position: ['bottomRight'] }}
+        dataSource={stock?.results}
         rowKey={(record) => record.slug}
         loading={!stock}
         scroll={{ x: 'max-content' }}
+        pagination={{
+          position: ['bottomRight'],
+          total: stock?.count,
+          current: currentPage,
+          pageSize: 10,
+          onChange: (page) => {
+            setCurrentPage(page)
+            StockGET(page)
+          },
+        }}
       />
     </div>
   )
