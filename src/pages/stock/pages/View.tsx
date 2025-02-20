@@ -63,8 +63,6 @@ export const View = () => {
     StockGET()
   }, [])
 
-  console.log(stock)
-
   return (
     <div className="main">
 
@@ -82,11 +80,7 @@ export const View = () => {
             <Flex className={cls.inventory_info_item}>
               <div>
                 <h3 className={cls.sub_title}>Общий остаток</h3>
-                <span className={cls.stock_number}>140,000</span>
-              </div>
-              <div>
-                <h3 className={cls.sub_title}>Старый остаток</h3>
-                <span className={cls.stock_number}>1,413</span>
+                <span className={cls.stock_number}>{stock?.total_stock}</span>
               </div>
             </Flex>
           </div>

@@ -5,6 +5,7 @@ export namespace StockType {
         next: string | null;
         previous: string | null;
         results: Table[];
+        total_stock: number
     }
     export interface Table {
         slug: string
