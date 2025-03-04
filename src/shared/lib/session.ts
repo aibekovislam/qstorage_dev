@@ -9,7 +9,7 @@ import { TokenManager } from '../utils/token-manager'
 
 const secretKey = process.env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+const BASE_URL = process.env.NEXT_PUBLIC_COMPANY_BASE_URL
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)

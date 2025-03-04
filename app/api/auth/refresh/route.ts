@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const { refresh_token } = await req.json()
 
-    const tokens = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/refresh/`, {
+    const tokens = await fetch(`${process.env.NEXT_PUBLIC_COMPANY_BASE_URL}/auth/token/refresh/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
