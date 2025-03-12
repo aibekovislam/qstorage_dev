@@ -1,11 +1,11 @@
 export namespace ProductsTypes {
 
   export interface Item {
-    slug: string;
-    title: string;
-    price: string;
-    color: Color[];
-    description: string;
+    slug?: string;
+    title?: string;
+    price?: string;
+    color?: Color[];
+    description?: string;
     image?: string | null;
   }
 
