@@ -20,6 +20,7 @@ interface UserData {
     role: string | null,
     date_of_birth: string | null
     companies: CompaniesData[] | null
+    current_warehouse: number | null
 }
 
 export interface UserState {

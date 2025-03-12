@@ -49,4 +49,20 @@ export namespace ProductsIncomingTypes {
     color: string
     warehouse: number
   }
+
+  export interface Item {
+    id: number;
+    files: any[];
+    quantity: number;
+    purchase_price?: string | null;
+    status?: string | null;
+    act?: string | null;
+    date: string;
+    supplier?: string | null;
+    message?: string | null;
+    barcode?: string | null;
+    product?: Product;
+    project?: number | null;
+    responsible?: string | null;
+  }
 }

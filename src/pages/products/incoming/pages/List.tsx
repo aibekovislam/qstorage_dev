@@ -7,13 +7,14 @@ import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'an
 import { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductsIncoming } from '..'
-import cls from '../styles/view.module.css'
+import cls from '../styles/list.module.css'
 import { ProductsIncomingTypes } from '../types'
 import ModalCreateIncoming from '../ui/modals/ModalCreate/modal-create-incoming'
 
@@ -25,7 +26,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: (product: ProductsIncomingTypes.Product) => (
+      render: (product, record) => (
         <Space>
           <Image
             src={product.image || NoPhoto.src}
@@ -35,7 +36,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
             height={40}
             className={cls.table_image}
           />
-          <span>{product.title}</span>
+          <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', product)}>{product.title}</Link>
         </Space>
       ),
     },
@@ -154,7 +155,7 @@ export const ListProductsIncoming: React.FC = () => {
         </div>
         <Table<ProductsIncomingTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsIncomingList?.results}
+          dataSource={productsIncomingList?.results || []}
           rowKey={(record) => record.id}
           loading={!productsIncomingList?.results}
           scroll={{ x: 'max-content' }}

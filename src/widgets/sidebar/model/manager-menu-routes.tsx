@@ -24,7 +24,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
         className: 'search_sidebar',
       },
       {
-        key: 'warehouse',
+        key: '/warehouses',
         label: 'Склад',
         icon: <ShopOutlined />,
       },
@@ -49,7 +49,7 @@ export const ManagerSidebarMenuRoutes: MenuItem[] = [
             icon: <AppstoreOutlined/>,
           },
           {
-            key: '/inventory',
+            key: '/stock',
             label: 'Остатки товара',
             icon: <BarsOutlined />,
           },
