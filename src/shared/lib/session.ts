@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
 import { LoginTypes } from '@/pages/auth/types'
 
-import { TokenManager } from '../utils/token-manager'
+import { TokenManagerClient } from '../utils/token-manager/token-manager-client'
 
 const secretKey = process.env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
@@ -48,9 +48,6 @@ export async function loginSession(loginData: LoginTypes.Form) {
         ...data,
       }
     }
-
-    await TokenManager.setAccessToken(data.access)
-    await TokenManager.setRefreshToken(data.refresh)
 
     const user = data.user
     const session = await encrypt({ user })
@@ -101,8 +98,8 @@ export async function refreshTokens(refresh_token: string) {
 
     const data = await response.json()
 
-    await TokenManager.setAccessToken(data.access)
-    await TokenManager.setRefreshToken(data.refresh)
+    await TokenManagerClient.setAccessToken(data.access)
+    await TokenManagerClient.setRefreshToken(data.refresh)
 
     return data
   } catch (error) {

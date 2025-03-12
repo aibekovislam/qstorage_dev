@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
     })
 
-    return NextResponse.json({ success: true, data: 'Пользовотель успешно был установлен' })
+    return NextResponse.json({ success: true, data: 'Пользователь успешно был установлен' })
   } catch (error) {
     console.log('error users me', error)
 

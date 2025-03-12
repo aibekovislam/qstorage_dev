@@ -28,31 +28,29 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Layout className={cls.main_layout}>
-        <Layout className={cls.layout_side_content}>
-          <Layout.Sider
-            width="270px"
-            className={cls.sidebar}
-            breakpoint="lg"
-            collapsedWidth="0"
-          >
-            <SideBar routes={ManagerSidebarMenuRoutes} />
-          </Layout.Sider>
-          <Layout.Content className={cls.content}>
-            <Flex justify="space-between" align="center" className={cls.header}>
-              <Button
-                className={cls.burger_button}
-                icon={<MenuOutlined />}
-                onClick={showDrawer}
-              />
+        <Layout.Sider
+          width="270px"
+          className={cls.sidebar}
+          breakpoint="lg"
+          collapsedWidth="0"
+        >
+          <SideBar routes={ManagerSidebarMenuRoutes} />
+        </Layout.Sider>
+        <Layout.Content className={cls.content}>
+          <Flex justify="space-between" align="center" className={cls.header}>
+            <Button
+              className={cls.burger_button}
+              icon={<MenuOutlined />}
+              onClick={showDrawer}
+            />
 
-              <Flex gap={5} align="center" justify="space-between" className={cls.avatar_mobile}>
-                <Avatar icon={<UserOutlined />} />
-                <span>Директор</span>
-              </Flex>
+            <Flex gap={5} align="center" justify="space-between" className={cls.avatar_mobile}>
+              <Avatar icon={<UserOutlined />} />
+              <span>Директор</span>
             </Flex>
-            {children}
-          </Layout.Content>
-        </Layout>
+          </Flex>
+          {children}
+        </Layout.Content>
       </Layout>
 
       <Drawer
