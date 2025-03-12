@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Flex, List } from 'antd'
+import { Button, Flex, List } from 'antd'
 import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
@@ -32,10 +32,13 @@ export const ListProducts: React.FC = () => {
     <div className="main">
       <div className={cls.navigation__info}>
         <Breadcrumb items={breadcrumbData}/>
-        <h2>Товары</h2>
+        <Button onClick={() => router.push('/products/items/create')} type="primary">Создать товар</Button>
       </div>
       <Flex className={cls.filterPanel}>
-        <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
+        <h2>Товары</h2>
+        <Flex gap={10}>
+          <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
+        </Flex>
       </Flex>
       <div className={cls.products_main}>
         <List

@@ -1,16 +1,17 @@
 .navigation__info{
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 13px;
+    margin-bottom: 14px;
 }
 
 .filterPanel{
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 14px;
     gap: 10px;
 }
 
-.navigation__info h2 {
+.filterPanel h2 {
     font-weight: 400;
     font-size: 24px;
 }
