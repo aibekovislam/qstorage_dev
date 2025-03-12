@@ -1,5 +1,7 @@
 'use client'
 
+import React from 'react'
+
 import { Menu } from 'antd'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -19,6 +21,12 @@ export const SideBar: React.FC<Props> = (props) => {
 
   const pathname = usePathname()
 
+  const getActiveRouter = (routes: MenuProps['items']) => {
+    if (!routes) return []
+
+    return routes.filter((item) => pathname?.includes(String(item?.key)))
+  }
+
   return (
     pathname ? (
       <div className={cls.sidebar_wrapper}>
@@ -26,7 +34,7 @@ export const SideBar: React.FC<Props> = (props) => {
           onClick={onClick}
           defaultSelectedKeys={['/products/arrivals']}
           defaultOpenKeys={['sub1']}
-          selectedKeys={[pathname]}
+          selectedKeys={getActiveRouter(props.routes)?.map(item => item?.key as string) ?? []}
           mode="inline"
           items={props.routes}
           className={cls.Menu}

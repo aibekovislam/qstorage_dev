@@ -16,7 +16,6 @@ import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 import { ProductsIncoming } from '..'
 import cls from '../styles/list.module.css'
 import { ProductsIncomingTypes } from '../types'
-import ModalCreateIncoming from '../ui/modals/ModalCreate/modal-create-incoming'
 
 const { Paragraph } = Typography
 
@@ -150,7 +149,7 @@ export const ListProductsIncoming: React.FC = () => {
           </Flex>
           <Flex gap={10}>
             <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить приход</Button>
+            <Button type="primary" onClick={() => router.push('/products/incoming/create')} className={cls.btn}>Добавить приход</Button>
           </Flex>
         </div>
         <Table<ProductsIncomingTypes.Table>
@@ -171,10 +170,6 @@ export const ListProductsIncoming: React.FC = () => {
           }}
         />
       </div>
-      <ModalCreateIncoming
-        onCloseModal={createModal.onClose}
-        isModalOpen={createModal.isOpen}
-      />
     </div>
   )
 }

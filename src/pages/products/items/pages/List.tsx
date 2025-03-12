@@ -73,7 +73,6 @@ export const ListProducts: React.FC = () => {
                 </Flex>
                 <div className={cls.card__info}>
                   <h2>{item.title}</h2>
-                  <p>{item.color}</p>
                   <span>{item.price} сом</span>
                 </div>
               </div>

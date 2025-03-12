@@ -18,15 +18,21 @@ const theme: ThemeConfig = {
     },
     Select: {
       borderRadius: 3,
+      optionSelectedBg: '#d3d5d6',
     },
     Modal: {
       titleFontSize:  24,
       fontWeightStrong: 400,
     },
+    Table: {
+      rowSelectedBg: '#d3d5d6',
+      rowHoverBg: '#d3d5d6',
+      rowSelectedHoverBg: '#d3d5d6',
+    },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',
-    colorPrimary: '#FA541C',
+    colorPrimary: '#0d1924',
     colorLink: '#FA541C',
   },
 } as const
