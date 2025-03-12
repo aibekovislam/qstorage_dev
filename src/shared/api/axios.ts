@@ -2,21 +2,21 @@
 
 import axios, { AxiosError } from 'axios'
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL
-const apiURL = process.env.NEXT_PUBLIC_API_URL
+import { TokenManagerClient } from '../utils/token-manager/token-manager-client'
+
+const baseURL = process.env.NEXT_PUBLIC_COMPANY_BASE_URL
 
 export const axiosRequest = axios.create({
   baseURL,
+  withCredentials: true,
 })
 
 axiosRequest.interceptors.request.use(
   async (config) => {
-    const response = await fetch(`${apiURL}/api/auth/get-tokens/`)
+    const access = await TokenManagerClient.getAccessToken()
 
-    const { tokens } = await response.json()
-
-    if (tokens)
-      config.headers['Authorization'] = `Bearer ${tokens.access}`
+    if (access)
+      config.headers['Authorization'] = `Bearer ${access}`
 
     return config
   },
@@ -26,9 +26,7 @@ axiosRequest.interceptors.request.use(
 axiosRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const response = await fetch(`${apiURL}/api/auth/get-tokens/`)
-
-    const { tokens } = await response.json()
+    const refresh = await TokenManagerClient.getRefreshToken()
 
     const originalRequest = error.config
 
@@ -36,12 +34,15 @@ axiosRequest.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const response = await axios.post(`${apiURL}/api/auth/refresh/`, {
-          refresh_token: tokens.refresh,
+        const response = await axios.post(`${baseURL}/auth/token/refresh/`, {
+          refresh: refresh,
         })
 
         if (response) {
-          originalRequest.headers['Authorization'] = `Bearer ${response.data.tokens.access}`
+          await TokenManagerClient.setAccessToken(response.data.access)
+          await TokenManagerClient.setRefreshToken(response.data.refresh)
+
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`
 
           return axiosRequest(originalRequest)
         }

@@ -155,7 +155,7 @@ export const ListProductsIncoming: React.FC = () => {
         </div>
         <Table<ProductsIncomingTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsIncomingList?.results}
+          dataSource={productsIncomingList?.results || []}
           rowKey={(record) => record.id}
           loading={!productsIncomingList?.results}
           scroll={{ x: 'max-content' }}

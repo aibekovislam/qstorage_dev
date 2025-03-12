@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import useNotification from '@/shared/hooks/useNotifications'
 import { loginSession as onLogin } from '@/shared/lib/session'
+import { TokenManagerClient } from '@/shared/utils/token-manager/token-manager-client'
 
 import { LoginTypes } from '../types'
 
@@ -18,6 +19,9 @@ export const useLogin = () => {
 
     try {
       const response = await onLogin(data)
+
+      TokenManagerClient.setAccessToken(response.access)
+      TokenManagerClient.setRefreshToken(response.refresh)
 
       if (response && response.success) {
         router.push('/products/incoming')
