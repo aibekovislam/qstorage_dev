@@ -13,3 +13,7 @@
 .selectField{
     margin: 0px !important;
 }
+
+.selectField :global(.ant-select) {
+    height: 44px !important;
+}

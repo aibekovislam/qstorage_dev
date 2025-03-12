@@ -61,11 +61,11 @@ export const FilterPanel: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <SelectField
+      {/* <SelectField
         style={{ width: 210 }}
         options={props.options}
         defaultValue={props.defaultValue}
-      />
+      /> */}
       <DatePickerField
         pickerMode="year"
         placeholder="Выберите год"

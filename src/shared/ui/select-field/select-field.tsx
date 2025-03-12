@@ -10,6 +10,7 @@ interface Props extends SelectProps {
   name?: string
   initialValue?: string
   rules?: Rule[]
+  height?: number
 }
 
 export const SelectField: React.FC<Props> = (props) => {
