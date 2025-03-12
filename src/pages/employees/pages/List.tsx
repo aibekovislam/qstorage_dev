@@ -88,7 +88,7 @@ export const List = () => {
       </div>
 
       <Flex className={cls.main_title} justify="space-between" align="center">
-        <h2>Персонал “Склад №1”</h2>
+        <h2>Персонал</h2>
 
         <Button type="primary" onClick={() => router.push('/employees/create/')}>Добавить сотрудника</Button>
       </Flex>

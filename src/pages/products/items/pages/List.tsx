@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Flex, List } from 'antd'
+import { Button, Flex, List } from 'antd'
 import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
@@ -10,7 +10,7 @@ import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductItems } from '..'
-import cls from '../styles/view.module.css'
+import cls from '../styles/list.module.css'
 
 export const ListProducts: React.FC = () => {
   const {
@@ -18,6 +18,7 @@ export const ListProducts: React.FC = () => {
     productsList,
     actions: {
       ProductsGET,
+      router,
     },
   } = ProductItems.Hooks.List.use()
 
@@ -25,14 +26,19 @@ export const ListProducts: React.FC = () => {
     ProductsGET()
   }, [])
 
+  console.log(productsList)
+
   return (
     <div className="main">
       <div className={cls.navigation__info}>
         <Breadcrumb items={breadcrumbData}/>
-        <h2>Товары “Склад №1”</h2>
+        <Button onClick={() => router.push('/products/items/create')} type="primary">Создать товар</Button>
       </div>
       <Flex className={cls.filterPanel}>
-        <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
+        <h2>Товары</h2>
+        <Flex gap={10}>
+          <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
+        </Flex>
       </Flex>
       <div className={cls.products_main}>
         <List
@@ -61,7 +67,7 @@ export const ListProducts: React.FC = () => {
                 padding: 0,
               }}
             >
-              <div className={cls.card}>
+              <div onClick={() => router.push(`/products/items/${item.slug}?title=${encodeURIComponent(item.title)}`)} className={cls.card}>
                 <Flex justify={'center'}>
                   <Image
                     width={117}
@@ -69,11 +75,21 @@ export const ListProducts: React.FC = () => {
                     className={cls.card_image}
                     src={item.image || NoPhoto.src}
                     alt={item.title}
+                    priority
                   />
                 </Flex>
                 <div className={cls.card__info}>
                   <h2>{item.title}</h2>
-                  <span>{item.price} сом</span>
+                  <Flex gap={5}>
+                    {item.color?.length ? (
+                      item.color.map((color) => (
+                        <div key={color.id} style={{ backgroundColor: color.hash_code }} className={cls.circle_color} />
+                      ))
+                    ) : (
+                      <div className={cls.no_colors}>Нет цветов</div>
+                    )}
+                  </Flex>
+                  <span>{parseInt(item.price)} сом</span>
                 </div>
               </div>
             </List.Item>

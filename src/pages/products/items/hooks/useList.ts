@@ -2,10 +2,13 @@
 
 import React from 'react'
 
+import { useRouter } from 'next/navigation'
+
 import { ProductItems } from '..'
 import { ProductsTypes } from '../types'
 
 function useList() {
+  const router = useRouter()
   const [productsList, setProductsList] = React.useState<ProductsTypes.Item[] | undefined>(undefined)
 
   const breadcrumbData = [
@@ -28,6 +31,7 @@ function useList() {
     productsList,
     actions: {
       ProductsGET,
+      router,
     },
   }
 }
