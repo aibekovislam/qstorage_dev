@@ -11,11 +11,13 @@ import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductItems } from '..'
 import cls from '../styles/list.module.css'
+import ModalCreateItem from '../ui/modal-create-item'
 
 export const ListProducts: React.FC = () => {
   const {
     breadcrumbData,
     productsList,
+    createModal,
     actions: {
       ProductsGET,
       router,
@@ -23,16 +25,16 @@ export const ListProducts: React.FC = () => {
   } = ProductItems.Hooks.List.use()
 
   React.useEffect(() => {
-    ProductsGET()
-  }, [])
-
-  console.log(productsList)
+    if (!createModal.isOpen) {
+      ProductsGET()
+    }
+  }, [createModal.isOpen])
 
   return (
     <div className="main">
       <div className={cls.navigation__info}>
         <Breadcrumb items={breadcrumbData}/>
-        <Button onClick={() => router.push('/products/items/create')} type="primary">Создать товар</Button>
+        <Button className={cls.btn} onClick={createModal.onOpen} type="primary">Создать товар</Button>
       </div>
       <Flex className={cls.filterPanel}>
         <h2>Товары</h2>
@@ -96,6 +98,10 @@ export const ListProducts: React.FC = () => {
           )}
         />
       </div>
+      <ModalCreateItem
+        onCloseModal={createModal.onClose}
+        isModalOpen={createModal.isOpen}
+      />
     </div>
   )
 }
