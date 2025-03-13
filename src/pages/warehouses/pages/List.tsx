@@ -15,9 +15,9 @@ export const ListWarehouses = () => {
   const {
     isWarehouseLoading,
     warehouses,
+    router,
     actions: {
       WarehouseListGET,
-      SelectStorage,
     },
   } = Warehouses.Hooks.List.use()
 
@@ -53,7 +53,7 @@ export const ListWarehouses = () => {
             renderItem={(item) => (
               <List.Item
                 key={item.id}
-                onClick={() => SelectStorage(item.id)}
+                onClick={() => router.push(`/warehouses/${item.id}`)}
                 style={{
                   background: 'transparent',
                   display: 'flex',
