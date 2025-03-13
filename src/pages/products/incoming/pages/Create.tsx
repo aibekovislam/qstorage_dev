@@ -190,7 +190,10 @@ export const Create = () => {
                     <SearchField onChange={(e) => handleSearchProducts(e)} />
                   </Flex>
 
-                  <Button className={cls.filter_btn} type="primary">Фильтры</Button>
+                  <Flex gap={15}>
+                    <Button onClick={() => console.log('clicked')} className={cls.filter_btn} type="primary">Создать продукт</Button>
+                    <Button className={cls.filter_btn} type="primary">Фильтры</Button>
+                  </Flex>
                 </Flex>
 
                 <Table

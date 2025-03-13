@@ -71,3 +71,8 @@
 .no_colors{
     font-size: 8px;
 }
+
+.btn {
+    box-shadow: none !important;
+    border: none !important;
+}

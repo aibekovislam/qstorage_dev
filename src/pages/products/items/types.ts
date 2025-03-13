@@ -12,6 +12,15 @@ export namespace ProductsTypes {
     warehouse?: number
   }
 
+  export interface Form {
+    title: string
+    price: string
+    color: Color
+    expiration_date?: string
+    characteristics?: string
+    warehouse?: number
+  }
+
   export interface Color {
     id: number;
     name: string;

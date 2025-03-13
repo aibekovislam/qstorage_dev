@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Button, Divider, Form, Modal } from 'antd'
 
@@ -37,7 +37,7 @@ const ModalCreateProjects: React.FC<Props> = ({ isModalOpen, onCloseModal }) => 
     }
   }, [isCreated, onCloseModal])
 
-  useEffect(() => {
+  React.useEffect(() => {
     ProjectsWarehousesGET()
   }, [ProjectsWarehousesGET])
 
