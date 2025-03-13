@@ -4,6 +4,7 @@ import React from 'react'
 
 import { Breadcrumb, Button, Form } from 'antd'
 
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
 import { Warehouses } from '..'
@@ -30,6 +31,8 @@ export const Create = () => {
 
       <Form form={form} className={cls.form} onFinish={(data) => createWarehouse(data)}>
         <TextField name="title" placeholder="Название склада" label="Введите название склада" />
+        <h1 className={cls.image_title}>Выберите картинку для склада</h1>
+        <DraggerFileField name="image" maxCount={1} />
         <Button htmlType="submit" type="primary" className={cls.btn} loading={submitted}>Создать</Button>
       </Form>
     </div>

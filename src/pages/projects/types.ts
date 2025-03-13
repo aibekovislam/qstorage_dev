@@ -31,6 +31,7 @@ export namespace ProjectsType {
     export interface Warehouse {
         id: number
         title: string
+        image: string | null
     }
     export interface Form {
         title: string

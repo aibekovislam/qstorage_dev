@@ -1,114 +1,100 @@
-.Menu {
-    background-color: #0d1924 !important;
-}
-
-.Menu :global(.ant-menu-item .ant-menu-item-only-child) {
-    padding: 0px 0px 0px 10px !important;
-}
-
-.Menu :global(.ant-menu-item-selected) {
-    background-color: #fa541c !important;
-    color: #fff !important;
-    border-radius: 3px !important;
-}
-
-.Menu :global(.ant-menu-item-group-title) {
-    display: none !important;
-}
-
-.Menu :global(.ant-menu-submenu-title) {
-    padding: 0px 0px 0px 10px !important;
-}
-
-.Menu :global(.ant-menu-item) {
-    padding: 0px 0px 0px 10px !important;
-}   
-
-.Menu :global(.ant-menu-inline) {
-    background: none !important;
-}
-
-.Menu :global(.ant-menu-item:hover) {
-    border-radius: 3px !important;
-}
-
-.Menu :global(.ant-menu-submenu:hover) {
-    border-radius: 3px !important;
-}
-
-.Menu :global(.ant-menu-item.search_sidebar) {
-    padding: 0px !important;
-    border: none !important;
-  }
-.Menu :global(.ant-menu-item-group .ant-menu-item-group-list .ant-menu-item-active.search_sidebar) {
-    border-color: transparent !important;
-    cursor: initial  !important;
-    border: none !important;
-    background-color: transparent !important;
-}
-
 .sidebar_wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    background-color: #1b1d21;
+    height: 100vh;
+    padding: 10px;
 }
-  
-.sidebar_wrapper :global(.ant-menu) {
-    flex: 1;
-    overflow: auto;
-}
-  
-.sidebar_footer {
-    padding: 0px 16px; 
-}
-
-.navbar__user{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.warehouse_item {
+    width: 55px;
+    height: 55px; 
+    background-color: #444856; 
+    border-radius: 50%;
     cursor: pointer;
-    padding-bottom: 16px;
-}
-
-.navbar__user:hover .arrow_icon {
-    color: #000 !important;
-}
-
-.navbar__user span {
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.account{
-    align-items: center;
-    gap: 8px;
-}
-
-.arrow_icon{
-    color: rgba(0, 0, 0, 0.25) !important;
-    transition: 0.5s ease;
-}
-.sidebar_divider{
-    margin: 15px 0px !important;
-}
-.sidebar_navigation__item{
     display: flex;
+    justify-content: center;
     align-items: center;
-    height: 40px;
-    gap: 10px;
+    flex-wrap: nowrap;
+    font-size: 10px;
+    color: #ffffff;
+    position: relative;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.warehouse_item:hover {
+    border-radius: 30%;
+    transform: scale(1.01);
+}
+
+.image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.image:hover {
+    border-radius: 30%;
+    transform: scale(1.01);
+}
+
+.warehouse_item_logo {
+    width: 100%;
+    height: 55px;
+    background-color: #6c63ff;
+    border-radius: 15px;
     cursor: pointer;
-    margin-block: 4px;
-
-}
-.sidebar_navigation{
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #ffffff;
 }
 
-.Menu :global(.ant-menu-title-content) {
-    color: white !important;
+.warehouse_item_plus {
+    width: 55px;
+    height: 55px; 
+    background-color: #444856; 
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #ffffff;
+    position: relative;
+    transition: all 0.2s ease;
 }
 
-.Menu :global(svg) {
-    color: white !important;
+.warehouse_item_plus:hover {
+    border-radius: 30%;
+    background-color: #6c63ff;
+    transform: scale(1.01);
+}
+
+.divider_block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divider {
+    margin: 10px 0px !important;
+    background-color: white !important;
+    border-block-start: 2px solid #505463 !important;
+    min-width: 0 !important;
+    width: 70% !important;
+    border-radius: 1px;
+}
+
+.warehouse_item :global(svg) {
+    width: 25px;
+    height: 25px;
+}
+
+.warehouse_item__selected {
+    background-color: #6c63ff;
+    outline: 2px solid #ffffff;
+    outline-width: 2px;
 }

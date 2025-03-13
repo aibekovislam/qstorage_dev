@@ -1,5 +1,5 @@
 .Menu {
-    background-color: #0d1924 !important;
+    background-color: #22252a !important;
 }
 
 .Menu :global(.ant-menu-item .ant-menu-item-only-child) {
@@ -7,7 +7,7 @@
 }
 
 .Menu :global(.ant-menu-item-selected) {
-    background-color: #fa541c !important;
+    background-color: #444856 !important;
     color: #fff !important;
     border-radius: 3px !important;
 }
@@ -111,4 +111,34 @@
 
 .Menu :global(svg) {
     color: white !important;
+}
+
+.profile {
+    background-color: #1b1d21;
+    padding: 10px;
+    align-items: center;
+    column-gap: 10px; 
+}
+
+.usernames {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.role {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.default_avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #22252a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 24px;
 }

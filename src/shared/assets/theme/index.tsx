@@ -4,6 +4,9 @@ const theme: ThemeConfig = {
   components: {
     Button: {
       borderRadius: 3,
+      defaultBg: '#f0f0f0',
+      colorPrimary: '#001529',
+      primaryShadow: 'none',
     },
     Input: {
       borderRadius: 3,
@@ -28,12 +31,13 @@ const theme: ThemeConfig = {
       rowSelectedBg: '#d3d5d6',
       rowHoverBg: '#d3d5d6',
       rowSelectedHoverBg: '#d3d5d6',
+      colorText: '#001529',
     },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',
-    colorPrimary: '#0d1924',
-    colorLink: '#FA541C',
+    colorPrimary: '#444856',
+    colorLink: '#1b1d21',
   },
 } as const
 

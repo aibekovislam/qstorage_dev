@@ -10,11 +10,11 @@ import { QStorageLogoLight } from '@/shared/assets/icons'
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const ManagerSidebarMenuRoutes: MenuItem[] = [
-  {
-    key: 'logo',
-    icon: <QStorageLogoLight />,
-    className: 'logo',
-  },
+  // {
+  //   key: 'logo',
+  //   icon: <QStorageLogoLight />,
+  //   className: 'logo',
+  // },
   {
     key: '/warehouses',
     label: 'Склад',

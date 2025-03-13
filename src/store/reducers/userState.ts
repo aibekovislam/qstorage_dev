@@ -21,6 +21,7 @@ interface UserData {
     date_of_birth: string | null
     companies: CompaniesData[] | null
     current_warehouse: number | null
+    avatar: string | null
 }
 
 export interface UserState {

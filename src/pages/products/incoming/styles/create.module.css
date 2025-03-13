@@ -29,7 +29,7 @@
 }
 
 .selected_table {
-    border: 1px solid #fa541c;
+    border: 1px solid #6c63ff;
     border-radius: 8px;
 }
 
@@ -66,11 +66,11 @@
 }
 
 .counter {
-    color: #fa541c;
+    color: #6c63ff;
 }
 
 .selected_table_has {
-    border: 1px solid #fa541c;
+    border: 1px solid #6c63ff;
     border-radius: 8px;
 }
 

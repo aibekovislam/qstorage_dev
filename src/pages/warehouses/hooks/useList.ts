@@ -4,16 +4,17 @@ import React from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { useAppDispatch } from '@/shared/hooks/redux'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux'
 import { NEXT_PUBLIC_API_URL } from '@/shared/utils/consts'
 import { login } from '@/store/actions/user'
+import { setWarehouse } from '@/store/actions/warehouse'
 
 import { Warehouses } from '..'
 import { WarehouseTypes } from '../types'
 
 function useList() {
-  const [warehouses, setWarehouses] = React.useState<WarehouseTypes.Item[] | null>(null)
   const [isWarehouseLoading, setIsWarehouseLoading] = React.useState(true)
+  const warehouses: WarehouseTypes.Item[] | null = useAppSelector((state) => state.warehoses.warehouses)
 
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -22,7 +23,7 @@ function useList() {
     try {
       const response = await Warehouses.API.List.getWarehouses()
 
-      setWarehouses(response.data.results)
+      dispatch(setWarehouse(response.data.results))
     } catch (error) {
       console.log('warehouse list error', error)
     } finally {
@@ -52,6 +53,7 @@ function useList() {
   return {
     isWarehouseLoading,
     warehouses,
+    router,
     actions: {
       WarehouseListGET,
       SelectStorage,
