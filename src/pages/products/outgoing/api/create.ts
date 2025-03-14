@@ -3,20 +3,26 @@ import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { ProductsTypes } from '../../items/types'
 
-export const getProductsOutgoingList = async (url?: string) => {
-  return axiosRequest.get(url || '/outgoings/', {
+export const getProductsIncomingList = async (page: number = 1) => {
+  return axiosRequest.get(`/incomings/?page=${page}`, {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }
 
-export const getProductSearchedList = async (search: string | undefined) => {
-  return axiosRequest.get(`/products/?search=${search}`, {
-    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
-  })
+export const getProductSearchedList = async (search?: string | undefined) => {
+  if (search) {
+    return axiosRequest.get(`/products/?search=${search}`, {
+      baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+    })
+  } else {
+    return axiosRequest.get('/products/', {
+      baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+    })
+  }
 }
 
-export const createProductIncoming = async (body: FormData) => {
-  return axiosRequest.post('/incomings/', body, {
+export const createProductOutgoing = async (body: FormData) => {
+  return axiosRequest.post('/outgoings/', body, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -24,18 +30,15 @@ export const createProductIncoming = async (body: FormData) => {
   })
 }
 
-export const getProductOutgoingProject = async () => {
+export const getProductIncomingProject = async () => {
   return axiosRequest.get('/project/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }
 
-export const getUsersByProject = async (id: number) => {
+export const getUsers = async () => {
   return axiosRequest.get('/users/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
-    params: {
-      project_id: id,
-    },
   })
 }
 

@@ -6,9 +6,9 @@ import { Form, Upload, UploadProps } from 'antd'
 
 import { debounce } from '@/shared/tools/debounce'
 
-import { ProductsIncoming } from '..'
+import { ProductsOutgoing } from '..'
 import { ProductsTypes } from '../../items/types'
-import { ProductsIncomingTypes } from '../types'
+import { ProductsOutgoingTypes } from '../types'
 
 function useCreate() {
   const [form] = Form.useForm()
@@ -16,15 +16,15 @@ function useCreate() {
   const [products, setProducts] = React.useState<ProductsTypes.Item[]>([])
   const [isProductsLoading, setIsProductsLoading] = React.useState(true)
   const [selectedProducts, setSelectedProducts] = React.useState<ProductsTypes.Table[]>([])
-  const [project, setProject] = React.useState<ProductsIncomingTypes.Project[] | null>(null)
-  const [userResponsible, setUserResponsible] = React.useState<ProductsIncomingTypes.Responsible[] | null>(null)
+  const [project, setProject] = React.useState<ProductsOutgoingTypes.Project[] | null>(null)
+  const [userResponsible, setUserResponsible] = React.useState<ProductsOutgoingTypes.Responsible[] | null>(null)
   const [submitted, setSubmitted] = React.useState(false)
 
   const getProducts = React.useCallback(async (search?: string) => {
     setIsProductsLoading(true)
 
     try {
-      const response = await ProductsIncoming.API.Create.getProductSearchedList(search)
+      const response = await ProductsOutgoing.API.Create.getProductSearchedList(search)
 
       if (response.status === 200) {
         setProducts(response.data.results)
@@ -66,9 +66,9 @@ function useCreate() {
     debouncedSearch(e.target.value)
   }
 
-  const ProductsIncomingProjectGET = React.useCallback(async () => {
+  const ProductsOutgoingProjectGET = React.useCallback(async () => {
     try {
-      const response = await ProductsIncoming.API.List.getProductIncomingProject()
+      const response = await ProductsOutgoing.API.List.getProductOutgoingProject()
 
       setProject(response.data.results)
     } catch (error) {
@@ -76,9 +76,9 @@ function useCreate() {
     }
   }, [])
 
-  const ProductsIncomingUsers = React.useCallback(async () => {
+  const ProductsOutgoingUsers = React.useCallback(async () => {
     try {
-      const response = await ProductsIncoming.API.Create.getUsers()
+      const response = await ProductsOutgoing.API.Create.getUsers()
 
       setUserResponsible(response.data.results)
     } catch (error) {
@@ -86,7 +86,7 @@ function useCreate() {
     }
   }, [])
 
-  const createIncoming = async (formValue: ProductsIncomingTypes.Form) => {
+  const createOutgoing = async (formValue: ProductsOutgoingTypes.Form) => {
     setSubmitted(true)
     try {
       const responsibleObj = userResponsible?.find((item) => `${item.first_name} ${item.last_name}` === formValue.responsible)
@@ -123,7 +123,7 @@ function useCreate() {
         })
       }
 
-      const response = await ProductsIncoming.API.List.createProductIncoming(formData)
+      const response = await ProductsOutgoing.API.Create.createProductOutgoing(formData)
 
       if (response.status !== 201 && response.status !== 200) {
         throw new Error(`Submission failed: ${response.statusText}`)
@@ -171,9 +171,9 @@ function useCreate() {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
-      ProductsIncomingProjectGET,
-      ProductsIncomingUsers,
-      createIncoming,
+      ProductsOutgoingProjectGET,
+      ProductsOutgoingUsers,
+      createOutgoing,
       setSelectedProducts,
     },
   }

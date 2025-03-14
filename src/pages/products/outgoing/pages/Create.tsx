@@ -14,7 +14,7 @@ import { SearchField } from '@/shared/ui/search-field/search-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
-import { ProductsIncoming } from '..'
+import { ProductsOutgoing } from '..'
 import { ProductsTypes } from '../../items/types'
 import cls from '../styles/create.module.css'
 import { InputRules } from '../validate'
@@ -186,15 +186,15 @@ export const Create = () => {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
-      ProductsIncomingUsers,
-      createIncoming,
+      ProductsOutgoingUsers,
+      createOutgoing,
       setSelectedProducts,
     },
-  } = ProductsIncoming.Hooks.Create.use()
+  } = ProductsOutgoing.Hooks.Create.use()
 
   React.useEffect(() => {
     getProducts()
-    ProductsIncomingUsers()
+    ProductsOutgoingUsers()
   }, [])
 
   return (
@@ -204,10 +204,10 @@ export const Create = () => {
           <Breadcrumb items={breadcrumbData}/>
         </div>
 
-        <h1 className={cls.main__title}>Создать приход товаров</h1>
+        <h1 className={cls.main__title}>Создать уход товаров</h1>
 
         <Flex vertical className={cls.form}>
-          <Form id="createIncoming" form={form} onFinish={(data) => createIncoming(data)}>
+          <Form id="createIncoming" form={form} onFinish={(data) => createOutgoing(data)}>
             <Flex className={cls.products} vertical gap={20}>
               <Flex gap={20} vertical className={cls.selected_products_table}>
                 <h1 className={cls.products__title}>Выбрано товаров: <span className={cls.counter}>{selectedProducts.length} товаров</span></h1>

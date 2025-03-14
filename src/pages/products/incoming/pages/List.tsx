@@ -3,13 +3,11 @@
 import React from 'react'
 
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'antd'
+import { Table, Tag, Flex, Button, Popover, Typography, Pagination } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
-import Image from 'next/image'
 import Link from 'next/link'
 
-import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
@@ -22,35 +20,25 @@ const { Paragraph } = Typography
 const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsIncomingTypes.Table> => {
   const columns: ColumnsType<ProductsIncomingTypes.Table> = [
     {
-      title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product, record) => (
-        <Space>
-          <Image
-            src={product.image || NoPhoto.src}
-            alt={product.title}
-            style={{ objectFit: 'cover' }}
-            width={50}
-            height={40}
-            className={cls.table_image}
-          />
-          <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', product)}>{product.title}</Link>
-        </Space>
+      title: 'Номер документа',
+      dataIndex: 'act',
+      key: 'act',
+      render: (_, record) => (
+        <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', record)}>#{record.act}</Link>
       ),
     },
+    // {
+    //   title: 'Проект',
+    //   dataIndex: 'project',
+    //   key: 'project',
+    //   render: (project: ProductsIncomingTypes.Project) => (
+    //     <span>{project.title}</span>
+    //   ),
+    // },
     {
-      title: 'Проект',
-      dataIndex: 'project',
-      key: 'project',
-      render: (project: ProductsIncomingTypes.Project) => (
-        <span>{project.title}</span>
-      ),
-    },
-    {
-      title: 'Кол-во',
-      dataIndex: 'quantity',
-      key: 'quantity',
+      title: 'Кол-во товаров',
+      dataIndex: 'total_quantity',
+      key: 'total_quantity',
     },
     {
       title: 'Статус',
@@ -73,11 +61,6 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       },
     },
     {
-      title: '№ Акта',
-      dataIndex: 'act',
-      key: 'act',
-    },
-    {
       title: 'Поставщик',
       dataIndex: 'supplier',
       key: 'supplier',
@@ -87,10 +70,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       dataIndex: 'responsible',
       key: 'responsible',
       render: (responsible: ProductsIncomingTypes.Responsible) => (
-        <Space>
-          <Avatar>{responsible.image}</Avatar>
-          <span>{responsible.first_name}</span>
-        </Space>
+        <Link href={`/users/${responsible.uuid}`}>{`${responsible.first_name} ${responsible.last_name}`}</Link>
       ),
     },
     {
@@ -116,20 +96,18 @@ export const ListProductsIncoming: React.FC = () => {
     productsIncomingList,
     currentPage,
     actions: {
-      createModal,
       router,
       ProductsIncomingGET,
       checkStatus,
       setCurrentPage,
       getTagColor,
+      handlePageChange,
     },
   } = ProductsIncoming.Hooks.List.use()
 
   React.useEffect(() => {
-    if (!createModal.isOpen) {
-      ProductsIncomingGET()
-    }
-  }, [createModal.isOpen])
+    ProductsIncomingGET()
+  }, [])
 
   return (
     <div>
@@ -158,15 +136,38 @@ export const ListProductsIncoming: React.FC = () => {
           rowKey={(record) => record.id}
           loading={!productsIncomingList?.results}
           scroll={{ x: 'max-content' }}
-          pagination={{
-            position: ['bottomRight'],
-            total: productsIncomingList?.count,
-            current: currentPage,
-            pageSize: 10,
-            onChange: (page) => {
-              setCurrentPage(page)
-              ProductsIncomingGET(page)
-            },
+          rootClassName={cls.table}
+          pagination={false}
+          rowClassName={(_, index) => (index % 2 !== 0 ? cls.evenRow : cls.oddRow)}
+          expandable={{
+            rowExpandable: (record) => record.items && record.items.length > 0,
+            expandedRowRender: (record) => (
+              <Table
+                columns={[
+                  { title: 'Товар', dataIndex: 'product_title', key: 'product_title', render: (_, record) => (
+                    <Link href={`/product/${record.product}`}>{record.product_title}</Link>
+                  ) },
+                  { title: 'Количество', dataIndex: 'quantity', key: 'quantity' },
+                  { title: 'Цена закупки', dataIndex: 'purchase_price', key: 'purchase_price' },
+                  { title: 'Общая стоимость', dataIndex: 'total_price', key: 'total_price' },
+                ]}
+                dataSource={record.items}
+                rowKey={(item) => item.product}
+                pagination={false}
+                size="small"
+              />
+            ),
+          }}
+        />
+
+        <Pagination
+          className={cls.pagination}
+          total={productsIncomingList?.count}
+          current={currentPage}
+          pageSize={10}
+          onChange={(page) => {
+            setCurrentPage(page)
+            handlePageChange()
           }}
         />
       </div>
