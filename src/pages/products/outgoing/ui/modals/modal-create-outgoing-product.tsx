@@ -7,10 +7,10 @@ import { DynamicField } from '@/shared/ui/dynamic-field/dynamic-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
-import { ProductsIncoming } from '../..'
+import { ProductsOutgoing } from '../..'
 import { InputRules } from '../../validate'
 
-import cls from './modal-create-incoming-product.module.css'
+import cls from './modal-create-outgoing-product.module.css'
 
 interface Props {
   isModalOpen: boolean
@@ -18,7 +18,7 @@ interface Props {
   onProductCreated?: any
 }
 
-const ModalCreateIncomingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, onProductCreated }) => {
+const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, onProductCreated }) => {
   const {
     contextHolder,
     submitted,
@@ -26,7 +26,7 @@ const ModalCreateIncomingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
     isCreated,
     productsColorsList,
     actions: { createProduct, ProductsColorsGET },
-  } = ProductsIncoming.Hooks.CreateProduct.use()
+  } = ProductsOutgoing.Hooks.CreateProduct.use()
 
   React.useEffect(() => {
     if (isCreated) {
@@ -137,4 +137,4 @@ const ModalCreateIncomingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
   )
 }
 
-export default ModalCreateIncomingItem
+export default ModalCreateOutgoingItem
