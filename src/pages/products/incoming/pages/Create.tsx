@@ -17,6 +17,7 @@ import { TextField } from '@/shared/ui/textfield/textfield'
 import { ProductsIncoming } from '..'
 import { ProductsTypes } from '../../items/types'
 import cls from '../styles/create.module.css'
+import ModalCreateIncomingItem from '../ui/modals/modal-create-incoming-product'
 import { InputRules } from '../validate'
 
 const createColumns = () => {
@@ -182,10 +183,12 @@ export const Create = () => {
     userResponsible,
     submitted,
     form,
+    createModal,
     actions: {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
+      handleProductCreated,
       ProductsIncomingUsers,
       createIncoming,
       setSelectedProducts,
@@ -193,9 +196,11 @@ export const Create = () => {
   } = ProductsIncoming.Hooks.Create.use()
 
   React.useEffect(() => {
-    getProducts()
+    if (!createModal.isOpen) {
+      getProducts()
+    }
     ProductsIncomingUsers()
-  }, [])
+  }, [createModal.isOpen])
 
   return (
     <div>
@@ -236,7 +241,7 @@ export const Create = () => {
                   </Flex>
 
                   <Flex gap={15}>
-                    <Button onClick={() => console.log('clicked')} className={cls.filter_btn} type="primary">Создать продукт</Button>
+                    <Button onClick={createModal.onOpen} className={cls.filter_btn} type="primary">Создать продукт</Button>
                     <Button className={cls.filter_btn} type="primary">Фильтры</Button>
                   </Flex>
                 </Flex>
@@ -320,6 +325,11 @@ export const Create = () => {
           </Form>
         </Flex>
       </div>
+      <ModalCreateIncomingItem
+        onCloseModal={createModal.onClose}
+        isModalOpen={createModal.isOpen}
+        onProductCreated={handleProductCreated}
+      />
     </div>
   )
 }

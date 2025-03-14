@@ -47,3 +47,9 @@ export const createProduct = async (body: ProductsTypes.Item) => {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }
+
+export const getProductsColors = async () => {
+  return axiosRequest.get('/products/colors/', {
+    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+  })
+}
