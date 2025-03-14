@@ -3,10 +3,10 @@
 import React from 'react'
 
 import { ProductsOutgoing } from '..'
-import { ProductsIncomingTypes } from '../types'
+import { ProductsOutgoingTypes } from '../types'
 
 function useView() {
-  const [incomingItem, setIncomingItem] = React.useState<ProductsIncomingTypes.Item | null>(null)
+  const [incomingItem, setIncomingItem] = React.useState<ProductsOutgoingTypes.Item | null>(null)
   const [incomingItemLoading, setIncomingItemLoading] = React.useState(true)
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
