@@ -3,6 +3,7 @@
 import React, { ChangeEvent } from 'react'
 
 import { Form, Upload, UploadProps } from 'antd'
+import { useRouter } from 'next/navigation'
 
 import { debounce } from '@/shared/tools/debounce'
 
@@ -19,6 +20,8 @@ function useCreate() {
   const [project, setProject] = React.useState<ProductsOutgoingTypes.Project[] | null>(null)
   const [userResponsible, setUserResponsible] = React.useState<ProductsOutgoingTypes.Responsible[] | null>(null)
   const [submitted, setSubmitted] = React.useState(false)
+
+  const router = useRouter()
 
   const getProducts = React.useCallback(async (search?: string) => {
     setIsProductsLoading(true)
@@ -123,9 +126,11 @@ function useCreate() {
         })
       }
 
-      const response = await ProductsOutgoing.API.Create.createProductOutgoing(formData)
+      const response = await ProductsOutgoing.API.Create.createProductOutgoing(formData).finally(() => {
+        router.push('/products/outgoing/')
+      })
 
-      if (response.status !== 201 && response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error(`Submission failed: ${response.statusText}`)
       }
 
