@@ -28,16 +28,16 @@ const theme: ThemeConfig = {
       fontWeightStrong: 400,
     },
     Table: {
-      rowSelectedBg: '#d3d5d6',
-      rowHoverBg: '#d3d5d6',
-      rowSelectedHoverBg: '#d3d5d6',
+      rowSelectedBg: '#F4F3FF',
+      rowHoverBg: '#0000000F',
+      rowSelectedHoverBg: '#00000004',
       colorText: '#001529',
     },
   },
   token: {
     fontFamily: 'var(--font-sfpro)',
     colorPrimary: '#444856',
-    colorLink: '#1b1d21',
+    colorLink: '#6c63ff',
   },
 } as const
 

@@ -12,6 +12,20 @@ export namespace ProductsTypes {
     warehouse?: number
   }
 
+  export interface Table {
+    slug?: string
+    title: string
+    price: string
+    color?: Color[]
+    image?: string | null
+    expiration_date?: string
+    characteristics?: string
+    barcode?: string
+    warehouse?: number
+    purchase_price?: number
+    quantity?: number
+  }
+
   export interface Form {
     title: string
     price: string

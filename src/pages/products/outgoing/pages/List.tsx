@@ -3,54 +3,42 @@
 import React from 'react'
 
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Table, Tag, Avatar, Space, Flex, Button, Popover, Typography } from 'antd'
+import { Table, Tag, Flex, Button, Popover, Typography, Pagination } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
-import Image from 'next/image'
+import Link from 'next/link'
 
-import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductsOutgoing } from '..'
-import cls from '../styles/view.module.css'
+import cls from '../styles/list.module.css'
 import { ProductsOutgoingTypes } from '../types'
-import ModalCreateOutgoing from '../ui/modals/ModalCreate/modal-create-outgoing'
 
 const { Paragraph } = Typography
 
 const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsOutgoingTypes.Table> => {
   const columns: ColumnsType<ProductsOutgoingTypes.Table> = [
     {
-      title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product: ProductsOutgoingTypes.Product) => (
-        <Space >
-          <Image
-            src={product.image && product.image.trim() !== '' ? product.image : NoPhoto.src}
-            alt={product.title}
-            style={{ objectFit: 'cover' }}
-            width={50}
-            height={40}
-            className={cls.table_image}
-          />
-          <span>{product.title}</span>
-        </Space>
+      title: 'Номер документа',
+      dataIndex: 'act',
+      key: 'act',
+      render: (_, record) => (
+        <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', record)}>#{record.act}</Link>
       ),
     },
+    // {
+    //   title: 'Проект',
+    //   dataIndex: 'project',
+    //   key: 'project',
+    //   render: (project: ProductsIncomingTypes.Project) => (
+    //     <span>{project.title}</span>
+    //   ),
+    // },
     {
-      title: 'Проект',
-      dataIndex: 'project',
-      key: 'project',
-      render: (project: ProductsOutgoingTypes.Project) => (
-        <span>{project.title}</span>
-      ),
-    },
-    {
-      title: 'Кол-во',
-      dataIndex: 'quantity',
-      key: 'quantity',
+      title: 'Кол-во товаров',
+      dataIndex: 'total_quantity',
+      key: 'total_quantity',
     },
     {
       title: 'Статус',
@@ -73,11 +61,6 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       },
     },
     {
-      title: '№ Акта',
-      dataIndex: 'act',
-      key: 'act',
-    },
-    {
       title: 'Поставщик',
       dataIndex: 'supplier',
       key: 'supplier',
@@ -87,10 +70,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       dataIndex: 'responsible',
       key: 'responsible',
       render: (responsible: ProductsOutgoingTypes.Responsible) => (
-        <Space>
-          <Avatar>{responsible.image}</Avatar>
-          <span>{responsible.first_name}</span>
-        </Space>
+        <Link href={`/users/${responsible.uuid}`}>{`${responsible.first_name} ${responsible.last_name}`}</Link>
       ),
     },
     {
@@ -100,7 +80,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       render: (comment: string) => {
         return (
           <Popover overlayClassName={cls.card} className={cls.custom__popover} content={comment}>
-            <Paragraph>{!comment ? '' : `${comment.slice(0, 10)}...`}</Paragraph>
+            <Paragraph>{!comment ? '' : `${comment.slice(0, 10)}...`}...</Paragraph>
           </Popover>
         )
       },
@@ -110,27 +90,24 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
   return columns
 }
 
-export const ListProductsOutgoing: React.FC = () => {
+export const ListProductsIncoming: React.FC = () => {
   const {
     breadcrumbData,
     productsOutgoingList,
     currentPage,
     actions: {
-      createModal,
       router,
       ProductsOutgoingGET,
       checkStatus,
-      getTagColor,
       setCurrentPage,
-
+      getTagColor,
+      handlePageChange,
     },
   } = ProductsOutgoing.Hooks.List.use()
 
   React.useEffect(() => {
-    if (!createModal.isOpen) {
-      ProductsOutgoingGET()
-    }
-  }, [createModal.isOpen])
+    ProductsOutgoingGET()
+  }, [])
 
   return (
     <div>
@@ -141,7 +118,7 @@ export const ListProductsOutgoing: React.FC = () => {
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button onClick={() => router.push('/products/incoming')} type="default">
+            <Button type="default" onClick={() => router.push('/products/incoming')}>
               Приход <ArrowUpOutlined />
             </Button>
             <Button type="primary">
@@ -150,31 +127,50 @@ export const ListProductsOutgoing: React.FC = () => {
           </Flex>
           <Flex gap={10}>
             <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={createModal.onOpen} className={cls.btn}>Добавить уход</Button>
+            <Button type="primary" onClick={() => router.push('/products/outgoing/create')} className={cls.btn}>Добавить уход</Button>
           </Flex>
         </div>
         <Table<ProductsOutgoingTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsOutgoingList?.results}
+          dataSource={productsOutgoingList?.results || []}
           rowKey={(record) => record.id}
           loading={!productsOutgoingList?.results}
           scroll={{ x: 'max-content' }}
-          pagination={{
-            position: ['bottomRight'],
-            total: productsOutgoingList?.count,
-            current: currentPage,
-            pageSize: 10,
-            onChange: (page) => {
-              setCurrentPage(page)
-              ProductsOutgoingGET(page)
-            },
+          rootClassName={cls.table}
+          pagination={false}
+          rowClassName={(_, index) => (index % 2 !== 0 ? cls.evenRow : cls.oddRow)}
+          expandable={{
+            rowExpandable: (record) => record.items && record.items.length > 0,
+            expandedRowRender: (record) => (
+              <Table
+                columns={[
+                  { title: 'Товар', dataIndex: 'product_title', key: 'product_title', render: (_, record) => (
+                    <Link href={`/product/${record.product}`}>{record.product_title}</Link>
+                  ) },
+                  { title: 'Количество', dataIndex: 'quantity', key: 'quantity' },
+                  { title: 'Цена закупки', dataIndex: 'purchase_price', key: 'purchase_price' },
+                  { title: 'Общая стоимость', dataIndex: 'total_price', key: 'total_price' },
+                ]}
+                dataSource={record.items}
+                rowKey={(item) => item.product}
+                pagination={false}
+                size="small"
+              />
+            ),
+          }}
+        />
+
+        <Pagination
+          className={cls.pagination}
+          total={productsOutgoingList?.count}
+          current={currentPage}
+          pageSize={10}
+          onChange={(page) => {
+            setCurrentPage(page)
+            handlePageChange()
           }}
         />
       </div>
-      <ModalCreateOutgoing
-        onCloseModal={createModal.onClose}
-        isModalOpen={createModal.isOpen}
-      />
     </div>
   )
 }

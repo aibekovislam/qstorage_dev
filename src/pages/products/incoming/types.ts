@@ -7,11 +7,18 @@ export namespace ProductsIncomingTypes {
   }
   export interface Table {
     id: number
-    quantity: number
+    files: string[]
+    status: string
+    act: string
+    supplier: string
+    message: string | null
+    barcode: string | null
+    warehouse: number
     date: number
-    product: Product
+    items: ProductItems[]
     project: number
     responsible: string
+    total_quantity: number
   }
   export interface Form {
     files: File
@@ -19,11 +26,18 @@ export namespace ProductsIncomingTypes {
     purchase_price: string
     supplier: string
     message: string
-    product: string
     project: number
     responsible: string | undefined
     act: string
     total_cost: number
+    items: ProductItems[]
+  }
+
+  export interface ProductItems {
+    product: string,
+    quantity: number,
+    purchase_price: string
+    product_title: string
   }
   export interface Product {
     color: string
