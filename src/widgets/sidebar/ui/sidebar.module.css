@@ -142,3 +142,8 @@
     color: #ffffff;
     font-size: 24px;
 }
+
+.profile_image {
+    object-fit: cover;
+    border-radius: 50%;
+}

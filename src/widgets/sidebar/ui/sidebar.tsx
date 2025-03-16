@@ -6,9 +6,8 @@ import { Flex, Menu } from 'antd'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { QStorageLogoMini } from '@/shared/assets/icons'
-import { NoPhoto } from '@/shared/assets/images'
 import { useAppSelector } from '@/shared/hooks/redux'
+import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import cls from './sidebar.module.css'
 
@@ -40,7 +39,7 @@ export const SideBar: React.FC<Props> = (props) => {
         <Flex className={cls.profile}>
           {
             user?.avatar ? (
-              <Image src={user?.avatar} width={50} height={50} alt="profile_image" className={cls.profile_image} />
+              <Image src={`${NEXT_PUBLIC_COMPANY_BASE_URL}${user?.avatar}`} width={50} height={50} alt="profile_image" className={cls.profile_image} />
             ) : (
               <Flex className={cls.default_avatar}>
                 {user?.email[0]}
@@ -49,7 +48,7 @@ export const SideBar: React.FC<Props> = (props) => {
           }
 
           <Flex gap={5} vertical>
-            <h3 className={cls.usernames}>{`${user?.email}`}</h3>
+            <h3 className={cls.usernames}>{`${user?.first_name} ${user?.last_name}`}</h3>
             <span className={cls.role}>{user?.role}</span>
           </Flex>
         </Flex>
