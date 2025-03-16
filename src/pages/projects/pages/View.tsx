@@ -2,117 +2,18 @@
 
 import React from 'react'
 
-import { Avatar, Breadcrumb, Button, Flex, Popover, Space, Tag, Typography, Table } from 'antd'
-import { ColumnsType } from 'antd/es/table'
-import dayjs from 'dayjs'
+import { Button, Card, Flex } from 'antd'
 import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
+import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 
 import { Projects } from '..'
+import Loader from '../../../../app/loading'
 import cls from '../styles/view.module.css'
-import { ProjectsType } from '../types'
 
 interface Props {
   project_id: number
-}
-
-const { Paragraph } = Typography
-
-const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProjectsType.Table> => {
-  const columns: ColumnsType<ProjectsType.Table> = [
-    {
-      title: 'Приход / Уход',
-      dataIndex: 'type',
-      key: 'type',
-    },
-    {
-      title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product: ProjectsType.Product) => (
-        <Space>
-          <Image
-            src={product.image || NoPhoto.src}
-            alt={product.title}
-            style={{ objectFit: 'cover' }}
-            width={50}
-            height={40}
-            className={cls.table_image}
-          />
-          <span>{product.title}</span>
-        </Space>
-      ),
-    },
-    {
-      title: 'Проект',
-      dataIndex: 'project',
-      key: 'project',
-      render: (project: ProjectsType.Item) => (
-        <span>{project.title}</span>
-      ),
-    },
-    {
-      title: 'Кол-во',
-      dataIndex: 'quantity',
-      key: 'quantity',
-    },
-    {
-      title: 'Статус',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => (
-        <Tag color={getTagColor(status)}>{checkStatus(status)}</Tag>
-      ),
-    },
-    {
-      title: 'Дата',
-      dataIndex: 'date',
-      key: 'date',
-      render: (date: string) => {
-        const formatted = dayjs(date).format('DD.MM.YYYY')
-
-        return (
-          <span>{formatted}</span>
-        )
-      },
-    },
-    {
-      title: '№ Акта',
-      dataIndex: 'act',
-      key: 'act',
-    },
-    {
-      title: 'Поставщик',
-      dataIndex: 'supplier',
-      key: 'supplier',
-    },
-    {
-      title: 'Ответственный',
-      dataIndex: 'responsible',
-      key: 'responsible',
-      render: (responsible: ProjectsType.Responsible) => (
-        <Space>
-          <Avatar>{responsible.image}</Avatar>
-          <span>{responsible.first_name}</span>
-        </Space>
-      ),
-    },
-    {
-      title: 'Комментарий',
-      dataIndex: 'message',
-      key: 'message',
-      render: (comment: string) => {
-        return (
-          <Popover overlayClassName={cls.card} className={cls.custom__popover} content={comment}>
-            <Paragraph>{!comment ? '' : `${comment.slice(0, 10)}...`}...</Paragraph>
-          </Popover>
-        )
-      },
-    },
-  ]
-
-  return columns
 }
 
 export const View: React.FC<Props> = (props) => {
@@ -120,39 +21,82 @@ export const View: React.FC<Props> = (props) => {
     breadcrumbData,
     items,
     projectTitle,
-    actions: {
-      ProjectsOperationsGET,
-      deleteProject,
-      checkStatus,
-      getTagColor,
-    },
+    expanded,
+    actions: { router, ProjectsIDGET, deleteProject, getFormattedDescription, toggleDescription },
   } = Projects.Hooks.View.use()
 
   React.useEffect(() => {
-    ProjectsOperationsGET(Number(props.project_id))
-  }, [])
+    ProjectsIDGET(Number(props.project_id))
+  }, [props.project_id, ProjectsIDGET])
+
+  if (!items) {
+    return <Loader/>
+  }
 
   return (
     <div className="main">
-      <Flex className={cls.header}>
-        <Breadcrumb items={breadcrumbData}/>
+      <Flex align="center" className={cls.header}>
+        <Breadcrumb items={breadcrumbData} />
         <Flex className={cls.filter__panel}>
-          <Button onClick={() => deleteProject(Number(props.project_id))} className={cls.btn}>
+          <Button
+            danger
+            onClick={() => deleteProject(Number(props.project_id))}
+            className={cls.btn}
+          >
             Удалить
           </Button>
         </Flex>
       </Flex>
+
       <div className={cls.main_title}>
         <h2>Проект “{projectTitle}”</h2>
       </div>
-      <Table<ProjectsType.Table>
-        columns={createColumns(checkStatus, getTagColor)}
-        dataSource={items}
-        pagination={{ position: ['bottomRight'] }}
-        rowKey={(record) => record.id}
-        loading={!items}
-        scroll={{ x: 'max-content' }}
-      />
+
+      <Card
+        style={{ marginTop: 16 }}
+      >
+        <Flex className={cls.card_container} align="start" gap={24}>
+          <Image
+            // eslint-disable-next-line react/no-array-index-key
+            src={items.image || NoPhoto.src}
+            alt={items.title}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className={cls.card_image}
+            priority
+          />
+
+          <div style={{ flex: 1 }}>
+            <h2 style={{ marginBottom: 8 }}>{items.title}</h2>
+            <p style={{ color: '#888' }}>
+              Цвет: <b>{items.color}</b>
+            </p>
+            <p style={{ color: '#888' }}>
+              Склад: <b>{items.warehouse}</b>
+            </p>
+
+            {getFormattedDescription()}
+            {items?.description.length > 185 ? (
+              <button onClick={toggleDescription} className={'moreButton'}>
+                {expanded ? 'Скрыть' : 'Еще...'}
+              </button>
+            ) : null}
+
+            <div style={{ marginTop: 24 }}>
+              <Button
+                type="primary"
+                style={{ marginRight: 8 }}
+                onClick={() => {
+                  router.push(`/projects/edit/${items.id}?title=${encodeURI(items.title)}`)
+                }}
+              >
+                Изменить проект
+              </Button>
+            </div>
+          </div>
+        </Flex>
+      </Card>
     </div>
   )
 }

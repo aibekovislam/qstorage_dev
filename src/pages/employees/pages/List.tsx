@@ -24,7 +24,11 @@ const createColumns = (handleSelectedEmployee: (employee: EmployeeTypes.Item) =>
       key: 'first_name',
       render: (_, record) => (
         <Flex align="center">
-          <Avatar style={{ backgroundColor: '#FA541C' }} size={32}>{record.first_name ? record.first_name[0] : ''}</Avatar>
+          {record.avatar ? (
+            <Avatar className={cls.avatar} src={record.avatar} size={32}/>
+          ) : (
+            <Avatar style={{ backgroundColor: '#001529' }} size={32}>{record.first_name ? record.first_name[0] : ''}</Avatar>
+          )}
           <span style={{ marginLeft: 8 }}>{getFullName(record.first_name, record.last_name, record.surname)}</span>
         </Flex>
       ),

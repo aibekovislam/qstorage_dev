@@ -10,8 +10,9 @@ import { ProjectsType } from '../types'
 function useView() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [expanded, setExpanded] = React.useState(false)
   const projectTitle = String(searchParams?.get('title') || 'Название проекта')
-  const [items, setItems] = React.useState<ProjectsType.Table[] | undefined>(undefined)
+  const [items, setItems] = React.useState<ProjectsType.TableItem | undefined>(undefined)
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
@@ -19,9 +20,9 @@ function useView() {
     { href: '#', title: projectTitle },
   ]
 
-  const ProjectsOperationsGET = React.useCallback(async (id: number) => {
+  const ProjectsIDGET = React.useCallback(async (id: number) => {
     try {
-      const response = await Projects.API.View.getProjectsOperationsById(id)
+      const response = await Projects.API.View.getProjectsById(id)
 
       setItems(response.data)
     } catch (error) {
@@ -39,39 +40,33 @@ function useView() {
     }
   })
 
-  const checkStatus = React.useCallback((status: string): string => {
-    const statusMap: Record<string, string> = {
-      in_progress: 'В ПРОЦЕССЕ',
-      verified: 'ПРОВЕРЕНО',
-      new: 'НОВОЕ',
-      rejected: 'ОТКЛОНЕНО',
-      not_verified: 'НЕ ПРОВЕРЕНО',
-    }
-
-    return statusMap[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
+  const toggleDescription = React.useCallback(() => {
+    setExpanded((prev) => !prev)
   }, [])
 
-  const getTagColor = React.useCallback((status: string): string => {
-    const colorMap: Record<string, string> = {
-      in_progress: 'gold',
-      verified: 'green',
-      new: 'geekblue',
-      rejected: 'red',
-      not_verified: 'gray',
+  const getFormattedDescription = React.useCallback(() => {
+    if (!items?.description) return ''
+
+    const { description } = items
+
+    if (description.length > 185) {
+      return expanded ? description : `${description.slice(0, 185)}...`
     }
 
-    return colorMap[status] || 'default'
-  }, [])
+    return description
+  }, [items, expanded])
 
   return {
     breadcrumbData,
     items,
     projectTitle,
+    expanded,
     actions: {
-      ProjectsOperationsGET,
+      router,
+      ProjectsIDGET,
       deleteProject,
-      checkStatus,
-      getTagColor,
+      getFormattedDescription,
+      toggleDescription,
     },
   }
 }

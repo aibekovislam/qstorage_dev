@@ -23,6 +23,10 @@
     margin: 13px 0px 17px 0px;
 }
 
+.avatar img{
+    object-fit: contain !important;
+}
+
 .filter_panel{
     justify-content: flex-end;
     gap: 10px;
