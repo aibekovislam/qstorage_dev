@@ -75,16 +75,53 @@
     justify-content: flex-end;
 }
 
+.approve :global(.ant-btn) {
+    background-color: #3a8d5c !important;
+}
+
+.cancel :global(.ant-btn) {
+    background-color: #da424a !important;
+}
+
+.approve :global(.ant-btn:disabled) {
+    color: rgba(0, 0, 0, 0.25) !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.cancel :global(.ant-btn:disabled) {
+    color: rgba(0, 0, 0, 0.25) !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.select_type {
+    width: 100px !important;
+    height: 32px !important;
+}
 
 @media screen and (max-width: 835px) {
     .header {
         flex-direction: column;
         row-gap: 10px;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
     }
     .filter_and_btn {
         flex-direction: column;
     }
     .btn_switch {
         width: 50%;
+    }
+    .panel {
+        flex-direction: column;
+        width: 100%;
+    }
+    .select_type {
+        width: 100% !important;
+    }
+    .approve :global(button) {
+        width: 100% !important;
+    }
+    .cancel :global(button) {
+        width: 100% !important;
     }
 }

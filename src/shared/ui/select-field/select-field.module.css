@@ -15,5 +15,5 @@
 }
 
 .selectField :global(.ant-select) {
-    height: 44px !important;
+    height: 44px;
 }

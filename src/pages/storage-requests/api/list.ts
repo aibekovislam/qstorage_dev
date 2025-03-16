@@ -1,24 +1,33 @@
 import { axiosRequest } from '@/shared/api/axios'
-import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
-import { StorageRequestsResponse } from '../types'
-
-export const getStorageRequests = async (): Promise<StorageRequestsResponse> => {
-
-  return (await axiosRequest.get<StorageRequestsResponse>('/pendings/pending/', {
-    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
-  })).data
-
-}
-
-export const approveRequests = async (data: { incoming_ids: number[]; outgoing_ids: number[] }): Promise<void> => {
-  await axiosRequest.post('/pendings/approve/', data, {
-    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+export const getStorageRequest = async (type: string, url?: string) => {
+  return axiosRequest.get(url || '/pendings/pending/', {
+    params: {
+      type: type,
+    },
   })
 }
 
-export const rejectRequests = async (data: { incoming_ids: number[]; outgoing_ids: number[] }): Promise<void> => {
-  await axiosRequest.post('/pendings/reject/', data, {
-    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+export const approveIncomingStorageRequest = async (incoming_ids: React.Key[]) => {
+  return axiosRequest.post('/pendings/approve/', {
+    incoming_ids: incoming_ids,
+  })
+}
+
+export const approveOutgoingStorageRequest = async (outgoing_ids: React.Key[]) => {
+  return axiosRequest.post('/pendings/approve/', {
+    outgoing_ids: outgoing_ids,
+  })
+}
+
+export const rejectIncomingStorageRequest = async (incoming_ids: React.Key[]) => {
+  return axiosRequest.post('/pendings/reject/', {
+    incoming_ids: incoming_ids,
+  })
+}
+
+export const rejectOutgoingStorageRequest = async (outgoing_ids: React.Key[]) => {
+  return axiosRequest.post('/pendings/reject/', {
+    outgoing_ids: outgoing_ids,
   })
 }

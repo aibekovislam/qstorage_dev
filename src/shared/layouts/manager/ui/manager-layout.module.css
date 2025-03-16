@@ -26,6 +26,20 @@
     padding: 0px !important;
 }
 
+.drawer :global(.ant-drawer-header) {
+    background-color: #1b1d21 !important;
+    border-bottom: 0px !important;
+}
+
+.drawer :global(.ant-drawer-title) {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.drawer :global(svg) {
+    color: #ffffff !important;
+}
+
 .avatar_mobile {
     display: none !important;
 }
@@ -34,7 +48,8 @@
     .sidebar {
         display: none;
     }
-    .main_layout {
+    .sidebar_warehouse {
+        display: block !important;
     }
     .burger_button {
         display: flex !important;

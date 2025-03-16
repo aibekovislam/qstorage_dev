@@ -33,7 +33,7 @@ export const View = () => {
     <div>
       <Flex className={cls.auth} justify="center" align="center">
 
-        <Flex align="center" gap={90}>
+        <Flex align="center" gap={90} className={cls.main_flex}>
           <Flex justify="flex-start" align="flex-start" gap={10} className={cls.logo}>
             <QStorageLogoLight/>
             <p className={cls.text}>Включаем бизнес на максимум!</p>

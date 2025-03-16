@@ -2,168 +2,160 @@
 
 import React from 'react'
 
-import { App } from 'antd'
 import { useRouter } from 'next/navigation'
 
-import { StorageRequests } from '..'
-import { ProductRecord, StorageRequestsResponse } from '../types'
+import { useAppSelector } from '@/shared/hooks/redux'
 
-const STATUS_MAP: Record<string, string> = {
-  in_progress: 'В ПРОЦЕССЕ',
-  verified: 'ПРОВЕРЕНО',
-  new: 'НОВОЕ',
-  rejected: 'ОТКЛОНЕНО',
-  not_verified: 'НЕ ПРОВЕРЕНО',
-} as const
-
-const COLOR_MAP: Record<string, string> = {
-  in_progress: 'gold',
-  verified: 'green',
-  new: 'geekblue',
-  rejected: 'red',
-  not_verified: 'gray',
-} as const
+import { ProductsStorageRequest } from '..'
+import { ProductsStorageRequestTypes } from '../types'
 
 function useList() {
-  const { message } = App.useApp()
   const router = useRouter()
-
-  const [dataSource, setDataSource] = React.useState<ProductRecord[]>([])
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [products, setProducts] = React.useState<ProductsStorageRequestTypes.Product[] | null>(null)
+  const [selectedProduct, setSelectedProduct] = React.useState<ProductsStorageRequestTypes.Product | null>(null)
+  const [storageRequestList, setStorageRequestList] = React.useState<ProductsStorageRequestTypes.Table[] | null>(null)
+  const [type, setType] = React.useState<string>('incoming')
+  const [isStorageRequestLoading, setIsStorageRequestLoading] = React.useState(true)
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([])
-  const [loading, setLoading] = React.useState(false)
-  const [hasIncoming, setHasIncoming] = React.useState(false)
-  const [hasOutgoing, setHasOutgoing] = React.useState(false)
-  const [hasData, setHasData] = React.useState(false)
-  const [hasFetchAttempted, setHasFetchAttempted] = React.useState(false)
+  const [submitted, setSubmitted] = React.useState(false)
 
-  const checkStatus = (status: string) => STATUS_MAP[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
-  const getTagColor = (status: string) => COLOR_MAP[status] || 'default'
+  const currentWarehouse = useAppSelector((state) => state.user.userData?.current_warehouse)
 
-  const fetchData = React.useCallback(async () => {
-    setLoading(true)
+  const StorageRequestGET = React.useCallback(async (type: string, url?: string) => {
+    setIsStorageRequestLoading(true)
+
     try {
-      const response: StorageRequestsResponse = await StorageRequests.API.List.getStorageRequests()
+      const response = await ProductsStorageRequest.API.List.getStorageRequest(type, url)
 
-      if (!response.incomings.length && !response.outgoings.length) {
-        setHasData(false)
-        setHasFetchAttempted(true)
-
-        return
-      }
-      setHasIncoming(response.incomings.length > 0)
-      setHasOutgoing(response.outgoings.length > 0)
-
-      const allRequests = [
-        ...(response.incomings?.map(item => ({
-          ...item,
-          type: 'incoming',
-          status: item.status || 'not_verified',
-        })) || []),
-        ...(response.outgoings?.map(item => ({
-          ...item,
-          type: 'outgoing',
-          status: item.status || 'not_verified',
-        })) || []),
-      ] as ProductRecord[]
-
-      setDataSource(allRequests)
-      setHasData(true)
-      setHasFetchAttempted(true)
+      setStorageRequestList(response.data)
     } catch (error) {
-      console.error('Error fetching storage requests: ', error)
-      message.error('Ошибка при загрузке данных')
-      setHasData(false)
-      setHasFetchAttempted(true)
+      console.log('products storage request error', error)
     } finally {
-      setLoading(false)
+      setIsStorageRequestLoading(false)
     }
-  }, [message])
+  }, [])
 
-  const handleApprove = async () => {
-    if (selectedRowKeys.length === 0) {
-      message.warning('Выберите заявки для подтверждения')
-
-      return
-    }
+  const StorageRequestApproveIncomingPOST = React.useCallback(async (incoming_ids: React.Key[]) => {
+    setSubmitted(true)
 
     try {
-      const selectedIds = selectedRowKeys.map(Number)
-      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id))
+      const response = await ProductsStorageRequest.API.List.approveIncomingStorageRequest(incoming_ids)
 
-      const payload = {
-        incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
-        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
+      if (response.status === 200) {
+        StorageRequestGET('incoming')
       }
-
-      await StorageRequests.API.List.approveRequests(payload)
-
-      setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
-      message.success('Заявки успешно приняты')
-      setSelectedRowKeys([])
     } catch (error) {
-      console.error('Error approving requests:', error)
-      message.error('Ошибка при принятии заявок')
+      console.log('approve error', error)
+    } finally {
+      setSubmitted(false)
     }
-  }
+  }, [])
 
-  const handleReject = async () => {
-    if (selectedRowKeys.length === 0) {
-      message.warning('Выберите заявки для отклонения')
-
-      return
-    }
+  const StorageRequestApproveOutgoingPOST = React.useCallback(async (outgoing_ids: React.Key[]) => {
+    setSubmitted(true)
 
     try {
-      const selectedIds = selectedRowKeys.map(Number)
-      const selectedItems = dataSource.filter(item => selectedIds.includes(item.id))
+      const response = await ProductsStorageRequest.API.List.approveOutgoingStorageRequest(outgoing_ids)
 
-      const payload = {
-        incoming_ids: selectedItems.filter(item => item.type === 'incoming').map(item => item.id),
-        outgoing_ids: selectedItems.filter(item => item.type === 'outgoing').map(item => item.id),
+      if (response.status === 200) {
+        StorageRequestGET('outgoing')
       }
-
-      await StorageRequests.API.List.rejectRequests(payload)
-
-      setDataSource(prevData => prevData.filter(item => !selectedIds.includes(item.id)))
-      message.success('Заявки успешно отклонены')
-      setSelectedRowKeys([])
     } catch (error) {
-      console.error('Error rejecting requests:', error)
-      message.error('Ошибка при отклонении заявок')
+      console.log('approve error', error)
+    } finally {
+      setSubmitted(false)
     }
-  }
+  }, [])
+
+  const StorageRequestCancelIncomingPOST = React.useCallback(async (incoming_ids: React.Key[]) => {
+    setSubmitted(true)
+
+    try {
+      const response = await ProductsStorageRequest.API.List.rejectIncomingStorageRequest(incoming_ids)
+
+      if (response.status === 200) {
+        StorageRequestGET('incoming')
+      }
+    } catch (error) {
+      console.log('approve error', error)
+    } finally {
+      setSubmitted(false)
+    }
+  }, [])
+
+  const StorageRequestCancelOutgoingPOST = React.useCallback(async (outgoing_ids: React.Key[]) => {
+    setSubmitted(true)
+
+    try {
+      const response = await ProductsStorageRequest.API.List.rejectOutgoingStorageRequest(outgoing_ids)
+
+      if (response.status === 200) {
+        StorageRequestGET('outgoing')
+      }
+    } catch (error) {
+      console.log('approve error', error)
+    } finally {
+      setSubmitted(false)
+    }
+  }, [])
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '/storage', title: `Склад ${'№1'}` },
-    { href: '/storage-requests', title: 'Заявки на склад' },
+    { title: 'Заявки на склад' },
   ]
 
+  const checkStatus = React.useCallback((status: string): string => {
+    const statusMap: Record<string, string> = {
+      in_progress: 'В ПРОЦЕССЕ',
+      verified: 'ПРОВЕРЕНО',
+      new: 'НОВОЕ',
+      rejected: 'ОТКЛОНЕНО',
+      not_verified: 'НЕ ПРОВЕРЕНО',
+    }
+
+    return statusMap[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
+  }, [])
+
+  const getTagColor = React.useCallback((status: string): string => {
+    const colorMap: Record<string, string> = {
+      in_progress: 'gold',
+      verified: 'green',
+      new: 'geekblue',
+      rejected: 'red',
+      not_verified: 'gray',
+    }
+
+    return colorMap[status] || 'default'
+  }, [])
+
   return {
-    selectedRowKeys,
-    loading,
-    dataSource,
-    hasIncoming,
-    hasOutgoing,
-    setHasIncoming,
-    setHasOutgoing,
-    hasData,
-    hasFetchAttempted,
-    checkStatus,
-    getTagColor,
     breadcrumbData,
+    storageRequestList,
+    currentPage,
+    products,
+    selectedProduct,
+    currentWarehouse,
+    isStorageRequestLoading,
+    type,
+    submitted,
+    selectedRowKeys,
     actions: {
-      setSelectedRowKeys,
-      fetchData,
-      handleApprove,
-      handleReject,
       router,
-      setHasIncoming,
-      setHasOutgoing,
+      setSelectedProduct,
+      setProducts,
+      setCurrentPage,
+      StorageRequestGET,
+      checkStatus,
+      getTagColor,
+      setType,
+      setSelectedRowKeys,
+      StorageRequestApproveIncomingPOST,
+      StorageRequestApproveOutgoingPOST,
+      StorageRequestCancelIncomingPOST,
+      StorageRequestCancelOutgoingPOST,
     },
-
   }
-
 }
 
 export const use = useList

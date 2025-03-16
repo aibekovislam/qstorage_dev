@@ -34,8 +34,7 @@ function useList() {
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '#', title: 'Склад №1' },
-    { href: '/products/outgoing', title: 'Уход товаров' },
+    { title: 'Уход товаров' },
   ]
 
   const checkStatus = React.useCallback((status: string): string => {

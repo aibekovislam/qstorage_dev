@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 
-import { MenuOutlined, UserOutlined } from '@ant-design/icons'
-import { Layout, Drawer, Button, Flex, Avatar } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
+import { Layout, Drawer, Button, Flex } from 'antd'
 
 import { axiosRequest } from '@/shared/api/axios'
 import { useAppDispatch } from '@/shared/hooks/redux'
@@ -51,9 +51,7 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
       <Layout className={cls.main_layout}>
         <Layout.Sider
           width="75px"
-          className={cls.sidebar}
-          breakpoint="lg"
-          collapsedWidth="0"
+          className={cls.sidebar_warehouse}
         >
           <SidebarWarehouse />
         </Layout.Sider>
@@ -72,11 +70,6 @@ export const ManagerLayout: React.FC<Props> = ({ children }) => {
               icon={<MenuOutlined />}
               onClick={showDrawer}
             />
-
-            <Flex gap={5} align="center" justify="space-between" className={cls.avatar_mobile}>
-              <Avatar icon={<UserOutlined />} />
-              <span>Директор</span>
-            </Flex>
           </Flex>
           {children}
         </Layout.Content>

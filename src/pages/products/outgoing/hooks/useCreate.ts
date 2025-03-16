@@ -16,7 +16,7 @@ function useCreate() {
   const [form] = Form.useForm()
   const createModal = useDisclosure()
 
-  const [products, setProducts] = React.useState<ProductsTypes.Item[]>([])
+  const [products, setProducts] = React.useState<ProductsTypes.ApiResponse | null>(null)
   const [isProductsLoading, setIsProductsLoading] = React.useState(true)
   const [selectedProducts, setSelectedProducts] = React.useState<ProductsTypes.Table[]>([])
   const [project, setProject] = React.useState<ProductsOutgoingTypes.Project[] | null>(null)
@@ -25,14 +25,14 @@ function useCreate() {
 
   const router = useRouter()
 
-  const getProducts = React.useCallback(async (search?: string) => {
+  const getProducts = React.useCallback(async (search?: string, url?: string) => {
     setIsProductsLoading(true)
 
     try {
-      const response = await ProductsOutgoing.API.Create.getProductSearchedList(search)
+      const response = await ProductsOutgoing.API.Create.getProductSearchedList(search, url || 'products')
 
       if (response.status === 200) {
-        setProducts(response.data.results)
+        setProducts(response.data)
       }
     } catch (error) {
       console.log('error get products', error)
@@ -40,6 +40,14 @@ function useCreate() {
       setIsProductsLoading(false)
     }
   }, [])
+
+  const handlePageChange = () => {
+    const nextPageUrl = products?.next
+
+    if (nextPageUrl) {
+      getProducts(nextPageUrl)
+    }
+  }
 
   const onProductsSelectChange = (
     selectedRowKeys: React.Key[],
@@ -191,6 +199,7 @@ function useCreate() {
       ProductsOutgoingUsers,
       createOutgoing,
       setSelectedProducts,
+      handlePageChange,
     },
   }
 }
