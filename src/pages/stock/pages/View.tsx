@@ -14,13 +14,13 @@ import { Stock } from '..'
 import cls from '../styles/view.module.css'
 import { StockType } from '../types'
 
-const createColumns = (): ColumnsType<StockType.Table> => {
-  const columns: ColumnsType<StockType.Table> = [
+const createColumns = (): ColumnsType<StockType.Product> => {
+  const columns: ColumnsType<StockType.Product> = [
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: (text, record) => (
+      render: (_, record) => (
         <Space>
           <Image
             src={record.image || NoPhoto.src}
@@ -35,14 +35,9 @@ const createColumns = (): ColumnsType<StockType.Table> => {
       ),
     },
     {
-      title: 'Закуп. цена (сом)',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: 'Сумма (закуп..сом)',
-      dataIndex: 'total_purchase',
-      key: 'total_purchase',
+      title: 'Остаток',
+      dataIndex: 'stock',
+      key: 'stock',
     },
   ]
 
@@ -74,22 +69,22 @@ export const View = () => {
       </Flex>
 
       <Flex className={cls.inventory_info}>
-        <h2>Заявки “Склад №1”</h2>
+        <h2>Остатки товара “Склад №1”</h2>
         <div className={cls.inventory_info_main}>
           <div className={cls.inventory_info_container}>
             <Flex className={cls.inventory_info_item}>
               <div>
                 <h3 className={cls.sub_title}>Общий остаток</h3>
-                <span className={cls.stock_number}>{stock?.total_stock}</span>
+                <span className={cls.stock_number}>{stock?.results.total_stock}</span>
               </div>
             </Flex>
           </div>
         </div>
       </Flex>
 
-      <Table<StockType.Table>
+      <Table<StockType.Product>
         columns={createColumns()}
-        dataSource={stock?.results}
+        dataSource={stock?.results.products}
         rowKey={(record) => record.slug}
         loading={!stock}
         scroll={{ x: 'max-content' }}

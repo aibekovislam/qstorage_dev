@@ -24,15 +24,24 @@
     font-size: 24px;
 }
 
-.custom__popover{
-    cursor: pointer;
+.description{
+    max-width: 400px;
 }
 
-.card{
-    width: 400px !important;
+.card_image {
+    border-radius: 6px !important;
+    object-fit: cover !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 240px !important;
 }
 
-.table_title{
-    color: #0000FF !important;
-    cursor: pointer;
+@media screen and (max-width: 835px) {
+    .card_container{
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .card_image{
+        width: 100% !important;
+    }
 }

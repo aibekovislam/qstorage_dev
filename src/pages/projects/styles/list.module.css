@@ -44,6 +44,10 @@
     font-size: 11px;
     font-weight: 500;
     color: #0E0E0E;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; 
 }
 
 .card__info p {
