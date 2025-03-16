@@ -33,6 +33,20 @@ export namespace ProductsIncomingTypes {
     items: ProductItems[]
   }
 
+  export interface FormProduct {
+    title: string
+    price: string
+    color: Color
+    expiration_date?: string
+    characteristics?: string
+    warehouse?: number
+  }
+  export interface Color {
+    id: number;
+    name: string;
+    hash_code: string;
+  }
+
   export interface ProductItems {
     product: string,
     quantity: number,

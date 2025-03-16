@@ -5,6 +5,7 @@ import React, { ChangeEvent } from 'react'
 import { Form, Upload, UploadProps } from 'antd'
 import { useRouter } from 'next/navigation'
 
+import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { debounce } from '@/shared/tools/debounce'
 
 import { ProductsIncoming } from '..'
@@ -13,6 +14,7 @@ import { ProductsIncomingTypes } from '../types'
 
 function useCreate() {
   const [form] = Form.useForm()
+  const createModal = useDisclosure()
 
   const [products, setProducts] = React.useState<ProductsTypes.Item[]>([])
   const [isProductsLoading, setIsProductsLoading] = React.useState(true)
@@ -68,6 +70,13 @@ function useCreate() {
     setIsProductsLoading(true)
     debouncedSearch(e.target.value)
   }
+
+  const handleProductCreated = React.useCallback(
+    (newProduct: ProductsIncomingTypes.Table): void => {
+      setSelectedProducts((prev) => [...prev, newProduct as unknown as ProductsTypes.Table])
+    },
+    [setSelectedProducts],
+  )
 
   const ProductsIncomingProjectGET = React.useCallback(async () => {
     try {
@@ -172,10 +181,12 @@ function useCreate() {
     userResponsible,
     submitted,
     form,
+    createModal,
     actions: {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
+      handleProductCreated,
       ProductsIncomingProjectGET,
       ProductsIncomingUsers,
       createIncoming,
