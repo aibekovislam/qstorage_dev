@@ -2,23 +2,22 @@
 
 import React from 'react'
 
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Table, Tag, Flex, Button, Popover, Typography, Pagination } from 'antd'
+import { Table, Tag, Flex, Popover, Typography, Button } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
+import { SelectField } from '@/shared/ui/select-field/select-field'
 
-import { ProductsIncoming } from '..'
+import { ProductsStorageRequest } from '..'
 import cls from '../styles/list.module.css'
-import { ProductsIncomingTypes } from '../types'
+import { ProductsStorageRequestTypes } from '../types'
 
 const { Paragraph } = Typography
 
-const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsIncomingTypes.Table> => {
-  const columns: ColumnsType<ProductsIncomingTypes.Table> = [
+const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsStorageRequestTypes.Table> => {
+  const columns: ColumnsType<ProductsStorageRequestTypes.Table> = [
     {
       title: 'Номер документа',
       dataIndex: 'act',
@@ -61,7 +60,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       title: 'Ответственный',
       dataIndex: 'responsible',
       key: 'responsible',
-      render: (responsible: ProductsIncomingTypes.Responsible) => (
+      render: (responsible: ProductsStorageRequestTypes.Responsible) => (
         <Link href={`/users/${responsible.uuid}`}>{`${responsible.first_name} ${responsible.last_name}`}</Link>
       ),
     },
@@ -82,54 +81,101 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
   return columns
 }
 
-export const ListProductsIncoming: React.FC = () => {
+export const List: React.FC = () => {
   const {
     breadcrumbData,
-    productsIncomingList,
-    currentPage,
-    currentWarehouse,
+    storageRequestList,
+    isStorageRequestLoading,
+    type,
+    selectedRowKeys,
+    submitted,
     actions: {
-      router,
-      ProductsIncomingGET,
+      StorageRequestGET,
       checkStatus,
-      setCurrentPage,
       getTagColor,
-      handlePageChange,
+      setType,
+      setSelectedRowKeys,
+      StorageRequestApproveIncomingPOST,
+      StorageRequestApproveOutgoingPOST,
+      StorageRequestCancelIncomingPOST,
+      StorageRequestCancelOutgoingPOST,
     },
-  } = ProductsIncoming.Hooks.List.use()
+  } = ProductsStorageRequest.Hooks.List.use()
 
   React.useEffect(() => {
-    ProductsIncomingGET()
-  }, [currentWarehouse])
+    StorageRequestGET(type)
+  }, [type])
 
   return (
     <div>
       <div className="main">
-        <div className={cls.navigation__info}>
-          <Breadcrumb items={breadcrumbData}/>
-          <h2>Приход товаров</h2>
-        </div>
-        <div className={cls.header}>
-          <Flex gap={8} className={cls.header__btn}>
-            <Button type="primary" className={cls.btn_switch}>
-              Приход <ArrowUpOutlined />
-            </Button>
-            <Button onClick={() => router.push('/products/outgoing')} type="default" className={cls.btn_switch}>
-              Уход <ArrowDownOutlined />
-            </Button>
+        <Flex className={cls.header} align="center" justify="space-between">
+          <div className={cls.navigation__info}>
+            <Breadcrumb items={breadcrumbData}/>
+            <h2>Заявки на склад</h2>
+          </div>
+
+          <Flex className={cls.panel} gap={10}>
+            <SelectField
+              options={
+                [
+                  { value: 'incoming', label: 'Приход' },
+                  { value: 'outgoing', label: 'Уход' },
+                ]
+              }
+              defaultValue={'incoming'}
+              className={cls.select_type}
+              onChange={(value) => {
+                setType(value)
+              }}
+            />
+            <div className={cls.approve}>
+              <Button
+                disabled={selectedRowKeys.length === 0 || submitted}
+                type="primary"
+                onClick={() => {
+                  if (type === 'incoming') {
+                    StorageRequestApproveIncomingPOST(selectedRowKeys)
+                  } else {
+                    StorageRequestApproveOutgoingPOST(selectedRowKeys)
+                  }
+                }}
+              >
+                Принять
+              </Button>
+            </div>
+            <div className={cls.cancel}>
+              <Button
+                disabled={selectedRowKeys.length === 0}
+                type="primary"
+                onClick={() => {
+                  if (type === 'outgoing') {
+                    StorageRequestCancelOutgoingPOST(selectedRowKeys)
+                  } else {
+                    StorageRequestCancelIncomingPOST(selectedRowKeys)
+                  }
+                }}
+              >
+                Отклонить
+              </Button>
+            </div>
           </Flex>
-          <Flex gap={10} className={cls.filter_and_btn}>
-            <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
-            <Button type="primary" onClick={() => router.push('/products/incoming/create')} className={cls.btn}>Добавить приход</Button>
-          </Flex>
-        </div>
-        <Table<ProductsIncomingTypes.Table>
+        </Flex>
+        <Table<ProductsStorageRequestTypes.Table>
           columns={createColumns(checkStatus, getTagColor)}
-          dataSource={productsIncomingList?.results || []}
+          dataSource={storageRequestList || []}
           rowKey={(record) => record.id}
-          loading={!productsIncomingList?.results}
+          loading={isStorageRequestLoading}
           scroll={{ x: 'max-content' }}
           rootClassName={cls.table}
+          rowSelection={
+            {
+              type: 'checkbox',
+              onChange: (selectedRowKey) => {
+                setSelectedRowKeys(selectedRowKey)
+              },
+            }
+          }
           pagination={false}
           rowClassName={(_, index) => (index % 2 !== 0 ? cls.evenRow : cls.oddRow)}
           expandable={{
@@ -150,17 +196,6 @@ export const ListProductsIncoming: React.FC = () => {
                 size="small"
               />
             ),
-          }}
-        />
-
-        <Pagination
-          className={cls.pagination}
-          total={productsIncomingList?.count}
-          current={currentPage}
-          pageSize={10}
-          onChange={(page) => {
-            setCurrentPage(page)
-            handlePageChange()
           }}
         />
       </div>

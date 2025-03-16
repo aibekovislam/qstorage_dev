@@ -42,8 +42,8 @@ const createColumns = () => {
     },
     {
       title: 'Кол-во',
-      dataIndex: 'quantity',
-      key: 'quantity',
+      dataIndex: 'stock',
+      key: 'stock',
     },
     {
       title: 'Срок годности',
@@ -192,6 +192,7 @@ export const Create = () => {
       ProductsOutgoingUsers,
       createOutgoing,
       setSelectedProducts,
+      handlePageChange,
     },
   } = ProductsOutgoing.Hooks.Create.use()
 
@@ -238,15 +239,14 @@ export const Create = () => {
                     <SearchField onChange={(e) => handleSearchProducts(e)} />
                   </Flex>
 
-                  <Flex gap={15}>
-                    <Button onClick={createModal.onOpen} className={cls.filter_btn} type="primary">Создать продукт</Button>
-                    <Button className={cls.filter_btn} type="primary">Фильтры</Button>
+                  <Flex gap={15} className={cls.create_btn}>
+                    <Button onClick={createModal.onOpen} className={cls.filter_btn} type="primary">Создать товар</Button>
                   </Flex>
                 </Flex>
 
                 <Table
                   columns={createColumns()}
-                  dataSource={products}
+                  dataSource={products?.results}
                   loading={isProductsLoading}
                   rowKey={(record) => record.slug ? record.slug : ''}
                   scroll={{ x: 'max-content' }}
@@ -258,6 +258,7 @@ export const Create = () => {
                   pagination={{
                     position: ['bottomRight'],
                     pageSize: 10,
+                    onChange: handlePageChange,
                   }}
                   rootClassName={cls.products_table_main}
                 />

@@ -4,6 +4,8 @@ import React from 'react'
 
 import { useRouter } from 'next/navigation'
 
+import { useAppSelector } from '@/shared/hooks/redux'
+
 import { ProductsIncoming } from '..'
 import { ProductsIncomingTypes } from '../types'
 
@@ -13,6 +15,8 @@ function useList() {
   const [products, setProducts] = React.useState<ProductsIncomingTypes.Product[] | null>(null)
   const [selectedProduct, setSelectedProduct] = React.useState<ProductsIncomingTypes.Product | null>(null)
   const [productsIncomingList, setProductsIncomingList] = React.useState<ProductsIncomingTypes.ApiResponse | undefined>(undefined)
+
+  const currentWarehouse = useAppSelector((state) => state.user.userData?.current_warehouse)
 
   const ProductsIncomingGET = React.useCallback(async (url?: string) => {
     try {
@@ -34,8 +38,7 @@ function useList() {
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '#', title: 'Склад №1' },
-    { href: '/products/incoming', title: 'Приход товаров' },
+    { title: 'Приход товаров' },
   ]
 
   const checkStatus = React.useCallback((status: string): string => {
@@ -68,6 +71,7 @@ function useList() {
     currentPage,
     products,
     selectedProduct,
+    currentWarehouse,
     actions: {
       router,
       setSelectedProduct,

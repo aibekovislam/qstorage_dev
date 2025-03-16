@@ -129,3 +129,23 @@
 .companies_name {
     margin-bottom: 0px !important;
 }
+
+@media screen and (max-width: 835px) {
+    .main_flex {
+        flex-direction: column;
+        max-width: 95vw;
+        margin: 0 auto;
+        gap: 40px !important;
+    }
+    .form {
+        width: 100%;
+    }
+    .logo {
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .form__items {
+        width: 100% !important;
+    }
+}

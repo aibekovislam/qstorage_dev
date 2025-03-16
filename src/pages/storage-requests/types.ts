@@ -1,42 +1,96 @@
-export interface StorageRequestsResponse {
-  incomings: ProductRecord[];
-  outgoings: ProductRecord[];
-}
+export namespace ProductsStorageRequestTypes {
+  export interface ApiResponse {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Table[];
+  }
+  export interface Table {
+    id: number
+    files: string[]
+    status: string
+    act: string
+    supplier: string
+    message: string | null
+    barcode: string | null
+    warehouse: number
+    date: number
+    items: ProductItems[]
+    project: number
+    responsible: string
+    total_quantity: number
+  }
+  export interface Form {
+    files: File
+    quantity: string
+    purchase_price: string
+    supplier: string
+    message: string
+    project: number
+    responsible: string | undefined
+    act: string
+    total_cost: number
+    items: ProductItems[]
+  }
 
-export interface ProductRecord {
-  id: number;
-  files: any[];
-  quantity: number;
-  purchase_price: string;
-  status: string | null;
-  act: string;
-  date: string;
-  supplier: string;
-  message: string | null;
-  type?: 'incoming' | 'outgoing';
-
-  barcode: string | null;
-  product: {
-    slug: string;
-    title: string;
-    category: string | null;
-    price: string;
-    color: string | null;
-    image: string | null;
-  };
-  project: {
+  export interface FormProduct {
+    title: string
+    price: string
+    color: Color
+    expiration_date?: string
+    characteristics?: string
+    warehouse?: number
+  }
+  export interface Color {
     id: number;
-    image: string;
-    title: string;
-    description: string;
-    color: string;
-  };
-  responsible: {
-    uuid: string;
-    avatar: string | null;
-    first_name: string;
-    last_name: string;
-    surname: string;
-    email: string;
-  };
+    name: string;
+    hash_code: string;
+  }
+
+  export interface ProductItems {
+    product: string,
+    quantity: number,
+    purchase_price: string
+    product_title: string
+  }
+  export interface Product {
+    color: string
+    image: string
+    price: string
+    purchase_price: string
+    slug: string
+    title: string
+  }
+  export interface Responsible {
+    email: string
+    first_name: string
+    last_name: string
+    surname: string
+    uuid: string
+    image: string
+  }
+  export interface Project {
+    id: number
+    image: string
+    title: string
+    description: string
+    color: string
+    warehouse: number
+  }
+
+  export interface Item {
+    id: number;
+    files: any[];
+    quantity: number;
+    purchase_price?: string | null;
+    status?: string | null;
+    act?: string | null;
+    date: string;
+    supplier?: string | null;
+    message?: string | null;
+    barcode?: string | null;
+    product?: Product;
+    project?: number | null;
+    responsible?: string | null;
+  }
 }

@@ -158,3 +158,24 @@
 .inputs {
     margin-top: 20px;
 }
+
+
+@media screen and (max-width: 835px) {
+    .products_header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+    .search_and_title {
+        flex-direction: column;
+        align-items: flex-start !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+    .create_btn {
+        width: 100%;
+    }
+    .filter_btn {
+        width: 100%;
+    }
+}

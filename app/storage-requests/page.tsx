@@ -1,5 +1,5 @@
-import { StorageRequests } from '@/pages/storage-requests'
+import { ProductsStorageRequest } from '@/pages/storage-requests'
 
-const Page = () => <StorageRequests.Pages.View />
+const Page = () => <ProductsStorageRequest.Pages.List />
 
 export default Page

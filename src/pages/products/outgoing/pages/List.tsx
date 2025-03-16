@@ -118,14 +118,14 @@ export const ListProductsIncoming: React.FC = () => {
         </div>
         <div className={cls.header}>
           <Flex gap={8} className={cls.header__btn}>
-            <Button type="default" onClick={() => router.push('/products/incoming')}>
+            <Button type="default" onClick={() => router.push('/products/incoming')} className={cls.btn_switch}>
               Приход <ArrowUpOutlined />
             </Button>
-            <Button type="primary">
+            <Button type="primary" className={cls.btn_switch}>
               Уход <ArrowDownOutlined />
             </Button>
           </Flex>
-          <Flex gap={10}>
+          <Flex gap={10} className={cls.filter_and_btn}>
             <FilterPanel defaultValue={'all_products'} options={[{ value: 'all_products', label: 'Все товары' }, { value: 'not_all_products', label: 'Не все товары' }]}/>
             <Button type="primary" onClick={() => router.push('/products/outgoing/create')} className={cls.btn}>Добавить уход</Button>
           </Flex>

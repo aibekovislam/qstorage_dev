@@ -2,12 +2,15 @@
 
 import React from 'react'
 
+import { LogoutOutlined } from '@ant-design/icons'
 import { Flex, Menu } from 'antd'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { useAppSelector } from '@/shared/hooks/redux'
+import { getRoles } from '@/shared/tools/getRoles'
 import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
+import { TokenManagerClient } from '@/shared/utils/token-manager/token-manager-client'
 
 import cls from './sidebar.module.css'
 
@@ -49,7 +52,7 @@ export const SideBar: React.FC<Props> = (props) => {
 
           <Flex gap={5} vertical>
             <h3 className={cls.usernames}>{`${user?.first_name} ${user?.last_name}`}</h3>
-            <span className={cls.role}>{user?.role}</span>
+            <span className={cls.role}>{getRoles(user?.role ? user?.role : '')}</span>
           </Flex>
         </Flex>
         <Menu
@@ -61,6 +64,16 @@ export const SideBar: React.FC<Props> = (props) => {
           items={props.routes}
           className={cls.Menu}
         />
+
+        <Flex className={cls.exit} justify="space-between" align="center" onClick={() => {
+          TokenManagerClient.deleteAllTokens()
+          router.refresh()
+        }}
+        >
+          <h3 className={cls.exit_title}>Выйти</h3>
+
+          <LogoutOutlined className={cls.svg} />
+        </Flex>
       </div>
     ) : null
   )

@@ -9,13 +9,13 @@ export const getProductsIncomingList = async (page: number = 1) => {
   })
 }
 
-export const getProductSearchedList = async (search?: string | undefined) => {
+export const getProductSearchedList = async (search?: string | undefined, url?: string) => {
   if (search) {
     return axiosRequest.get(`/products/?search=${search}`, {
       baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
     })
   } else {
-    return axiosRequest.get('/products/', {
+    return axiosRequest.get(url || '/products/', {
       baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
     })
   }
