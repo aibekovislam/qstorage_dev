@@ -20,6 +20,14 @@ const { Paragraph } = Typography
 const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsIncomingTypes.Table> => {
   const columns: ColumnsType<ProductsIncomingTypes.Table> = [
     {
+      title: 'ID прихода',
+      dataIndex: 'id',
+      key: 'id',
+      render: (_, record) => (
+        <Link href={`/products/incoming/${record.id}/`}>QSTR-{record.id}</Link>
+      ),
+    },
+    {
       title: 'Номер документа',
       dataIndex: 'act',
       key: 'act',
@@ -138,14 +146,14 @@ export const ListProductsIncoming: React.FC = () => {
               <Table
                 columns={[
                   { title: 'Товар', dataIndex: 'product_title', key: 'product_title', render: (_, record) => (
-                    <Link href={`/product/${record.product}`}>{record.product_title}</Link>
+                    <Link href={`/products/items/${record.product.slug}`}>{record.product_title}</Link>
                   ) },
                   { title: 'Количество', dataIndex: 'quantity', key: 'quantity' },
                   { title: 'Цена закупки', dataIndex: 'purchase_price', key: 'purchase_price' },
                   { title: 'Общая стоимость', dataIndex: 'total_price', key: 'total_price' },
                 ]}
                 dataSource={record.items}
-                rowKey={(item) => item.product}
+                rowKey={(item) => item.product.slug ? item.product.slug : ''}
                 pagination={false}
                 size="small"
               />

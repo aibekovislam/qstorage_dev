@@ -10,9 +10,8 @@ function useView() {
   const [incomingItemLoading, setIncomingItemLoading] = React.useState(true)
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '#', title: 'Склад №1' },
     { href: '/products/incoming', title: 'Приход товаров' },
-    { title: `Приход ${incomingItem?.product?.title}` },
+    { title: `#${incomingItem?.act}` },
   ]
 
   const getIncomingDetails = React.useCallback(async (id: string) => {
@@ -31,12 +30,38 @@ function useView() {
     }
   }, [])
 
+  const checkStatus = React.useCallback((status: string): string => {
+    const statusMap: Record<string, string> = {
+      in_progress: 'В ПРОЦЕССЕ',
+      verified: 'ПРОВЕРЕНО',
+      new: 'НОВОЕ',
+      rejected: 'ОТКЛОНЕНО',
+      not_verified: 'НЕ ПРОВЕРЕНО',
+    }
+
+    return statusMap[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
+  }, [])
+
+  const getTagColor = React.useCallback((status: string): string => {
+    const colorMap: Record<string, string> = {
+      in_progress: 'gold',
+      verified: 'green',
+      new: 'geekblue',
+      rejected: 'red',
+      not_verified: 'gray',
+    }
+
+    return colorMap[status] || 'default'
+  }, [])
+
   return {
     breadcrumbData,
     incomingItem,
     incomingItemLoading,
     actions: {
       getIncomingDetails,
+      checkStatus,
+      getTagColor,
     },
   }
 }

@@ -25,19 +25,21 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={SFPro.className}>
+      <head>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#1b1d21" />
+
+        <meta name="theme-color" content="#1b1d21" />
+      </head>
       <body>
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
-            <Suspense fallback={<Loader/>}>
-              {
-                isAuth ? (
-                  <ManagerLayout>
-                    {children}
-                  </ManagerLayout>
-                ) : (
-                  children
-                )
-              }
+            <Suspense fallback={<Loader />}>
+              {isAuth ? (
+                <ManagerLayout>{children}</ManagerLayout>
+              ) : (
+                children
+              )}
             </Suspense>
           </AntdProvider>
         </ReduxProvider>
