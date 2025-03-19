@@ -21,8 +21,6 @@ export default async function RootLayout({
   const store = initializeStore(preloadedState)
   const initialState = JSON.stringify(store.getState())
 
-  const isAuth = Boolean(userData)
-
   return (
     <html lang="en" className={SFPro.className}>
       <head>
@@ -35,7 +33,7 @@ export default async function RootLayout({
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
             <Suspense fallback={<Loader />}>
-              {isAuth ? (
+              {userData && userData.user.role === 'manager' ? (
                 <ManagerLayout>{children}</ManagerLayout>
               ) : (
                 children
