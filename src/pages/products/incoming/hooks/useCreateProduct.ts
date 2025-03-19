@@ -27,7 +27,7 @@ function useCreateProduct() {
       const dataToSend = {
         ...data ,
         warehouse: user.current_warehouse,
-        color: [data.color],
+        // color: [data.color],
         characteristics: JSON.stringify(data.characteristics),
         expiration_date: dayjs(data.expiration_date).format('YYYY-MM-DD'),
       }

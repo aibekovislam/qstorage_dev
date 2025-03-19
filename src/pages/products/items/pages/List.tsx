@@ -69,7 +69,7 @@ export const ListProducts: React.FC = () => {
                 padding: 0,
               }}
             >
-              <div onClick={() => router.push(`/products/items/${item.slug}?title=${encodeURIComponent(item.title)}`)} className={cls.card}>
+              <div onClick={() => router.push(`/products/items/${item.slug}`)} className={cls.card}>
                 <Flex justify={'center'}>
                   <Image
                     width={117}

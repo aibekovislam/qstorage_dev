@@ -2,22 +2,20 @@
 
 import React from 'react'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 import { Projects } from '..'
 import { ProjectsType } from '../types'
 
 function useView() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [expanded, setExpanded] = React.useState(false)
-  const projectTitle = String(searchParams?.get('title') || 'Название проекта')
-  const [items, setItems] = React.useState<ProjectsType.TableItem | undefined>(undefined)
+  const [items, setItems] = React.useState<ProjectsType.ItemDetail | undefined>(undefined)
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
     { href: '/projects', title: 'Проекты' },
-    { href: '#', title: projectTitle },
+    { href: '#', title: items?.title },
   ]
 
   const ProjectsIDGET = React.useCallback(async (id: number) => {
@@ -59,7 +57,6 @@ function useView() {
   return {
     breadcrumbData,
     items,
-    projectTitle,
     expanded,
     actions: {
       router,

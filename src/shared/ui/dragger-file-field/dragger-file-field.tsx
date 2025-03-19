@@ -6,6 +6,8 @@ import { Rule } from 'antd/es/form'
 import FormItem from 'antd/es/form/FormItem'
 import { UploadProps } from 'antd/lib'
 
+import cls from './dragger-file-field.module.css'
+
 const { Dragger } = Upload
 
 function normFile(e: any) {
@@ -19,7 +21,8 @@ function normFile(e: any) {
 interface Props extends UploadProps {
   rules?: Rule[],
   initialValue?: string,
-  valuePropName?: string
+  valuePropName?: string,
+  label?: string
 }
 
 export const DraggerFileField: React.FC<Props> = (props) => {
@@ -27,6 +30,8 @@ export const DraggerFileField: React.FC<Props> = (props) => {
     <FormItem
       name={props.name}
       valuePropName={props.valuePropName}
+      className={cls.draggerField}
+      label={props.label}
       getValueFromEvent={normFile}
     >
       <Dragger

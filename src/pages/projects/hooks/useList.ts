@@ -91,7 +91,6 @@ function useList() {
 
   const handleClickColor = (color: string) => {
     setSelectedColor(color)
-    console.log('Выбранный цвет:', color)
   }
 
   const defaultDraggerProps: UploadProps = {

@@ -62,7 +62,7 @@ export const List = () => {
                 padding: 0,
               }}
             >
-              <div onClick={() => router.push(`/projects/${item.id}?title=${encodeURIComponent(item.title)}`)} className={cls.card}>
+              <div onClick={() => router.push(`/projects/${item.id}`)} className={cls.card}>
                 <Flex justify={'center'}>
                   <Image
                     width={0}
