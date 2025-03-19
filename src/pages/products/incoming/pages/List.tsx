@@ -32,7 +32,7 @@ const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<Products
       dataIndex: 'act',
       key: 'act',
       render: (_, record) => (
-        <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', record)}>#{record.act}</Link>
+        <Link href={`${record.document}`}>#{record.act}</Link>
       ),
     },
     {

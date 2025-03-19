@@ -12,6 +12,7 @@ export namespace ProductsIncomingTypes {
     files: Files[]
     status: string
     act: string
+    document: string
     supplier: string
     message: string | null
     barcode: string | null
