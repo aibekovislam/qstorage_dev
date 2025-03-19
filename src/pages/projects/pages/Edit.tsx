@@ -4,6 +4,7 @@ import React from 'react'
 
 import { Breadcrumb, Button, Flex, Form } from 'antd'
 
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { LoaderData } from '@/shared/ui/loader/Loader'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
@@ -23,6 +24,8 @@ export const Edit: React.FC<Props> = (props) => {
     isProjectsLoading,
     contextHolder,
     projectTitle,
+    defaultDraggerProps,
+    initialImageFileList,
     actions: { ProjectsIDGET, EditProject },
   } = Projects.Hooks.Edit.use()
 
@@ -46,7 +49,10 @@ export const Edit: React.FC<Props> = (props) => {
           <Form
             form={form}
             className={cls.Form}
-            initialValues={{ ...items }}
+            initialValues={{
+              ...items,
+              image: initialImageFileList,
+            }}
             onFinish={(data) => EditProject(props.project_id, data)}
           >
             <TextField
@@ -63,6 +69,15 @@ export const Edit: React.FC<Props> = (props) => {
               name="color"
               placeholder="Введите цвет проекта"
               label="Цвет проекта"
+            />
+
+            <DraggerFileField
+              label="Выберите картинку"
+              name="image"
+              // Передаём пропс valuePropName, чтобы Form корректно управлял значением
+              valuePropName="fileList"
+              className={cls.dragger_filed}
+              {...defaultDraggerProps}
             />
 
             <Button

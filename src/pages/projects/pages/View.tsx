@@ -20,7 +20,6 @@ export const View: React.FC<Props> = (props) => {
   const {
     breadcrumbData,
     items,
-    projectTitle,
     expanded,
     actions: { router, ProjectsIDGET, deleteProject, getFormattedDescription, toggleDescription },
   } = Projects.Hooks.View.use()
@@ -49,7 +48,7 @@ export const View: React.FC<Props> = (props) => {
       </Flex>
 
       <div className={cls.main_title}>
-        <h2>Проект “{projectTitle}”</h2>
+        <h2>Проект “{items.title}”</h2>
       </div>
 
       <Card
@@ -73,7 +72,7 @@ export const View: React.FC<Props> = (props) => {
               Цвет: <b>{items.color}</b>
             </p>
             <p style={{ color: '#888' }}>
-              Склад: <b>{items.warehouse}</b>
+              Склад: <b>{items.warehouse.title}</b>
             </p>
 
             {getFormattedDescription()}

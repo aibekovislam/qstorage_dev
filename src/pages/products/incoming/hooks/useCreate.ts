@@ -9,16 +9,16 @@ import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { debounce } from '@/shared/tools/debounce'
 
 import { ProductsIncoming } from '..'
-import { ProductsTypes } from '../../items/types'
+import { ProductsItemsTypes } from '../../items/types'
 import { ProductsIncomingTypes } from '../types'
 
 function useCreate() {
   const [form] = Form.useForm()
   const createModal = useDisclosure()
 
-  const [products, setProducts] = React.useState<ProductsTypes.ApiResponse | null>(null)
+  const [products, setProducts] = React.useState<ProductsItemsTypes.ApiResponse | null>(null)
   const [isProductsLoading, setIsProductsLoading] = React.useState(true)
-  const [selectedProducts, setSelectedProducts] = React.useState<ProductsTypes.Table[]>([])
+  const [selectedProducts, setSelectedProducts] = React.useState<ProductsItemsTypes.Table[]>([])
   const [project, setProject] = React.useState<ProductsIncomingTypes.Project[] | null>(null)
   const [userResponsible, setUserResponsible] = React.useState<ProductsIncomingTypes.Responsible[] | null>(null)
   const [submitted, setSubmitted] = React.useState(false)
@@ -51,7 +51,7 @@ function useCreate() {
 
   const onProductsSelectChange = (
     selectedRowKeys: React.Key[],
-    selectedRows: ProductsTypes.Table[],
+    selectedRows: ProductsItemsTypes.Table[],
   ) => {
     setSelectedProducts((prevSelected) =>
       selectedRows.map((product) => {
@@ -81,7 +81,7 @@ function useCreate() {
 
   const handleProductCreated = React.useCallback(
     (newProduct: ProductsIncomingTypes.Table): void => {
-      setSelectedProducts((prev) => [...prev, newProduct as unknown as ProductsTypes.Table])
+      setSelectedProducts((prev) => [...prev, newProduct as unknown as ProductsItemsTypes.Table])
     },
     [setSelectedProducts],
   )

@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { Form, notification } from 'antd'
+import { Form, notification, Upload } from 'antd'
+import { UploadProps } from 'antd/lib'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Projects } from '..'
@@ -14,7 +15,7 @@ function useEdit() {
   const searchParams = useSearchParams()
   const projectTitle = String(searchParams?.get('title') || 'Название проекта')
   const [submitted, setSubmitted] = React.useState(false)
-  const [items, setItems] = React.useState<ProjectsType.TableItem | undefined>(undefined)
+  const [items, setItems] = React.useState<ProjectsType.ItemDetail | undefined>(undefined)
   const [isProjectsLoading, setIsProjectsLoading] = React.useState(true)
   const [api, contextHolder] = notification.useNotification()
 
@@ -27,7 +28,7 @@ function useEdit() {
 
   const ProjectsIDGET = React.useCallback(async (id: number) => {
     try {
-      const response = await Projects.API.View.getProjectsById(id)
+      const response = await Projects.API.Edit.getProjectsById(id)
 
       setItems(response.data)
     } catch (error) {
@@ -41,7 +42,28 @@ function useEdit() {
     setSubmitted(true)
 
     try {
-      const response = await Projects.API.Edit.editProject(id, data)
+      const dataToSend = {
+        ...data,
+        image: !Array.isArray(data.image) ? null : data.image,
+      }
+
+      const formData: any = new FormData()
+
+      Object.entries(dataToSend).forEach(([key, value]) => {
+        if (key !== 'image' && value !== undefined && value !== null) {
+          formData.append(key, String(value))
+        }
+      })
+
+      if (Array.isArray(dataToSend.image) && dataToSend.image[0]) {
+        const file = dataToSend.image[0].originFileObj
+
+        if (file) {
+          formData.append('image', file)
+        }
+      }
+
+      const response = await Projects.API.Edit.editProject(id, formData)
 
       if (response.status === 200) {
         api.success({
@@ -62,6 +84,32 @@ function useEdit() {
     }
   }, [])
 
+  const defaultDraggerProps: UploadProps = {
+    name: 'image',
+    accept: 'image/*',
+    maxCount: 1,
+    beforeUpload(file) {
+      if (!file.type.startsWith('image/')) {
+        console.error(`Файл не изображение: "${file.name}"`)
+
+        return Upload.LIST_IGNORE
+      }
+
+      return false
+    },
+  }
+
+  const initialImageFileList = items?.image
+    ? [
+      {
+        uid: '-1',
+        name: items.image.split('/').pop() || 'image.jpg',
+        status: 'done',
+        url: items.image,
+      },
+    ]
+    : []
+
   return {
     breadcrumbData,
     items,
@@ -70,6 +118,8 @@ function useEdit() {
     contextHolder,
     submitted,
     projectTitle,
+    defaultDraggerProps,
+    initialImageFileList,
     actions: {
       router,
       ProjectsIDGET,

@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { Form, notification } from 'antd'
+import { Form, notification, Upload } from 'antd'
+import { UploadProps } from 'antd/lib'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
 
@@ -10,20 +11,20 @@ import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { getSession } from '@/shared/lib/session'
 
 import { ProductItems } from '..'
-import { ProductsTypes } from '../types'
+import { ProductsItemsTypes } from '../types'
 
 function useList() {
   const [form] = Form.useForm()
   const createModal = useDisclosure()
   const router = useRouter()
-  const [categories, setCategories] = React.useState<ProductsTypes.ItemCategories[] | null>(null)
-  const [productsList, setProductsList] = React.useState<ProductsTypes.Item[] | undefined>(undefined)
-  const [productsColorsList, setProductsColorsList] = React.useState<ProductsTypes.Color[] | undefined>(undefined)
+  const [categories, setCategories] = React.useState<ProductsItemsTypes.ItemCategories[] | null>(null)
+  const [productsList, setProductsList] = React.useState<ProductsItemsTypes.Item[] | undefined>(undefined)
+  const [productsColorsList, setProductsColorsList] = React.useState<ProductsItemsTypes.Color[] | undefined>(undefined)
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
   const [api, contextHolder] = notification.useNotification()
 
-  const createProduct = React.useCallback(async (data: ProductsTypes.Form) => {
+  const createProduct = React.useCallback(async (data: ProductsItemsTypes.Form) => {
     setSubmitted(true)
     try {
       const session = await getSession()
@@ -38,7 +39,23 @@ function useList() {
         expiration_date: dayjs(data.expiration_date).format('YYYY-MM-DD'),
       }
 
-      const response = await ProductItems.API.List.createProduct(dataToSend)
+      const formData: any = new FormData()
+
+      Object.entries(dataToSend).forEach(([key, value]) => {
+        if (key !== 'image' && value !== undefined && value !== null) {
+          formData.append(key, String(value))
+        }
+      })
+
+      if (Array.isArray(dataToSend.image) && dataToSend.image[0]) {
+        const file = dataToSend.image[0].originFileObj
+
+        if (file) {
+          formData.append('image', file)
+        }
+      }
+
+      const response = await ProductItems.API.List.createProduct(formData)
 
       if (response.status === 201 || response.status === 200) {
         api.success({
@@ -62,6 +79,21 @@ function useList() {
       setSubmitted(false)
     }
   }, [])
+
+  const defaultDraggerProps: UploadProps = {
+    name: 'image',
+    accept: 'image/*',
+    maxCount: 10,
+    beforeUpload(file) {
+      if (!file.type.startsWith('image/')) {
+        console.error(`Файл не изображение: "${file.name}"`)
+
+        return Upload.LIST_IGNORE
+      }
+
+      return false
+    },
+  }
 
   const ProductItemsCategoreisGET = React.useCallback(async () => {
     try {
@@ -102,6 +134,7 @@ function useList() {
     breadcrumbData,
     productsColorsList,
     productsList,
+    defaultDraggerProps,
     submitted,
     contextHolder,
     form,

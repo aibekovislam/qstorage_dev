@@ -15,13 +15,13 @@ import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
 import { ProductsOutgoing } from '..'
-import { ProductsTypes } from '../../items/types'
+import { ProductsItemsTypes } from '../../items/types'
 import cls from '../styles/create.module.css'
 import ModalCreateOutgoingItem from '../ui/modals/modal-create-outgoing-product'
 import { InputRules } from '../validate'
 
 const createColumns = () => {
-  const columns: ColumnsType<ProductsTypes.Item> = [
+  const columns: ColumnsType<ProductsItemsTypes.Item> = [
     {
       title: 'Товар',
       dataIndex: 'product',
@@ -81,23 +81,23 @@ const createColumns = () => {
 }
 
 const createSelectedProductsColumns = (setSelectedProducts: any) => {
-  const handleQuantityChange = (value: number | null, record: ProductsTypes.Item) => {
-    setSelectedProducts((prev: ProductsTypes.Table[]) =>
+  const handleQuantityChange = (value: number | null, record: ProductsItemsTypes.Item) => {
+    setSelectedProducts((prev: ProductsItemsTypes.Table[]) =>
       prev.map((item) =>
         item.slug === record.slug ? { ...item, quantity: value ?? 0 } : item,
       ),
     )
   }
 
-  const handlePriceChange = (value: number | null, record: ProductsTypes.Item) => {
-    setSelectedProducts((prev: ProductsTypes.Table[]) =>
+  const handlePriceChange = (value: number | null, record: ProductsItemsTypes.Item) => {
+    setSelectedProducts((prev: ProductsItemsTypes.Table[]) =>
       prev.map((item) =>
         item.slug === record.slug ? { ...item, purchase_price: value ?? 0 } : item,
       ),
     )
   }
 
-  const columns: ColumnsType<ProductsTypes.Table> = [
+  const columns: ColumnsType<ProductsItemsTypes.Table> = [
     {
       title: 'Товар',
       dataIndex: 'product',
