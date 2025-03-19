@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 
 import { MenuOutlined } from '@ant-design/icons'
 import { Layout, Drawer, Button, Flex } from 'antd'
+import dayjs from 'dayjs'
 
 import { axiosRequest } from '@/shared/api/axios'
 import { useAppDispatch } from '@/shared/hooks/redux'
@@ -13,6 +14,10 @@ import { ManagerSidebarMenuRoutes } from '@/widgets/sidebar/model/manager-menu-r
 import { SidebarWarehouse } from '@/widgets/sidebar-warehouse/SidebarWarehouse'
 
 import cls from './manager-layout.module.css'
+
+import 'dayjs/locale/ru'
+
+dayjs.locale('ru')
 
 interface Props {
   children: React.ReactNode;

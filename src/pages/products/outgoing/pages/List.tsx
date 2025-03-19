@@ -20,11 +20,19 @@ const { Paragraph } = Typography
 const createColumns = (checkStatus: any, getTagColor: any): ColumnsType<ProductsOutgoingTypes.Table> => {
   const columns: ColumnsType<ProductsOutgoingTypes.Table> = [
     {
+      title: 'ID ухода',
+      dataIndex: 'id',
+      key: 'id',
+      render: (_, record) => (
+        <Link href={`/products/outgoing/${record.id}/`}>QSTR-{record.id}</Link>
+      ),
+    },
+    {
       title: 'Номер документа',
       dataIndex: 'act',
       key: 'act',
       render: (_, record) => (
-        <Link href={`/products/incoming/${record.id}/`} onClick={() => console.log('id', record)}>#{record.act}</Link>
+        <Link href={`${record.document}`}>#{record.act}</Link>
       ),
     },
     // {
@@ -145,14 +153,14 @@ export const ListProductsIncoming: React.FC = () => {
               <Table
                 columns={[
                   { title: 'Товар', dataIndex: 'product_title', key: 'product_title', render: (_, record) => (
-                    <Link href={`/product/${record.product}`}>{record.product_title}</Link>
+                    <Link href={`/product/${record.product.slug}`}>{record.product_title}</Link>
                   ) },
                   { title: 'Количество', dataIndex: 'quantity', key: 'quantity' },
                   { title: 'Цена закупки', dataIndex: 'purchase_price', key: 'purchase_price' },
                   { title: 'Общая стоимость', dataIndex: 'total_price', key: 'total_price' },
                 ]}
                 dataSource={record.items}
-                rowKey={(item) => item.product}
+                rowKey={(item) => item.product.slug ? item.product.slug : ''}
                 pagination={false}
                 size="small"
               />

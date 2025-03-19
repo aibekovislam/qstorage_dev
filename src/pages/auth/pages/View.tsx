@@ -71,12 +71,6 @@ export const View = () => {
         </Flex>
       </Flex>
 
-      <div className={cls.footer}>
-        <Button className={cls.lng_btn}>Русский</Button>
-
-        <a href="#" className={cls.politics}>Политика обработки персональных данных</a>
-      </div>
-
       <Image src={AuthHeroImage} alt="hero_image" className={cls.hero_image} />
       <div className={cls.black_block} />
     </div>

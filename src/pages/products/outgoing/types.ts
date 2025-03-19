@@ -1,3 +1,5 @@
+import { ProductsTypes } from '../items/types'
+
 export namespace ProductsOutgoingTypes {
   export interface ApiResponse {
     count: number;
@@ -7,18 +9,26 @@ export namespace ProductsOutgoingTypes {
   }
   export interface Table {
     id: number
-    files: string[]
+    files: Files[]
     status: string
     act: string
+    document: string
     supplier: string
     message: string | null
     barcode: string | null
     warehouse: number
     date: number
-    items: ProductItems[]
+    items: {
+      product: ProductsTypes.Item
+      product_title: string,
+      quantity: number,
+      purchase_price: string,
+      total_price: number
+    }[]
     project: number
     responsible: string
     total_quantity: number
+    total_price: string
   }
   export interface Form {
     files: File
@@ -52,6 +62,7 @@ export namespace ProductsOutgoingTypes {
     quantity: number,
     purchase_price: string
     product_title: string
+    product_image: string
   }
   export interface Product {
     color: string
@@ -79,18 +90,30 @@ export namespace ProductsOutgoingTypes {
   }
 
   export interface Item {
-    id: number;
-    files: any[];
-    quantity: number;
-    purchase_price?: string | null;
-    status?: string | null;
-    act?: string | null;
-    date: string;
-    supplier?: string | null;
-    message?: string | null;
-    barcode?: string | null;
-    product?: Product;
-    project?: number | null;
-    responsible?: string | null;
+    id: number
+    files: Files[]
+    status: string
+    act: string
+    supplier: string
+    message: string | null
+    barcode: string | null
+    warehouse: number
+    date: number
+    items: {
+      product: ProductsTypes.Item
+      product_title: string,
+      quantity: number,
+      purchase_price: string,
+      total_price: number
+    }[]
+    project: number
+    responsible: string
+    total_quantity: number
+    total_price: string
+  }
+
+  export interface Files {
+    file: string
+    name: string
   }
 }

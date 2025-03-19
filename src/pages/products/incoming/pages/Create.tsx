@@ -36,7 +36,7 @@ const createColumns = () => {
             height={40}
             className={cls.table_image}
           />
-          <Link href={`/products/${record.slug}/`}>{record.title}</Link>
+          <Link href={`/products/items/${record.slug}/`}>{record.title}</Link>
         </Space>
       ),
     },
@@ -64,11 +64,6 @@ const createColumns = () => {
           className={cls.table_image}
         />
       ),
-    },
-    {
-      title: 'Склады',
-      dataIndex: 'warehouse',
-      key: 'warehouse',
     },
     {
       title: 'Цена',
@@ -276,14 +271,14 @@ export const Create = () => {
                 className={cls.form__item}
                 rules={InputRules.DocumentNumber}
               />
-              <TextField
+              {/* <TextField
                 type="text"
                 label="Общая стоимость:"
                 placeholder="Общая стоимость"
                 className={cls.form__item}
                 readOnly
                 disabled
-              />
+              /> */}
               <TextField
                 name="supplier"
                 type="text"

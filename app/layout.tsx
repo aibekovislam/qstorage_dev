@@ -21,23 +21,23 @@ export default async function RootLayout({
   const store = initializeStore(preloadedState)
   const initialState = JSON.stringify(store.getState())
 
-  const isAuth = Boolean(userData)
-
   return (
     <html lang="en" className={SFPro.className}>
+      <head>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#1b1d21" />
+
+        <meta name="theme-color" content="#1b1d21" />
+      </head>
       <body>
         <ReduxProvider initialState={initialState}>
           <AntdProvider>
-            <Suspense fallback={<Loader/>}>
-              {
-                isAuth ? (
-                  <ManagerLayout>
-                    {children}
-                  </ManagerLayout>
-                ) : (
-                  children
-                )
-              }
+            <Suspense fallback={<Loader />}>
+              {userData && userData.user.role === 'manager' ? (
+                <ManagerLayout>{children}</ManagerLayout>
+              ) : (
+                children
+              )}
             </Suspense>
           </AntdProvider>
         </ReduxProvider>
