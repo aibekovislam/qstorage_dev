@@ -6,23 +6,22 @@ import { ProductsOutgoing } from '..'
 import { ProductsOutgoingTypes } from '../types'
 
 function useView() {
-  const [incomingItem, setIncomingItem] = React.useState<ProductsOutgoingTypes.Item | null>(null)
+  const [outGoingItem, setOutgoingItem] = React.useState<ProductsOutgoingTypes.Item | null>(null)
   const [incomingItemLoading, setIncomingItemLoading] = React.useState(true)
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
-    { href: '#', title: 'Склад №1' },
-    { href: '/products/incoming', title: 'Приход товаров' },
-    { title: `Приход ${incomingItem?.product?.title}` },
+    { href: '/products/outgoing', title: 'Уход товаров' },
+    { title: `#${outGoingItem?.act}` },
   ]
 
-  const getIncomingDetails = React.useCallback(async (id: string) => {
+  const getOutgoingDetails = React.useCallback(async (id: string) => {
     setIncomingItemLoading(true)
 
     try {
-      const response = await ProductsOutgoing.API.View.getProductsIncomingList(id)
+      const response = await ProductsOutgoing.API.View.getOutgoingDetails(id)
 
       if (response.status === 200) {
-        setIncomingItem(response.data)
+        setOutgoingItem(response.data)
       }
     } catch (error) {
       console.log('get incoming details error', error)
@@ -31,12 +30,38 @@ function useView() {
     }
   }, [])
 
+  const checkStatus = React.useCallback((status: string): string => {
+    const statusMap: Record<string, string> = {
+      in_progress: 'В ПРОЦЕССЕ',
+      verified: 'ПРОВЕРЕНО',
+      new: 'НОВОЕ',
+      rejected: 'ОТКЛОНЕНО',
+      not_verified: 'НЕ ПРОВЕРЕНО',
+    }
+
+    return statusMap[status] || 'НЕИЗВЕСТНЫЙ СТАТУС'
+  }, [])
+
+  const getTagColor = React.useCallback((status: string): string => {
+    const colorMap: Record<string, string> = {
+      in_progress: 'gold',
+      verified: 'green',
+      new: 'geekblue',
+      rejected: 'red',
+      not_verified: 'gray',
+    }
+
+    return colorMap[status] || 'default'
+  }, [])
+
   return {
     breadcrumbData,
-    incomingItem,
+    outGoingItem,
     incomingItemLoading,
     actions: {
-      getIncomingDetails,
+      getOutgoingDetails,
+      checkStatus,
+      getTagColor,
     },
   }
 }

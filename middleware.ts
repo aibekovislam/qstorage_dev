@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
+import { updateSession } from '@/shared/lib/session'
+
 import { REFRESH_TOKEN_COOKIE_KEY } from './src/shared/utils/token-manager/consts'
 
 const publicRoutes = [
@@ -20,7 +22,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 
-  return NextResponse.next()
+  return await updateSession(request)
+
+  // return NextResponse.next()
 }
 
 export const config = {
