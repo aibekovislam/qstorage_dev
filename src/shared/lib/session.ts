@@ -50,7 +50,7 @@ export async function loginSession(loginData: LoginTypes.Form) {
 
     const user = data.user
     const session = await encrypt({ user })
-    const expires = new Date(Date.now() + 30 * 60 * 1000)
+    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     const cookieStore = await cookies()
 
     cookieStore.set('session', session, { httpOnly: true, expires })
@@ -85,11 +85,13 @@ export async function getSession() {
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get('session')?.value
 
-  if (!session) return
+  if (!session) {
+    return NextResponse.next()
+  }
 
   const parsed = await decrypt(session)
 
-  parsed.expires = new Date(Date.now() + 30 * 60 * 1000)
+  parsed.expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const res = NextResponse.next()
 
   res.cookies.set({
