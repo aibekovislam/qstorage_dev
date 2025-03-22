@@ -24,15 +24,11 @@
     width: 145px ;
     height: 166px ;
     background-color: transparent ;
-    border: 1px solid #D9D9D9 ;
+    border: 1.5px solid;
     border-radius: 0px ;
     padding: 5px;
     transition: border-color 0.3s,;
     cursor: pointer;
-}
-
-.card:hover{
-    border-color: #fa541c;
 }
 
 .card__info{

@@ -4,6 +4,7 @@ import React from 'react'
 
 import { Breadcrumb, Button, Flex, Form } from 'antd'
 
+import { ColorPickerField } from '@/shared/ui/color-picker-field/color-picker-field'
 import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { LoaderData } from '@/shared/ui/loader/Loader'
 import { TextField } from '@/shared/ui/textfield/textfield'
@@ -21,17 +22,26 @@ export const Edit: React.FC<Props> = (props) => {
     items,
     submitted,
     form,
+    color_options,
+    selectedColor,
     isProjectsLoading,
     contextHolder,
     projectTitle,
     defaultDraggerProps,
     initialImageFileList,
-    actions: { ProjectsIDGET, EditProject },
+    actions: { ProjectsIDGET, EditProject, handleClickColor, setSelectedColor },
   } = Projects.Hooks.Edit.use()
 
   React.useEffect(() => {
     ProjectsIDGET(Number(props.project_id))
   }, [props.project_id, ProjectsIDGET])
+
+  React.useEffect(() => {
+    if (items && items.color) {
+      form.setFieldsValue({ color: items.color })
+      setSelectedColor(items.color)
+    }
+  }, [items, form])
 
   return (
     <div className="main">
@@ -53,6 +63,7 @@ export const Edit: React.FC<Props> = (props) => {
               ...items,
               image: initialImageFileList,
             }}
+            // onFinish={(data) => console.log(data)}
             onFinish={(data) => EditProject(props.project_id, data)}
           >
             <TextField
@@ -65,16 +76,18 @@ export const Edit: React.FC<Props> = (props) => {
               placeholder="Введите описание проекта"
               label="Описание проекта"
             />
-            <TextField
+
+            <ColorPickerField
               name="color"
-              placeholder="Введите цвет проекта"
-              label="Цвет проекта"
+              label="Выберите цвет"
+              onClick={handleClickColor}
+              options={color_options}
+              selectedColor={selectedColor}
             />
 
             <DraggerFileField
               label="Выберите картинку"
               name="image"
-              // Передаём пропс valuePropName, чтобы Form корректно управлял значением
               valuePropName="fileList"
               className={cls.dragger_filed}
               {...defaultDraggerProps}

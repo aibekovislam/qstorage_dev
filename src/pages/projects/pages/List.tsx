@@ -22,6 +22,8 @@ export const List = () => {
     }
   }, [createModal.isOpen])
 
+  console.log(projects)
+
   return (
     <div>
       <div className="main">
@@ -62,7 +64,7 @@ export const List = () => {
                 padding: 0,
               }}
             >
-              <div onClick={() => router.push(`/projects/${item.id}`)} className={cls.card}>
+              <div onClick={() => router.push(`/projects/${item.id}`)} style={{ borderColor: `${item.color}` }} className={cls.card}>
                 <Flex justify={'center'}>
                   <Image
                     width={0}

@@ -75,7 +75,7 @@ export const ListProducts: React.FC = () => {
                     width={117}
                     height={106}
                     className={cls.card_image}
-                    src={item.image || NoPhoto.src}
+                    src={item.first_image?.image || NoPhoto.src}
                     alt={item.title}
                     priority
                   />

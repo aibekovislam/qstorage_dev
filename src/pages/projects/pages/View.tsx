@@ -76,10 +76,12 @@ export const View: React.FC<Props> = (props) => {
             </p>
 
             {getFormattedDescription()}
-            {items?.description.length > 185 ? (
-              <button onClick={toggleDescription} className={'moreButton'}>
-                {expanded ? 'Скрыть' : 'Еще...'}
-              </button>
+            {items.description && items.description.length !== 0 ? (
+              items?.description.length > 185 ? (
+                <button onClick={toggleDescription} className={'moreButton'}>
+                  {expanded ? 'Скрыть' : 'Еще...'}
+                </button>
+              ) : null
             ) : null}
 
             <div style={{ marginTop: 24 }}>
