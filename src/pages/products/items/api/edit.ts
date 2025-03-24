@@ -20,3 +20,10 @@ export const getProductsColors = async () => {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }
+
+export const deleteProductImages = async (data: ProductsItemsTypes.DelteImages) => {
+  return axiosRequest.delete('/products/images/delete/', {
+    data,
+    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+  })
+}

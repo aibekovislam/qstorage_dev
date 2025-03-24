@@ -226,7 +226,7 @@ function useEdit() {
 
     selectedProducts.forEach(product => {
       if (!incomingSlugs.has(product.product)) {
-        newAdded.push({ product: product.product, product_image: '', product_title: product.product_title, purchase_price: product.purchase_price, quantity: product.quantity })
+        newAdded.push({ product: product.product, purchase_price: product.purchase_price, quantity: product.quantity })
       } else {
         const original = incoming.items.find(item => item.product.slug === product.product)
 
