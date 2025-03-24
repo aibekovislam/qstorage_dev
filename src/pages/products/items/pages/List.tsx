@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
+// import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductItems } from '..'
 import cls from '../styles/list.module.css'
@@ -38,9 +38,9 @@ export const ListProducts: React.FC = () => {
       </div>
       <Flex className={cls.filterPanel}>
         <h2>Товары</h2>
-        <Flex gap={10}>
+        {/* <Flex gap={10}>
           <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
-        </Flex>
+        </Flex> */}
       </Flex>
       <div className={cls.products_main}>
         <List
@@ -75,7 +75,7 @@ export const ListProducts: React.FC = () => {
                     width={117}
                     height={106}
                     className={cls.card_image}
-                    src={item.image || NoPhoto.src}
+                    src={item.first_image?.image || NoPhoto.src}
                     alt={item.title}
                     priority
                   />
@@ -84,7 +84,7 @@ export const ListProducts: React.FC = () => {
                   <h2>{item.title}</h2>
                   <Flex gap={5}>
                     {item.color?.length ? (
-                      item.color.map((color) => (
+                      item.color.map((color: any) => (
                         <div key={color.id} style={{ backgroundColor: color.hash_code }} className={cls.circle_color} />
                       ))
                     ) : (

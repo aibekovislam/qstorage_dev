@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 
 import { SFPro } from '@/shared/assets/fonts/fonts'
+import { EmployeeLayout } from '@/shared/layouts/employee/ui/EmployeeLayout'
 import { ManagerLayout } from '@/shared/layouts/manager'
 import { getSession } from '@/shared/lib/session'
 import AntdProvider from '@/shared/providers/Antd'
@@ -35,6 +36,8 @@ export default async function RootLayout({
             <Suspense fallback={<Loader />}>
               {userData && userData.user.role === 'manager' ? (
                 <ManagerLayout>{children}</ManagerLayout>
+              ) : userData && userData.user.role === 'worker' ? (
+                <EmployeeLayout>{children}</EmployeeLayout>
               ) : (
                 children
               )}

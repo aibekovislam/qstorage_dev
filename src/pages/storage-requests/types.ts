@@ -1,3 +1,5 @@
+import { ProductsItemsTypes } from '../products/items/types'
+
 export namespace ProductsStorageRequestTypes {
   export interface ApiResponse {
     count: number;
@@ -15,7 +17,7 @@ export namespace ProductsStorageRequestTypes {
     barcode: string | null
     warehouse: number
     date: number
-    items: ProductItems[]
+    items: {product: ProductsItemsTypes.Item}[]
     project: number
     responsible: string
     total_quantity: number

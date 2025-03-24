@@ -184,14 +184,14 @@ export const List: React.FC = () => {
               <Table
                 columns={[
                   { title: 'Товар', dataIndex: 'product_title', key: 'product_title', render: (_, record) => (
-                    <Link href={`/product/${record.product}`}>{record.product_title}</Link>
+                    <Link href={`/product/${record.product.slug}`}>{record.product.title}</Link>
                   ) },
                   { title: 'Количество', dataIndex: 'quantity', key: 'quantity' },
                   { title: 'Цена закупки', dataIndex: 'purchase_price', key: 'purchase_price' },
                   { title: 'Общая стоимость', dataIndex: 'total_price', key: 'total_price' },
                 ]}
                 dataSource={record.items}
-                rowKey={(item) => item.product}
+                rowKey={(item) => item.product.slug ? item.product.slug : ''}
                 pagination={false}
                 size="small"
               />

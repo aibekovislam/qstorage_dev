@@ -7,10 +7,11 @@ import { Flex, Menu } from 'antd'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { useAppSelector } from '@/shared/hooks/redux'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux'
 import { getRoles } from '@/shared/tools/getRoles'
 import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 import { TokenManagerClient } from '@/shared/utils/token-manager/token-manager-client'
+import { logout } from '@/store/actions/user'
 
 import cls from './sidebar.module.css'
 
@@ -29,6 +30,7 @@ export const SideBar: React.FC<Props> = (props) => {
   const pathname = usePathname()
 
   const user = useAppSelector((state) => state.user.userData)
+  const dispatch = useAppDispatch()
 
   const getActiveRouter = (routes: MenuProps['items']) => {
     if (!routes) return []
@@ -65,9 +67,14 @@ export const SideBar: React.FC<Props> = (props) => {
           className={cls.Menu}
         />
 
-        <Flex className={cls.exit} justify="space-between" align="center" onClick={() => {
-          TokenManagerClient.deleteAllTokens()
-          router.refresh()
+        <Flex className={cls.exit} justify="space-between" align="center" onClick={async () => {
+          dispatch(logout())
+          await TokenManagerClient.deleteAllTokens()
+          const data = await TokenManagerClient.deleteSession()
+
+          if (data.success) {
+            router.refresh()
+          }
         }}
         >
           <h3 className={cls.exit_title}>Выйти</h3>
