@@ -3,8 +3,8 @@ import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { ProductsItemsTypes } from '../../items/types'
 
-export const getProductsIncomingList = async (url?: string) => {
-  return axiosRequest.get(url || '/incomings/', {
+export const getProductsIncomingList = async (url?: string, previusURL?: string) => {
+  return axiosRequest.get((previusURL || url) || '/incomings/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 }

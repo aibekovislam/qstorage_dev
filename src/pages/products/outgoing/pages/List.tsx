@@ -175,7 +175,7 @@ export const ListProductsIncoming: React.FC = () => {
           pageSize={10}
           onChange={(page) => {
             setCurrentPage(page)
-            handlePageChange()
+            handlePageChange(page)
           }}
         />
       </div>

@@ -13,25 +13,43 @@ function useList() {
   const [products, setProducts] = React.useState<ProductsOutgoingTypes.Product[] | null>(null)
   const [selectedProduct, setSelectedProduct] = React.useState<ProductsOutgoingTypes.Product | null>(null)
   const [productsOutgoingList, setProductsOutgoingList] = React.useState<ProductsOutgoingTypes.ApiResponse | undefined>(undefined)
+  const [isOutgoingLoading, setIsOutgoingLoading] = React.useState(true)
 
-  const ProductsOutgoingGET = React.useCallback(async (url?: string) => {
+  const ProductsOutgoingGET = React.useCallback(async (url?: string, previusURL?: string) => {
+    setIsOutgoingLoading(true)
+
     try {
-      const response = await ProductsOutgoing.API.List.getProductsOutgoingList(url || '/outgoings/')
+      const response = await ProductsOutgoing.API.List.getProductsOutgoingList(url || '/outgoings/', previusURL)
 
       setProductsOutgoingList(response.data)
     } catch (error) {
       console.log('products outgoings error', error)
+    } finally {
+      setIsOutgoingLoading(false)
     }
   }, [])
 
-  const handlePageChange = () => {
+  const handlePageChange = (page: number) => {
     const nextPageUrl = productsOutgoingList?.next
+    const prevPageUrl = productsOutgoingList?.previous
 
-    if (nextPageUrl) {
+    if (page > currentPage && nextPageUrl) {
       ProductsOutgoingGET(nextPageUrl)
+    } else if (page < currentPage && prevPageUrl) {
+      ProductsOutgoingGET(prevPageUrl)
     }
+
+    setCurrentPage(page)
   }
 
+  const handlePreviousPage = () => {
+    const prevPageUrl = productsOutgoingList?.previous
+
+    if (prevPageUrl) {
+      ProductsOutgoingGET(prevPageUrl)
+      setCurrentPage((prev) => Math.max(prev - 1, 1))
+    }
+  }
   const breadcrumbData = [
     { href: '/', title: 'Главная' },
     { title: 'Уход товаров' },
@@ -67,6 +85,7 @@ function useList() {
     currentPage,
     products,
     selectedProduct,
+    isOutgoingLoading,
     actions: {
       router,
       setSelectedProduct,
@@ -76,6 +95,7 @@ function useList() {
       checkStatus,
       getTagColor,
       handlePageChange,
+      handlePreviousPage,
     },
   }
 }

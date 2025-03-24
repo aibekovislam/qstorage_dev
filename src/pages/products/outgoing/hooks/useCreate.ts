@@ -133,8 +133,10 @@ function useCreate() {
       })
 
       if (Array.isArray(formValue.files)) {
-        formValue.files.forEach((fileItem: File, index) => {
-          formData.append(`file${index + 1}`, fileItem)
+        formValue.files.forEach((item: {originFileObj: File}) => {
+          if (item.originFileObj) {
+            formData.append('files', item.originFileObj)
+          }
         })
       }
 

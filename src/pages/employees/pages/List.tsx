@@ -34,11 +34,6 @@ const createColumns = (handleSelectedEmployee: (employee: EmployeeTypes.Item) =>
       ),
     },
     {
-      title: 'ID',
-      dataIndex: 'uuid',
-      key: 'uuid',
-    },
-    {
       title: 'Должность',
       dataIndex: 'role',
       key: 'role',

@@ -96,6 +96,7 @@ export const ListProductsIncoming: React.FC = () => {
     productsIncomingList,
     currentPage,
     currentWarehouse,
+    isIncomingLoading,
     actions: {
       router,
       ProductsIncomingGET,
@@ -135,7 +136,7 @@ export const ListProductsIncoming: React.FC = () => {
           columns={createColumns(checkStatus, getTagColor)}
           dataSource={productsIncomingList?.results || []}
           rowKey={(record) => record.id}
-          loading={!productsIncomingList?.results}
+          loading={isIncomingLoading}
           scroll={{ x: 'max-content' }}
           rootClassName={cls.table}
           pagination={false}
@@ -168,7 +169,7 @@ export const ListProductsIncoming: React.FC = () => {
           pageSize={10}
           onChange={(page) => {
             setCurrentPage(page)
-            handlePageChange()
+            handlePageChange(page)
           }}
         />
       </div>

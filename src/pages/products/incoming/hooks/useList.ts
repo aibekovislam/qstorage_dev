@@ -15,24 +15,43 @@ function useList() {
   const [products, setProducts] = React.useState<ProductsIncomingTypes.Product[] | null>(null)
   const [selectedProduct, setSelectedProduct] = React.useState<ProductsIncomingTypes.Product | null>(null)
   const [productsIncomingList, setProductsIncomingList] = React.useState<ProductsIncomingTypes.ApiResponse | undefined>(undefined)
+  const [isIncomingLoading, setIsIncomingLoading] = React.useState(true)
 
   const currentWarehouse = useAppSelector((state) => state.user.userData?.current_warehouse)
 
-  const ProductsIncomingGET = React.useCallback(async (url?: string) => {
+  const ProductsIncomingGET = React.useCallback(async (url?: string, previusURL?: string) => {
+    setIsIncomingLoading(true)
+
     try {
-      const response = await ProductsIncoming.API.List.getProductsIncomingList(url || '/incomings/')
+      const response = await ProductsIncoming.API.List.getProductsIncomingList(url || '/incomings/', previusURL)
 
       setProductsIncomingList(response.data)
     } catch (error) {
       console.log('products incoming error', error)
+    } finally {
+      setIsIncomingLoading(false)
     }
   }, [])
 
-  const handlePageChange = () => {
+  const handlePageChange = (page: number) => {
     const nextPageUrl = productsIncomingList?.next
+    const prevPageUrl = productsIncomingList?.previous
 
-    if (nextPageUrl) {
+    if (page > currentPage && nextPageUrl) {
       ProductsIncomingGET(nextPageUrl)
+    } else if (page < currentPage && prevPageUrl) {
+      ProductsIncomingGET(prevPageUrl)
+    }
+
+    setCurrentPage(page)
+  }
+
+  const handlePreviousPage = () => {
+    const prevPageUrl = productsIncomingList?.previous
+
+    if (prevPageUrl) {
+      ProductsIncomingGET(prevPageUrl)
+      setCurrentPage((prev) => Math.max(prev - 1, 1))
     }
   }
 
@@ -72,6 +91,7 @@ function useList() {
     products,
     selectedProduct,
     currentWarehouse,
+    isIncomingLoading,
     actions: {
       router,
       setSelectedProduct,
@@ -81,6 +101,7 @@ function useList() {
       checkStatus,
       getTagColor,
       handlePageChange,
+      handlePreviousPage,
     },
   }
 }
