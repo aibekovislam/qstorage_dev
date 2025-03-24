@@ -6,3 +6,9 @@ export const getProductBySlug = (async (slug: string) => {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })
 })
+
+export const deleteProduct = async (slug: string) => {
+  return axiosRequest.delete(`/products/${slug}/`, {
+    baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+  })
+}

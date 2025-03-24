@@ -20,7 +20,6 @@ export const DynamicField: React.FC<Props> = (props) => {
       {(fields, { add, remove }) => {
         return (
           <div>
-            {/* <Typography >Характеристики</Typography> */}
             {fields.map((field, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Flex gap={18} align={'flex-end'} justify={'space-between'} key={index}>

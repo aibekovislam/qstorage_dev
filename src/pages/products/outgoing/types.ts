@@ -1,4 +1,5 @@
 import { ProductsItemsTypes } from '../items/types'
+import { ProductsItemsTypes } from '../items/types'
 
 export namespace ProductsOutgoingTypes {
   export interface ApiResponse {
@@ -19,6 +20,7 @@ export namespace ProductsOutgoingTypes {
     warehouse: number
     date: number
     items: {
+      product: ProductsItemsTypes.Item
       product: ProductsItemsTypes.Item
       product_title: string,
       quantity: number,
@@ -54,7 +56,7 @@ export namespace ProductsOutgoingTypes {
   export interface FormProduct {
     title: string
     price: string
-    color: Color
+    // color: Color
     expiration_date?: string
     characteristics?: string
     warehouse?: number

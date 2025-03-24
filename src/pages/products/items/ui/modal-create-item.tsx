@@ -5,6 +5,7 @@ import React from 'react'
 import { Button, Divider, Flex, Form, Modal } from 'antd'
 
 import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { DynamicField } from '@/shared/ui/dynamic-field/dynamic-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
@@ -26,6 +27,7 @@ const ModalCreateItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
     form,
     isCreated,
     productsColorsList,
+    defaultDraggerProps,
     actions: { createProduct, ProductsColorsGET },
   } = ProductItems.Hooks.List.use()
 
@@ -121,9 +123,16 @@ const ModalCreateItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
           }))}
         />
         <DynamicField
-          listName={'characteristics'}
+          listName="characteristics"
           className={cls.form__item}
           buttonAddLabel="Добавить характеристики"
+          rules={ProductRules.Title}
+        />
+        <DraggerFileField
+          name="image"
+          valuePropName="image"
+          className={cls.dragger_filed}
+          {...defaultDraggerProps}
         />
       </Form>
     </Modal>
