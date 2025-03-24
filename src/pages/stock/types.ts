@@ -1,10 +1,10 @@
 
 export namespace StockType {
     export interface Product {
+        image: string;
         slug: string;
         title: string;
         stock: number;
-        image: string
     }
 
     export interface ApiResponse {
