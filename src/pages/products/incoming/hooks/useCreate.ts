@@ -5,6 +5,7 @@ import React, { ChangeEvent } from 'react'
 import { Form, Upload, UploadProps } from 'antd'
 import { useRouter } from 'next/navigation'
 
+import { useAppSelector } from '@/shared/hooks/redux'
 import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { debounce } from '@/shared/tools/debounce'
 
@@ -24,6 +25,7 @@ function useCreate() {
   const [submitted, setSubmitted] = React.useState(false)
 
   const router = useRouter()
+  const user = useAppSelector((state) => state.user.userData)
 
   const getProducts = React.useCallback(async (search?: string, url?: string) => {
     setIsProductsLoading(true)
@@ -190,6 +192,7 @@ function useCreate() {
     submitted,
     form,
     createModal,
+    user,
     actions: {
       getProducts,
       onProductsSelectChange,

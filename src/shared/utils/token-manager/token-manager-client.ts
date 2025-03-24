@@ -36,18 +36,16 @@ export namespace TokenManagerClient {
     export const deleteSession = async () => {
       const response = await fetch(`${NEXT_PUBLIC_API_URL}api/users/clear-session/`, {
         method: 'POST',
+        credentials: 'include',
       })
 
       const data = await response.json()
 
-      if (data.success) {
-        return true
-      }
+      return data
     }
 
     export const deleteAllTokens = async () => {
       deleteAccessToken()
       deleteRefreshToken()
-      deleteSession()
     }
 }

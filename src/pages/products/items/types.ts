@@ -1,5 +1,4 @@
 export namespace ProductsItemsTypes {
-
   export interface Item {
     slug?: string
     title: string
@@ -63,6 +62,12 @@ export namespace ProductsItemsTypes {
   export interface Images {
     id: number
     image: string
+    images: Images[]
+  }
+
+  export interface Images {
+    id: number
+    image: string
   }
 
   export interface ItemDetail {
@@ -92,5 +97,13 @@ export namespace ProductsItemsTypes {
     next: string | null;
     previous: string | null;
     results: Item[];
+  }
+
+  export interface IncomingTable {
+    product: ProductsItemsTypes.Item
+    product_title: string,
+    quantity: number,
+    purchase_price: string,
+    total_price: number
   }
 }

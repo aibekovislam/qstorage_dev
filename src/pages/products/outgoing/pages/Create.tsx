@@ -29,7 +29,7 @@ const createColumns = () => {
       render: (_, record) => (
         <Space>
           <Image
-            src={record.image || NoPhoto.src}
+            src={record.first_image?.image || NoPhoto.src}
             alt={record.title}
             style={{ objectFit: 'cover' }}
             width={50}
@@ -103,32 +103,7 @@ const createSelectedProductsColumns = (setSelectedProducts: any) => {
       dataIndex: 'product',
       key: 'product',
       render: (_, record) => (
-        <Space>
-          <Image
-            src={record.image || NoPhoto.src}
-            alt={record.title}
-            style={{ objectFit: 'cover' }}
-            width={50}
-            height={40}
-            className={cls.table_image}
-          />
-          <Link href={`/products/${record.slug}/`}>{record.title}</Link>
-        </Space>
-      ),
-    },
-    {
-      title: 'Штрих-код',
-      dataIndex: 'barcode',
-      key: 'barcode',
-      render: (_, record) => (
-        <Image
-          src={record.barcode || NoPhoto.src}
-          alt={record.title}
-          style={{ objectFit: 'cover' }}
-          width={100}
-          height={40}
-          className={cls.table_image}
-        />
+        <Link href={`/products/${record.slug}/`}>{record.title}</Link>
       ),
     },
     {
@@ -184,6 +159,7 @@ export const Create = () => {
     submitted,
     form,
     createModal,
+    user,
     actions: {
       getProducts,
       onProductsSelectChange,
@@ -198,7 +174,9 @@ export const Create = () => {
 
   React.useEffect(() => {
     getProducts()
-    ProductsOutgoingUsers()
+    if (user?.role !== 'worker') {
+      ProductsOutgoingUsers()
+    }
   }, [])
 
   return (
@@ -275,14 +253,6 @@ export const Create = () => {
                 rules={InputRules.DocumentNumber}
               />
               <TextField
-                type="text"
-                label="Общая стоимость:"
-                placeholder="Общая стоимость"
-                className={cls.form__item}
-                readOnly
-                disabled
-              />
-              <TextField
                 name="supplier"
                 type="text"
                 label="Поставщик:"
@@ -297,18 +267,22 @@ export const Create = () => {
                 placeholder="Введите комментарий для прихода"
                 className={cls.form__item}
               />
-              <SelectField
-                name="responsible"
-                className={cls.form__item}
-                placeholder="Выберите ответственного"
-                label="Ответственный:"
-                options={userResponsible?.map(responsible => ({
-                  title: responsible.first_name,
-                  value: `${responsible.first_name} ${responsible.last_name}`,
-                  userObj: responsible,
-                }))}
-                rules={InputRules.Field}
-              />
+              {
+                user?.role !== 'worker' && (
+                  <SelectField
+                    name="responsible"
+                    className={cls.form__item}
+                    placeholder="Выберите ответственного"
+                    label="Ответственный:"
+                    options={userResponsible?.map(responsible => ({
+                      title: responsible.first_name,
+                      value: `${responsible.first_name} ${responsible.last_name}`,
+                      userObj: responsible,
+                    }))}
+                    rules={InputRules.Field}
+                  />
+                )
+              }
               <DraggerFileField
                 name="files"
                 valuePropName="fileList"
