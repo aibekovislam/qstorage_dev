@@ -49,7 +49,7 @@ const ModalCreateItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
         body: cls.modal__body,
         footer: cls.modal__footer,
       }}
-      title="Добавить проект"
+      title="Добавить товар"
       width="800px"
       open={isModalOpen}
       centered

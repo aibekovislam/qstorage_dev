@@ -101,13 +101,6 @@ function useEdit() {
     debouncedSearch(e.target.value)
   }
 
-  const handleProductCreated = React.useCallback(
-    (newProduct: ProductsIncomingTypes.Table): void => {
-      console.log('lol')
-    },
-    [setSelectedProducts],
-  )
-
   const deleteFiles = React.useCallback((file: number) => {
     setDeleteFileList((prev) => [...prev, file])
   }, [])
@@ -273,7 +266,6 @@ function useEdit() {
       IncomingIdGET,
       ProductsIncomingUsersGET,
       handleSearchProducts,
-      handleProductCreated,
       handlePageChange,
       setSelectedProducts,
       onSelectProducts,

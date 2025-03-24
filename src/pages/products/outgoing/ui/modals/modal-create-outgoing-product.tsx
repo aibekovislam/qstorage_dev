@@ -1,8 +1,11 @@
+'use client'
+
 import React from 'react'
 
 import { Button, Divider, Flex, Form, Modal } from 'antd'
 
 import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { DynamicField } from '@/shared/ui/dynamic-field/dynamic-field'
 import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
@@ -15,16 +18,16 @@ import cls from './modal-create-outgoing-product.module.css'
 interface Props {
   isModalOpen: boolean
   onCloseModal: () => void
-  onProductCreated?: any
 }
 
-const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, onProductCreated }) => {
+const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
   const {
     contextHolder,
     submitted,
     form,
     isCreated,
     productsColorsList,
+    defaultDraggerProps,
     actions: { createProduct, ProductsColorsGET },
   } = ProductsOutgoing.Hooks.CreateProduct.use()
 
@@ -38,14 +41,6 @@ const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
     ProductsColorsGET()
   }, [ProductsColorsGET])
 
-  const handleFinish = async (data: any) => {
-    const response = await createProduct(data)
-
-    if (response?.data) {
-      onProductCreated(response.data)
-    }
-  }
-
   return (
     <Modal
       className={cls.modal}
@@ -54,7 +49,7 @@ const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
         body: cls.modal__body,
         footer: cls.modal__footer,
       }}
-      title="Добавить продукт"
+      title="Добавить товар"
       width="800px"
       open={isModalOpen}
       centered
@@ -80,7 +75,7 @@ const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
         id="createProducts"
         className={cls.form}
         form={form}
-        onFinish={handleFinish}
+        onFinish={createProduct}
       >
         <TextField
           name="title"
@@ -128,9 +123,17 @@ const ModalCreateOutgoingItem: React.FC<Props> = ({ isModalOpen, onCloseModal, o
           }))}
         />
         <DynamicField
-          listName={'characteristics'}
+          listName="characteristics"
           className={cls.form__item}
           buttonAddLabel="Добавить характеристики"
+          rules={InputRules.Field}
+        />
+        <DraggerFileField
+          name="images"
+          valuePropName="images"
+          label="Выберите файл"
+          className={cls.dragger_filed}
+          {...defaultDraggerProps}
         />
       </Form>
     </Modal>

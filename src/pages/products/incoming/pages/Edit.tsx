@@ -163,7 +163,6 @@ export const Edit = ({ incoming_id }: Props) => {
       ProductsGET,
       ProductsIncomingUsersGET,
       handleSearchProducts,
-      handleProductCreated,
       handlePageChange,
       setSelectedProducts,
       onSelectProducts,
@@ -175,12 +174,18 @@ export const Edit = ({ incoming_id }: Props) => {
   React.useEffect(() => {
     if (incoming_id) {
       IncomingIdGET(incoming_id)
-      ProductsGET()
       if (user?.role !== 'worker') {
         ProductsIncomingUsersGET()
       }
     }
   }, [incoming_id])
+
+  // TODO перенести useCreateProduct в этот используемый hook
+  React.useEffect(() => {
+    if (!createModal.isOpen) {
+      ProductsGET()
+    }
+  }, [createModal.isOpen])
 
   return (
     <div>
@@ -325,7 +330,6 @@ export const Edit = ({ incoming_id }: Props) => {
       <ModalCreateIncomingItem
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
-        onProductCreated={handleProductCreated}
       />
     </div>
   )
