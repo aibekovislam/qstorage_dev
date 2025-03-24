@@ -36,7 +36,7 @@ const createColumns = () => {
             height={40}
             className={cls.table_image}
           />
-          <Link href={`/products/${record.slug}/`}>{record.title}</Link>
+          <Link href={`/products/items/${record.slug}/`}>{record.title}</Link>
         </Space>
       ),
     },
@@ -103,7 +103,7 @@ const createSelectedProductsColumns = (setSelectedProducts: any) => {
       dataIndex: 'product',
       key: 'product',
       render: (_, record) => (
-        <Link href={`/products/${record.slug}/`}>{record.title}</Link>
+        <Link href={`/products/items/${record.slug}/`}>{record.title}</Link>
       ),
     },
     {
@@ -164,7 +164,6 @@ export const Create = () => {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
-      handleProductCreated,
       ProductsOutgoingUsers,
       createOutgoing,
       setSelectedProducts,
@@ -172,12 +171,15 @@ export const Create = () => {
     },
   } = ProductsOutgoing.Hooks.Create.use()
 
+  // TODO перенести useCreateProduct в этот используемый hook
   React.useEffect(() => {
-    getProducts()
+    if (!createModal.isOpen) {
+      getProducts()
+    }
     if (user?.role !== 'worker') {
       ProductsOutgoingUsers()
     }
-  }, [])
+  }, [createModal.isOpen])
 
   return (
     <div>
@@ -301,7 +303,6 @@ export const Create = () => {
       <ModalCreateOutgoingItem
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
-        onProductCreated={handleProductCreated}
       />
     </div>
   )

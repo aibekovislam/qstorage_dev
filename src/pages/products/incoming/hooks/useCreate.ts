@@ -81,13 +81,6 @@ function useCreate() {
     debouncedSearch(e.target.value)
   }
 
-  const handleProductCreated = React.useCallback(
-    (newProduct: ProductsIncomingTypes.Table): void => {
-      setSelectedProducts((prev) => [...prev, newProduct as unknown as ProductsItemsTypes.Table])
-    },
-    [setSelectedProducts],
-  )
-
   const ProductsIncomingProjectGET = React.useCallback(async () => {
     try {
       const response = await ProductsIncoming.API.List.getProductIncomingProject()
@@ -197,7 +190,6 @@ function useCreate() {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
-      handleProductCreated,
       ProductsIncomingProjectGET,
       ProductsIncomingUsers,
       createIncoming,

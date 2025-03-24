@@ -159,7 +159,6 @@ export const Create = () => {
       getProducts,
       onProductsSelectChange,
       handleSearchProducts,
-      handleProductCreated,
       ProductsIncomingUsers,
       createIncoming,
       setSelectedProducts,
@@ -167,6 +166,7 @@ export const Create = () => {
     },
   } = ProductsIncoming.Hooks.Create.use()
 
+  // TODO перенести useCreateProduct в этот используемый hook
   React.useEffect(() => {
     if (!createModal.isOpen) {
       getProducts()
@@ -298,7 +298,6 @@ export const Create = () => {
       <ModalCreateIncomingItem
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
-        onProductCreated={handleProductCreated}
       />
     </div>
   )

@@ -54,7 +54,8 @@ export namespace ProductsOutgoingTypes {
   export interface FormProduct {
     title: string
     price: string
-    // color: Color
+    color: Color
+    images?: string
     expiration_date?: string
     characteristics?: string
     warehouse?: number

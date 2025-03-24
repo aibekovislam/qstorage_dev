@@ -41,12 +41,12 @@ function useView() {
   const deleteProduct = (async (slug: string) => {
     try {
       await ProductItems.API.View.deleteProduct(slug)
+      router.back()
+
       api.success({
         message: 'Вы успешно удалили продукт',
         placement: 'top',
       })
-
-      router.push('/products/items')
     } catch (error) {
       console.log('projects delete request error', error)
     }

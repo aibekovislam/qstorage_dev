@@ -18,7 +18,7 @@ import { ProductsOutgoing } from '..'
 import { ProductsItemsTypes } from '../../items/types'
 import cls from '../styles/create.module.css'
 import { ProductsOutgoingTypes } from '../types'
-import ModalCreateIncomingItem from '../ui/modals/modal-create-outgoing-product'
+import ModalCreateOutgoingItem from '../ui/modals/modal-create-outgoing-product'
 import { InputRules } from '../validate'
 
 const createProductsColumn = () => {
@@ -163,7 +163,6 @@ export const Edit = ({ outgoing_id }: Props) => {
       ProductsGET,
       ProductsIncomingUsersGET,
       handleSearchProducts,
-      handleProductCreated,
       handlePageChange,
       setSelectedProducts,
       onSelectProducts,
@@ -175,12 +174,18 @@ export const Edit = ({ outgoing_id }: Props) => {
   React.useEffect(() => {
     if (outgoing_id) {
       IncomingIdGET(outgoing_id)
-      ProductsGET()
       if (user?.role !== 'worker') {
         ProductsIncomingUsersGET()
       }
     }
   }, [outgoing_id])
+
+  // TODO перенести useCreateProduct в этот используемый hook
+  React.useEffect(() => {
+    if (!createModal.isOpen && outgoing_id) {
+      ProductsGET()
+    }
+  }, [createModal.isOpen, outgoing_id])
 
   return (
     <div>
@@ -321,10 +326,9 @@ export const Edit = ({ outgoing_id }: Props) => {
         }
 
       </div>
-      <ModalCreateIncomingItem
+      <ModalCreateOutgoingItem
         onCloseModal={createModal.onClose}
         isModalOpen={createModal.isOpen}
-        onProductCreated={handleProductCreated}
       />
     </div>
   )

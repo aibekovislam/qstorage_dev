@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { Form, notification } from 'antd'
+import { Form, notification, Upload } from 'antd'
+import { UploadProps } from 'antd/lib'
 import dayjs from 'dayjs'
 
 import { getSession } from '@/shared/lib/session'
@@ -24,17 +25,33 @@ function useCreateProduct() {
 
       const user = session.user
 
-      const dataToSend: any = {
+      const dataToSend = {
         ...data ,
         warehouse: user.current_warehouse,
-        // color: [data.color],
+        color: data.color ? [data.color] : null,
         characteristics: JSON.stringify(data.characteristics),
-        expiration_date: dayjs(data.expiration_date).format('YYYY-MM-DD'),
+        expiration_date: data.expiration_date ? dayjs(data.expiration_date).format('YYYY-MM-DD') : null,
       }
 
-      const response = await ProductsOutgoing.API.Create.createProduct(dataToSend)
+      const formData: any = new FormData()
 
-      if (response.status === 201) {
+      Object.entries(dataToSend).forEach(([key, value]) => {
+        if (key !== 'images' && value !== undefined && value !== null) {
+          formData.append(key, String(value))
+        }
+      })
+
+      if (Array.isArray(dataToSend.images)) {
+        dataToSend.images.forEach((fileObj) => {
+          if (fileObj && fileObj.originFileObj) {
+            formData.append('images', fileObj.originFileObj)
+          }
+        })
+      }
+
+      const response = await ProductsOutgoing.API.Create.createProduct(formData)
+
+      if (response.status === 201 || response.status === 200) {
         api.success({
           message: 'Продукт успешно создан',
           placement: 'top',
@@ -67,12 +84,29 @@ function useCreateProduct() {
     }
   }, [])
 
+  const defaultDraggerProps: UploadProps = {
+    name: 'images',
+    multiple: true,
+    accept: 'image/*',
+    maxCount: 10,
+    beforeUpload(file) {
+      if (!file.type.startsWith('image/')) {
+        console.error(`Файл не изображение: "${file.name}"`)
+
+        return Upload.LIST_IGNORE
+      }
+
+      return false
+    },
+  }
+
   return {
     productsColorsList,
     submitted,
     contextHolder,
     form,
     isCreated,
+    defaultDraggerProps,
     actions: {
       createProduct,
       ProductsColorsGET,

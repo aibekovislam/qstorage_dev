@@ -16,6 +16,7 @@ import ModalCreateProjects from '../ui/modals/ModalCreate/modal-create-projects'
 export const List = () => {
   const { breadcrumbData, projects, actions:{ createModal, ProjectsGET, router } } = Projects.Hooks.List.use()
 
+  // TODO перенести useCreateProduct в этот используемый hook
   React.useEffect(() => {
     if (!createModal.isOpen) {
       ProjectsGET()

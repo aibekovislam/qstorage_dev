@@ -7,7 +7,6 @@ import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-// import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { ProductItems } from '..'
 import cls from '../styles/list.module.css'
@@ -24,6 +23,7 @@ export const ListProducts: React.FC = () => {
     },
   } = ProductItems.Hooks.List.use()
 
+  // TODO перенести useCreateProduct в этот используемый hook
   React.useEffect(() => {
     if (!createModal.isOpen) {
       ProductsGET()
@@ -38,9 +38,6 @@ export const ListProducts: React.FC = () => {
       </div>
       <Flex className={cls.filterPanel}>
         <h2>Товары</h2>
-        {/* <Flex gap={10}>
-          <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
-        </Flex> */}
       </Flex>
       <div className={cls.products_main}>
         <List
