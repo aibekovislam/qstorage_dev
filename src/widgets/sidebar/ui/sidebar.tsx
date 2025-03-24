@@ -73,7 +73,7 @@ export const SideBar: React.FC<Props> = (props) => {
           const data = await TokenManagerClient.deleteSession()
 
           if (data.success) {
-            router.refresh()
+            window.location.href = '/auth'
           }
         }}
         >
