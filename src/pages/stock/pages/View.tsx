@@ -5,10 +5,10 @@ import React from 'react'
 import { Space, Table, Flex } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-// import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { Stock } from '..'
 import cls from '../styles/view.module.css'
@@ -30,7 +30,7 @@ const createColumns = (): ColumnsType<StockType.Product> => {
             height={40}
             className={cls.table_image}
           />
-          <span>{record.title}</span>
+          <Link href={`/products/items/${record.slug}/`}>{record.title}</Link>
         </Space>
       ),
     },
@@ -63,9 +63,6 @@ export const View = () => {
 
       <Flex className={cls.nav}>
         <Breadcrumb items={breadcrumbData}/>
-        {/* <Flex className={cls.filter_panel}>
-          <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
-        </Flex> */}
       </Flex>
 
       <Flex className={cls.inventory_info}>

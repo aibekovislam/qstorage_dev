@@ -98,7 +98,7 @@ const createSelectedProductsColumns = (setSelectedProducts: any) => {
       dataIndex: 'product',
       key: 'product',
       render: (_, record) => (
-        <Link href={`/products/${record.slug}/`}>{record.title}</Link>
+        <Link href={`/products/items/${record.slug}/`}>{record.title}</Link>
       ),
     },
     {
