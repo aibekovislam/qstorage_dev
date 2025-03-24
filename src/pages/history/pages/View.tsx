@@ -7,7 +7,7 @@ import { ColumnsType } from 'antd/es/table'
 import Image from 'next/image'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
+// import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { History } from '..'
 import cls from '../styles/view.module.css'
@@ -123,9 +123,9 @@ export const View = () => {
         <h2>Заявки</h2>
       </div>
 
-      <Flex className={cls.filter_panel}>
+      {/* <Flex className={cls.filter_panel}>
         <FilterPanel defaultValue={'history_leave'} options={[{ value: 'history_leave', label: 'История ухода' }, { value: 'access_requests', label: 'Принятые заявки' }]}/>
-      </Flex>
+      </Flex> */}
 
       <Table<ProductRecord>
         columns={columns}

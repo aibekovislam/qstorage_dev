@@ -10,20 +10,20 @@ import { useDisclosure } from '@/shared/hooks/useDisclosure'
 import { getSession } from '@/shared/lib/session'
 
 import { ProductItems } from '..'
-import { ProductsTypes } from '../types'
+import { ProductsItemsTypes } from '../types'
 
 function useList() {
   const [form] = Form.useForm()
   const createModal = useDisclosure()
   const router = useRouter()
-  const [categories, setCategories] = React.useState<ProductsTypes.ItemCategories[] | null>(null)
-  const [productsList, setProductsList] = React.useState<ProductsTypes.Item[] | undefined>(undefined)
-  const [productsColorsList, setProductsColorsList] = React.useState<ProductsTypes.Color[] | undefined>(undefined)
+  const [categories, setCategories] = React.useState<ProductsItemsTypes.ItemCategories[] | null>(null)
+  const [productsList, setProductsList] = React.useState<ProductsItemsTypes.Item[] | undefined>(undefined)
+  const [productsColorsList, setProductsColorsList] = React.useState<ProductsItemsTypes.Color[] | undefined>(undefined)
   const [submitted, setSubmitted] = React.useState(false)
   const [isCreated, setIsCreated] = React.useState(false)
   const [api, contextHolder] = notification.useNotification()
 
-  const createProduct = React.useCallback(async (data: ProductsTypes.Form) => {
+  const createProduct = React.useCallback(async (data: ProductsItemsTypes.Form) => {
     setSubmitted(true)
     try {
       const session = await getSession()

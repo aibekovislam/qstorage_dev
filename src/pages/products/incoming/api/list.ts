@@ -1,7 +1,7 @@
 import { axiosRequest } from '@/shared/api/axios'
 import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
-import { ProductsTypes } from '../../items/types'
+import { ProductsItemsTypes } from '../../items/types'
 
 export const getProductsIncomingList = async (url?: string) => {
   return axiosRequest.get(url || '/incomings/', {
@@ -39,7 +39,7 @@ export const getUsersByProject = async (id: number) => {
   })
 }
 
-export const createProduct = async (body: ProductsTypes.Item) => {
+export const createProduct = async (body: ProductsItemsTypes.Item) => {
   return axiosRequest.post('/products/', body, {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
   })

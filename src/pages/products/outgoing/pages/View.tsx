@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { FileOutlined } from '@ant-design/icons'
-import { Divider, Flex, Tag } from 'antd'
+import { EditOutlined, FileOutlined } from '@ant-design/icons'
+import { Button, Divider, Flex, Tag } from 'antd'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -53,10 +53,9 @@ export const View: React.FC<Props> = ({ outgoing_id }) => {
                 <Tag color={getTagColor(outGoingItem?.status ? outGoingItem?.status : '')}>{checkStatus(outGoingItem?.status ? outGoingItem?.status : '')}</Tag>
               </Flex>
 
-              {/* <Flex gap={10} align="center" className={cls.btns}> */}
-              {/* <Button type="default" icon={<PrinterOutlined/>} iconPosition="end">Принт</Button> */}
-              {/* <Button type="primary" icon={<EditOutlined/>} iconPosition="end" className={cls.edit}>Редактировать</Button> */}
-              {/* </Flex> */}
+              <Flex gap={10} align="center" className={cls.btns}>
+                <Button type="primary" icon={<EditOutlined/>} iconPosition="end" className={cls.edit}><Link href={`/products/outgoing/edit/${outGoingItem?.id}/`}>Редактировать</Link></Button>
+              </Flex>
             </Flex>
           </div>
 
@@ -69,7 +68,7 @@ export const View: React.FC<Props> = ({ outgoing_id }) => {
               {
                 outGoingItem?.items.map((product) => (
                   <Flex className={cls.details_item} key={product.product.slug} gap={10}>
-                    <Image src={product.product.image ? `${NEXT_PUBLIC_COMPANY_BASE_URL}${product.product.image}` : NoPhoto.src} alt={product.product_title} width={150} height={150} className={cls.incoming_product_image} />
+                    <Image src={product.product.first_image?.image ? `${NEXT_PUBLIC_COMPANY_BASE_URL}${product.product.first_image.image}` : NoPhoto.src} alt={product.product_title} width={150} height={150} className={cls.incoming_product_image} />
 
                     <Flex className={cls.product_typography} vertical>
                       <Flex className={cls.product_price_title}>

@@ -6,13 +6,13 @@ import { notification } from 'antd'
 import { useSearchParams } from 'next/navigation'
 
 import { ProductItems } from '..'
-import { ProductsTypes } from '../types'
+import { ProductsItemsTypes } from '../types'
 
 function useView() {
   const searchParams = useSearchParams()
   const projectTitle = String(searchParams?.get('title') || 'Название проекта')
   const [api, contextHolder] = notification.useNotification()
-  const [itemDetail, setItemDetail] = React.useState<ProductsTypes.ItemDetail| null>(null)
+  const [itemDetail, setItemDetail] = React.useState<ProductsItemsTypes.ItemDetail| null>(null)
 
   const breadcrumbData = [
     { href: '/', title: 'Главная' },

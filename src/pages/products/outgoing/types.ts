@@ -1,4 +1,4 @@
-import { ProductsTypes } from '../items/types'
+import { ProductsItemsTypes } from '../items/types'
 
 export namespace ProductsOutgoingTypes {
   export interface ApiResponse {
@@ -19,7 +19,7 @@ export namespace ProductsOutgoingTypes {
     warehouse: number
     date: number
     items: {
-      product: ProductsTypes.Item
+      product: ProductsItemsTypes.Item
       product_title: string,
       quantity: number,
       purchase_price: string,
@@ -29,6 +29,14 @@ export namespace ProductsOutgoingTypes {
     responsible: string
     total_quantity: number
     total_price: string
+  }
+
+  export interface SelectedItem {
+    product: string
+    product_title: string,
+    quantity: number,
+    purchase_price: string,
+    total_price: number
   }
   export interface Form {
     files: File
@@ -61,8 +69,8 @@ export namespace ProductsOutgoingTypes {
     product: string,
     quantity: number,
     purchase_price: string
-    product_title: string
-    product_image: string
+    product_title?: string
+    product_image?: string
   }
   export interface Product {
     color: string
@@ -99,21 +107,42 @@ export namespace ProductsOutgoingTypes {
     barcode: string | null
     warehouse: number
     date: number
-    items: {
-      product: ProductsTypes.Item
-      product_title: string,
-      quantity: number,
-      purchase_price: string,
-      total_price: number
-    }[]
+    items: Items[]
     project: number
-    responsible: string
+    responsible: Responsible
     total_quantity: number
     total_price: string
   }
 
+  export interface Items {
+    product: ProductsItemsTypes.Item
+    product_title: string,
+    quantity: number,
+    purchase_price: string,
+    total_price: number
+  }
   export interface Files {
     file: string
     name: string
+  }
+
+  export interface EditForm {
+    files: File
+    quantity: string
+    purchase_price: string
+    supplier: string
+    message: string
+    project: number
+    responsible: string | undefined
+    act: string
+    total_cost: number
+    items: ProductItems[]
+    delete_items: string[]
+    update_items: {
+      product: string
+      quantity: number
+      purchase_price: number
+    }[]
+    delete_files: number[],
   }
 }

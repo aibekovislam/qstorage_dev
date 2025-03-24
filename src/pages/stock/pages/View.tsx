@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 import { NoPhoto } from '@/shared/assets/images/'
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
-import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
+// import { FilterPanel } from '@/shared/ui/filter-panel/filter-panel'
 
 import { Stock } from '..'
 import cls from '../styles/view.module.css'
@@ -63,9 +63,9 @@ export const View = () => {
 
       <Flex className={cls.nav}>
         <Breadcrumb items={breadcrumbData}/>
-        <Flex className={cls.filter_panel}>
+        {/* <Flex className={cls.filter_panel}>
           <FilterPanel defaultValue={'all_products'}  options={[{ value: 'all_products', label: 'Все товары' }, { value: 'pants', label: 'Штаны' }]}/>
-        </Flex>
+        </Flex> */}
       </Flex>
 
       <Flex className={cls.inventory_info}>

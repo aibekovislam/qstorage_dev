@@ -24,7 +24,7 @@ function useCreateProduct() {
 
       const user = session.user
 
-      const dataToSend = {
+      const dataToSend: any = {
         ...data ,
         warehouse: user.current_warehouse,
         color: [data.color],

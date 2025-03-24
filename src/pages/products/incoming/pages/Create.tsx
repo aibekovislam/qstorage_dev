@@ -15,13 +15,13 @@ import { SelectField } from '@/shared/ui/select-field/select-field'
 import { TextField } from '@/shared/ui/textfield/textfield'
 
 import { ProductsIncoming } from '..'
-import { ProductsTypes } from '../../items/types'
+import { ProductsItemsTypes } from '../../items/types'
 import cls from '../styles/create.module.css'
 import ModalCreateIncomingItem from '../ui/modals/modal-create-incoming-product'
 import { InputRules } from '../validate'
 
 const createColumns = () => {
-  const columns: ColumnsType<ProductsTypes.Item> = [
+  const columns: ColumnsType<ProductsItemsTypes.Item> = [
     {
       title: 'Товар',
       dataIndex: 'product',
@@ -29,7 +29,7 @@ const createColumns = () => {
       render: (_, record) => (
         <Space>
           <Image
-            src={record.image || NoPhoto.src}
+            src={record.first_image?.image || NoPhoto.src}
             alt={record.title}
             style={{ objectFit: 'cover' }}
             width={50}
@@ -76,54 +76,29 @@ const createColumns = () => {
 }
 
 const createSelectedProductsColumns = (setSelectedProducts: any) => {
-  const handleQuantityChange = (value: number | null, record: ProductsTypes.Item) => {
-    setSelectedProducts((prev: ProductsTypes.Table[]) =>
+  const handleQuantityChange = (value: number | null, record: ProductsItemsTypes.Item) => {
+    setSelectedProducts((prev: ProductsItemsTypes.Table[]) =>
       prev.map((item) =>
         item.slug === record.slug ? { ...item, quantity: value ?? 0 } : item,
       ),
     )
   }
 
-  const handlePriceChange = (value: number | null, record: ProductsTypes.Item) => {
-    setSelectedProducts((prev: ProductsTypes.Table[]) =>
+  const handlePriceChange = (value: number | null, record: ProductsItemsTypes.Item) => {
+    setSelectedProducts((prev: ProductsItemsTypes.Table[]) =>
       prev.map((item) =>
         item.slug === record.slug ? { ...item, purchase_price: value ?? 0 } : item,
       ),
     )
   }
 
-  const columns: ColumnsType<ProductsTypes.Table> = [
+  const columns: ColumnsType<ProductsItemsTypes.Table> = [
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
       render: (_, record) => (
-        <Space>
-          <Image
-            src={record.image || NoPhoto.src}
-            alt={record.title}
-            style={{ objectFit: 'cover' }}
-            width={50}
-            height={40}
-            className={cls.table_image}
-          />
-          <Link href={`/products/${record.slug}/`}>{record.title}</Link>
-        </Space>
-      ),
-    },
-    {
-      title: 'Штрих-код',
-      dataIndex: 'barcode',
-      key: 'barcode',
-      render: (_, record) => (
-        <Image
-          src={record.barcode || NoPhoto.src}
-          alt={record.title}
-          style={{ objectFit: 'cover' }}
-          width={100}
-          height={40}
-          className={cls.table_image}
-        />
+        <Link href={`/products/${record.slug}/`}>{record.title}</Link>
       ),
     },
     {
@@ -179,6 +154,7 @@ export const Create = () => {
     submitted,
     form,
     createModal,
+    user,
     actions: {
       getProducts,
       onProductsSelectChange,
@@ -195,7 +171,9 @@ export const Create = () => {
     if (!createModal.isOpen) {
       getProducts()
     }
-    ProductsIncomingUsers()
+    if (user?.role !== 'worker') {
+      ProductsIncomingUsers()
+    }
   }, [createModal.isOpen])
 
   return (
@@ -271,14 +249,6 @@ export const Create = () => {
                 className={cls.form__item}
                 rules={InputRules.DocumentNumber}
               />
-              {/* <TextField
-                type="text"
-                label="Общая стоимость:"
-                placeholder="Общая стоимость"
-                className={cls.form__item}
-                readOnly
-                disabled
-              /> */}
               <TextField
                 name="supplier"
                 type="text"
@@ -294,18 +264,22 @@ export const Create = () => {
                 placeholder="Введите комментарий для прихода"
                 className={cls.form__item}
               />
-              <SelectField
-                name="responsible"
-                className={cls.form__item}
-                placeholder="Выберите ответственного"
-                label="Ответственный:"
-                options={userResponsible?.map(responsible => ({
-                  title: responsible.first_name,
-                  value: `${responsible.first_name} ${responsible.last_name}`,
-                  userObj: responsible,
-                }))}
-                rules={InputRules.Field}
-              />
+              {
+                user?.role !== 'worker' && (
+                  <SelectField
+                    name="responsible"
+                    className={cls.form__item}
+                    placeholder="Выберите ответственного"
+                    label="Ответственный:"
+                    options={userResponsible?.map(responsible => ({
+                      title: responsible.first_name,
+                      value: `${responsible.first_name} ${responsible.last_name}`,
+                      userObj: responsible,
+                    }))}
+                    rules={InputRules.Field}
+                  />
+                )
+              }
               <DraggerFileField
                 name="files"
                 valuePropName="fileList"

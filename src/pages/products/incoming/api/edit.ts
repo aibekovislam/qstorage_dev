@@ -2,6 +2,7 @@ import { axiosRequest } from '@/shared/api/axios'
 import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
 
 import { ProductsItemsTypes } from '../../items/types'
+import { ProductsIncomingTypes } from '../types'
 
 export const getProductsIncomingList = async (page: number = 1) => {
   return axiosRequest.get(`/incomings/?page=${page}`, {
@@ -21,8 +22,8 @@ export const getProductSearchedList = async (search?: string | undefined, url?: 
   }
 }
 
-export const createProductOutgoing = async (body: FormData) => {
-  return axiosRequest.post('/outgoings/', body, {
+export const createProductIncoming = async (body: FormData) => {
+  return axiosRequest.post('/incomings/', body, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -51,5 +52,21 @@ export const createProduct = async (body: ProductsItemsTypes.Item) => {
 export const getProductsColors = async () => {
   return axiosRequest.get('/products/colors/', {
     baseURL: NEXT_PUBLIC_COMPANY_BASE_URL,
+  })
+}
+
+export const getIncomingDetail = (id: number) => {
+  return axiosRequest.get(`/incomings/${id}/`)
+}
+
+export const editIncoming = async (body: ProductsIncomingTypes.EditForm, id: number) => {
+  return axiosRequest.patch(`/incomings/${id}/`, body)
+}
+
+export const addFiles = async (body: FormData, id: number) => {
+  return axiosRequest.post(`/incomings/${id}/add-files/`, body, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   })
 }
