@@ -1,5 +1,4 @@
 import { ProductsItemsTypes } from '../items/types'
-import { ProductsItemsTypes } from '../items/types'
 
 export namespace ProductsOutgoingTypes {
   export interface ApiResponse {
@@ -20,7 +19,6 @@ export namespace ProductsOutgoingTypes {
     warehouse: number
     date: number
     items: {
-      product: ProductsItemsTypes.Item
       product: ProductsItemsTypes.Item
       product_title: string,
       quantity: number,

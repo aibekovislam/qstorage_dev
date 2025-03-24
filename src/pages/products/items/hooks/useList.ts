@@ -47,8 +47,8 @@ function useList() {
         }
       })
 
-      if (Array.isArray(dataToSend.image) && dataToSend.image[0]) {
-        const file = dataToSend.image[0].originFileObj
+      if (Array.isArray(dataToSend.images) && dataToSend.images[0]) {
+        const file = dataToSend.images[0].originFileObj
 
         if (file) {
           formData.append('image', file)

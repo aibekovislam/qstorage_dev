@@ -1,6 +1,4 @@
 export namespace ProductsItemsTypes {
-export namespace ProductsItemsTypes {
-
   export interface Item {
     slug?: string
     title: string
@@ -83,12 +81,10 @@ export namespace ProductsItemsTypes {
     title: string;
     price: string;
     colors: Color[];
-    colors: Color[];
     description: string;
     expiration_date: string;
     characteristics: string;
     image?: string | null;
-    images: Images[]
     images: Images[]
     barcode: string;
     warehouse: number;
