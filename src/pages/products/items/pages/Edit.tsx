@@ -6,6 +6,7 @@ import { Button, Flex, Form } from 'antd'
 
 import { Breadcrumb } from '@/shared/ui/breadcrumb/breadcrumb'
 import { DatePickerField } from '@/shared/ui/date-picker-field/date-picker-field'
+import { DraggerFileField } from '@/shared/ui/dragger-file-field/dragger-file-field'
 import { DynamicField } from '@/shared/ui/dynamic-field/dynamic-field'
 import { LoaderData } from '@/shared/ui/loader/Loader'
 import { SelectField } from '@/shared/ui/select-field/select-field'
@@ -28,11 +29,14 @@ export const EditProduct: React.FC<Props> = (props) => {
     submitted,
     items,
     productsColorsList,
+    defaultDraggerProps,
     form,
+    initialImageFileList,
     actions: {
       ProductItemsIDGET,
       EditProductItems,
       ProductsColorsGET,
+      DeleteProductImage,
     },
   } = ProductItems.Hooks.Edit.use()
 
@@ -40,6 +44,12 @@ export const EditProduct: React.FC<Props> = (props) => {
     ProductItemsIDGET(props.item_slug)
     ProductsColorsGET()
   }, [props.item_slug ,ProductItemsIDGET, ProductsColorsGET])
+
+  React.useEffect(() => {
+    if (items && items.images) {
+      form.setFieldsValue({ images: initialImageFileList })
+    }
+  }, [items, form])
 
   return (
     <div className="main">
@@ -49,7 +59,7 @@ export const EditProduct: React.FC<Props> = (props) => {
       </Flex>
 
       <Flex className={cls.main_title}>
-        <h2>Изменить проект “{items?.title}”</h2>
+        <h2>Изменить товар “{items?.title}”</h2>
       </Flex>
 
       <LoaderData isLoading={isItemsLoading} data={items}>
@@ -57,7 +67,7 @@ export const EditProduct: React.FC<Props> = (props) => {
           <Form
             form={form}
             className={cls.Form}
-            initialValues={{ ...items }}
+            initialValues={{ ...items, images: initialImageFileList }}
             onFinish={(data) => EditProductItems(props.item_slug, data)}
           >
             <TextField
@@ -103,6 +113,14 @@ export const EditProduct: React.FC<Props> = (props) => {
               listName="characteristics"
               className={cls.form__item}
               buttonAddLabel="Добавить характеристики"
+            />
+
+            <DraggerFileField
+              label="Выберите картинку"
+              name="images"
+              className={cls.dragger_filed}
+              deleteFunc={DeleteProductImage}
+              {...defaultDraggerProps}
             />
 
             <Button

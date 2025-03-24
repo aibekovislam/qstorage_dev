@@ -34,25 +34,25 @@ function useList() {
       const dataToSend = {
         ...data ,
         warehouse: user.current_warehouse,
-        color: [data.color],
+        color: data.color ? [data.color] : null,
         characteristics: JSON.stringify(data.characteristics),
-        expiration_date: dayjs(data.expiration_date).format('YYYY-MM-DD'),
+        expiration_date: data.expiration_date ? dayjs(data.expiration_date).format('YYYY-MM-DD') : null,
       }
 
       const formData: any = new FormData()
 
       Object.entries(dataToSend).forEach(([key, value]) => {
-        if (key !== 'image' && value !== undefined && value !== null) {
+        if (key !== 'images' && value !== undefined && value !== null) {
           formData.append(key, String(value))
         }
       })
 
-      if (Array.isArray(dataToSend.images) && dataToSend.images[0]) {
-        const file = dataToSend.images[0].originFileObj
-
-        if (file) {
-          formData.append('image', file)
-        }
+      if (Array.isArray(dataToSend.images)) {
+        dataToSend.images.forEach((fileObj) => {
+          if (fileObj && fileObj.originFileObj) {
+            formData.append('images', fileObj.originFileObj)
+          }
+        })
       }
 
       const response = await ProductItems.API.List.createProduct(formData)
@@ -81,7 +81,8 @@ function useList() {
   }, [])
 
   const defaultDraggerProps: UploadProps = {
-    name: 'image',
+    name: 'images',
+    multiple: true,
     accept: 'image/*',
     maxCount: 10,
     beforeUpload(file) {

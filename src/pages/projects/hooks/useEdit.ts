@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Form, notification, Upload } from 'antd'
 import { UploadProps } from 'antd/lib'
@@ -17,6 +17,7 @@ function useEdit() {
   const [submitted, setSubmitted] = React.useState(false)
   const [items, setItems] = React.useState<ProjectsType.ItemDetail | undefined>(undefined)
   const [isProjectsLoading, setIsProjectsLoading] = React.useState(true)
+  const [selectedColor, setSelectedColor] = useState<string>('')
   const [api, contextHolder] = notification.useNotification()
 
   const breadcrumbData = [
@@ -55,7 +56,9 @@ function useEdit() {
         }
       })
 
-      if (Array.isArray(dataToSend.image) && dataToSend.image[0]) {
+      if (dataToSend.image === null) {
+        formData.append('image', '')
+      } else if (Array.isArray(dataToSend.image) && dataToSend.image[0]) {
         const file = dataToSend.image[0].originFileObj
 
         if (file) {
@@ -84,6 +87,11 @@ function useEdit() {
     }
   }, [])
 
+  const handleClickColor = React.useCallback((color: string) => {
+    setSelectedColor(color)
+    form.setFieldsValue({ color })
+  }, [form])
+
   const defaultDraggerProps: UploadProps = {
     name: 'image',
     accept: 'image/*',
@@ -110,6 +118,17 @@ function useEdit() {
     ]
     : []
 
+  const color_options: string[] = [
+    '#FA541C',
+    '#1890FF',
+    '#F5222D',
+    '#52C41A',
+    '#722ED1',
+    '#13C2C2',
+    '#EB2F96',
+    '#8B4513',
+  ]
+
   return {
     breadcrumbData,
     items,
@@ -120,10 +139,14 @@ function useEdit() {
     projectTitle,
     defaultDraggerProps,
     initialImageFileList,
+    selectedColor,
+    color_options,
     actions: {
       router,
+      setSelectedColor,
       ProjectsIDGET,
       EditProject,
+      handleClickColor,
     },
   }
 }

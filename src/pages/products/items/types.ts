@@ -39,7 +39,7 @@ export namespace ProductsItemsTypes {
   }
 
   export interface FormEdit {
-    images: string[]
+    images: string
     title: string
     price: string
     description?: string | null
@@ -48,14 +48,8 @@ export namespace ProductsItemsTypes {
     color?: number[]
   }
 
-  export interface FormEdit {
-    images: string[]
-    title: string
-    price: string
-    description?: string | null
-    expiration_date?: string | null
-    characteristics?: string | null
-    color?: number[]
+  export interface DelteImages {
+    image_ids: number[]
   }
 
   export interface Color {
@@ -84,7 +78,10 @@ export namespace ProductsItemsTypes {
     description: string;
     expiration_date: string;
     characteristics: string;
-    image?: string | null;
+    first_image?: {
+      id: number,
+      image: string | null
+    }
     images: Images[]
     barcode: string;
     warehouse: number;

@@ -69,8 +69,8 @@ export namespace ProductsIncomingTypes {
     product: string,
     quantity: number,
     purchase_price: string
-    product_title: string
-    product_image: string
+    product_title?: string
+    product_image?: string
   }
   export interface Product {
     color: string

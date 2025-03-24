@@ -129,8 +129,9 @@ const ModalCreateItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
           rules={ProductRules.Title}
         />
         <DraggerFileField
-          name="image"
-          valuePropName="image"
+          name="images"
+          valuePropName="images"
+          label="Выберите файл"
           className={cls.dragger_filed}
           {...defaultDraggerProps}
         />
