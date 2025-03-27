@@ -20,7 +20,7 @@ interface Props {
   onCloseModal: () => void
 }
 
-const ModalCreateIncomingItem: React.FC<Props> = ({ isModalOpen, onCloseModal }) => {
+const ModalCreateIncomingItem: React.FC<Props> = React.memo(({ isModalOpen, onCloseModal }) => {
   const {
     contextHolder,
     submitted,
@@ -138,6 +138,6 @@ const ModalCreateIncomingItem: React.FC<Props> = ({ isModalOpen, onCloseModal })
       </Form>
     </Modal>
   )
-}
+})
 
 export default ModalCreateIncomingItem

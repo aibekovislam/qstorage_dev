@@ -43,34 +43,32 @@ function useCreate() {
     }
   }, [])
 
-  const handlePageChange = () => {
+  const handlePageChange = React.useCallback(() => {
     const nextPageUrl = products?.next
 
     if (nextPageUrl) {
       getProducts(nextPageUrl)
     }
-  }
+  }, [products, getProducts])
 
-  const onProductsSelectChange = (
-    selectedRowKeys: React.Key[],
-    selectedRows: ProductsItemsTypes.Table[],
-  ) => {
-    setSelectedProducts((prevSelected) =>
-      selectedRows.map((product) => {
-        const existingProduct = prevSelected.find(
-          (item) => item.slug === product.slug,
-        )
+  const onProductsSelectChange = React.useCallback(
+    (selectedRowKeys: React.Key[], selectedRows: ProductsItemsTypes.Table[]) => {
+      setSelectedProducts((prevSelected) => {
+        const newSelected = selectedRows.map((product) => {
+          const existingProduct = prevSelected.find((item) => item.slug === product.slug)
 
-        return {
-          ...product,
-          quantity: existingProduct ? existingProduct.quantity : product.quantity,
-          purchase_price: existingProduct
-            ? existingProduct.purchase_price
-            : product.purchase_price,
-        }
-      }),
-    )
-  }
+          return {
+            ...product,
+            quantity: existingProduct ? existingProduct.quantity : product.quantity,
+            purchase_price: existingProduct ? existingProduct.purchase_price : product.purchase_price,
+          }
+        })
+
+        return JSON.stringify(prevSelected) === JSON.stringify(newSelected) ? prevSelected : newSelected
+      })
+    },
+    [],
+  )
 
   const debouncedSearch = debounce((search: string) => {
     getProducts(search)
@@ -155,7 +153,7 @@ function useCreate() {
     }
   }
 
-  const defaultDraggerProps: UploadProps = {
+  const defaultDraggerProps = React.useMemo<UploadProps>(() => ({
     name: 'files',
     maxCount: 10,
     multiple: true,
@@ -168,13 +166,13 @@ function useCreate() {
 
       return false
     },
-  }
+  }), [])
 
-  const breadcrumbData = [
+  const breadcrumbData = React.useMemo(() => [
     { href: '/', title: 'Главная' },
     { href: '/products/incoming', title: 'Приход товаров' },
     { title: 'Создать' },
-  ]
+  ], [])
 
   return {
     breadcrumbData,
