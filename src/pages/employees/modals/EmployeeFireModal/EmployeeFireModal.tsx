@@ -52,8 +52,8 @@ const EmployeeFireModal = ({ isModalOpen, onCloseModal, user }: Props) => {
         }} id="fireEmployee"
         >
           <Flex className={cls.form} gap={10}>
-            <DatePickerField name="termination_date" placeholder="Введите дату увольнение" />
-            <DatePickerField name="termination_order_date" placeholder="Введите дату указа увольнение" />
+            <DatePickerField name="termination_date" placeholder="Введите дату увольнение" rules={[{ required: true, message: 'Дата увольнениe обязательное поле' }]} />
+            <DatePickerField name="termination_order_date" placeholder="Введите дату указа увольнение" rules={[{ required: true, message: 'Дата указа увольнениe обязательное поле' }]} />
             <FormItem name="termination_reason" noStyle>
               <TextArea placeholder="Введите причину увольнение" />
             </FormItem>

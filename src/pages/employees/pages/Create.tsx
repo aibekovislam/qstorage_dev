@@ -32,10 +32,11 @@ export const Create = () => {
 
         <Flex className={cls.main_form}>
           <Form className={cls.form} onFinish={(data) => CreateEmployee(data)}>
-            <TextField name="first_name" placeholder="Введите имя пользвотеля" label="Имя сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
-            <TextField name="last_name" placeholder="Введите фамилию пользвотеля" label="Фамилия сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
-            <TextField name="surname" placeholder="Введите отчество пользвотеля" label="Отчество сотрудника" />
-            <TextField name="email" placeholder="Введите email пользвотеля" label="Email сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
+            <TextField name="first_name" placeholder="Введите имя пользвателя" label="Имя сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
+            <TextField name="last_name" placeholder="Введите фамилию пользвателя" label="Фамилия сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
+            <TextField name="surname" placeholder="Введите отчество пользвателя" label="Отчество сотрудника" />
+            <TextField name="email" placeholder="Введите email пользвателя" label="Email сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
+            <TextField type="password" name="password" placeholder="Введите пароль пользвателя" label="Пароль сотрудника" rules={[{ required: true, message: 'Поле обязательно' }]} />
             <Form.Item name={'role'} label="Выберите роль" rules={[{ required: true, message: 'Поле обязательно' }]} className={cls.radio_field}>
               <Radio.Group>
                 <Radio value={'manager'}>Менеджер</Radio>

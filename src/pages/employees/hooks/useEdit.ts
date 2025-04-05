@@ -43,11 +43,9 @@ function useEdit() {
     try {
       const response = await Employees.API.Edit.editEmployee(uuid, data)
 
+      console.log('response', response)
+
       if (response.status === 200) {
-        api.success({
-          message: 'Сотрудник успешно был изменён',
-          placement: 'top',
-        })
         router.push('/employees/')
       } else {
         api.error({

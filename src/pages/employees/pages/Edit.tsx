@@ -50,6 +50,7 @@ export const Edit: React.FC<Props> = (props) => {
               <TextField name="last_name" placeholder="Введите фамилию пользвотеля" label="Фамилия сотрудника" />
               <TextField name="surname" placeholder="Введите отчество пользвотеля" label="Отчество сотрудника" />
               <TextField name="email" placeholder="Введите email пользвотеля" label="Email сотрудника" />
+              <TextField type="password" name="password" placeholder="Введите пароль пользвателя" label="Пароль сотрудника" />
               <Form.Item name={'role'} label="Выберите роль" rules={[{ required: true, message: 'Поле обязательно' }]} className={cls.radio_field}>
                 <Radio.Group>
                   <Radio value={'manager'}>Менеджер</Radio>
