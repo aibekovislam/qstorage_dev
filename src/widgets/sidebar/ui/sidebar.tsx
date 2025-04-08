@@ -10,7 +10,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux'
 import { getRoles } from '@/shared/tools/getRoles'
 import { NEXT_PUBLIC_COMPANY_BASE_URL } from '@/shared/utils/consts'
-import { TokenManagerClient } from '@/shared/utils/token-manager/token-manager-client'
 import { logout } from '@/store/actions/user'
 
 import cls from './sidebar.module.css'
@@ -37,6 +36,21 @@ export const SideBar: React.FC<Props> = (props) => {
 
     return routes.filter((item) => pathname?.includes(String(item?.key)))
   }
+
+  const onClickLogout = React.useCallback(async () => {
+    try {
+      const response = await fetch('/api/auth/logout/', { method: 'POST' })
+
+      const data = await response.json()
+
+      if (data.success) {
+        dispatch(logout())
+        router.refresh()
+      }
+    } catch (error) {
+      console.log('error logout', error)
+    }
+  }, [])
 
   return (
     pathname ? (
@@ -67,16 +81,7 @@ export const SideBar: React.FC<Props> = (props) => {
           className={cls.Menu}
         />
 
-        <Flex className={cls.exit} justify="space-between" align="center" onClick={async () => {
-          dispatch(logout())
-          await TokenManagerClient.deleteAllTokens()
-          const data = await TokenManagerClient.deleteSession()
-
-          if (data.success) {
-            window.location.href = '/auth'
-          }
-        }}
-        >
+        <Flex className={cls.exit} justify="space-between" align="center" onClick={onClickLogout}>
           <h3 className={cls.exit_title}>Выйти</h3>
 
           <LogoutOutlined className={cls.svg} />
